@@ -1,0 +1,574 @@
+/* Admin */
+
+
+/* ------------------------------------------------------------------------ */
+/* Global Classes ================================================= Start */
+/* ------------------------------------------------------------------------ */
+
+:root {
+  /* ================= Brand Colors ================= */
+  --clr-primary:   #458cf5;
+  --clr-primary-light:   #5498fe;
+  --clr-primary-dark:   #387fe8;
+  --clr-secondary: #218acb;
+
+  --clr-gray:   #aeaeae;
+  --clr-red:   #DC2626;
+
+  /* ================= Brand Colors (RGB for opacity) ================= */
+  --clr-primary-rgb:  69 140 245;
+  --clr-secondary-rgb: 33 138 203;
+  
+  --clr-gray-rgb:   174 174 174;
+  --clr-red-rgb:   220 38 38;
+
+  /* ================= Background Colors ================= */
+  --bg-base:      #ffffff; /* White */
+  --bg-muted:     #4b5563; /* Slate Gray */
+  --bg-black:     #000000; /* Black */
+  --bg-primary:   var(--clr-primary);
+  --bg-primary-light:   var(--clr-primary-light);
+  --bg-primary-dark:   var(--clr-primary-dark);
+  --bg-secondary: var(--clr-secondary);
+  --bg-gray:    var(--clr-gray);
+  --bg-red:    var(--clr-red);
+
+  /* ================= Background Colors (RGB) ================= */
+  --bg-base-rgb:      255 255 255;
+  --bg-muted-rgb:     75 85 99;
+  --bg-black-rgb:     00 00 00;
+  --bg-primary-rgb:   var(--clr-primary-rgb);
+  --bg-secondary-rgb: var(--clr-secondary-rgb);
+  --bg-gray-rgb:    var(--clr-gray-rgb);
+  --bg-red-rgb:    var(--clr-red-rgb);
+
+  /* ================= Text Colors ================= */
+  --txt-white:     #ffffff;
+  --txt-muted:     #6b7280;
+  --txt-strong:    #111827;
+  --txt-primary:   var(--clr-primary);
+  --txt-primary-light:   var(--clr-primary-light);
+  --txt-primary-dark:   var(--clr-primary-dark);
+  --txt-secondary: var(--clr-secondary);
+  --txt-gray:    var(--clr-gray);
+  --txt-red:    var(--clr-red);
+
+  /* ================= Text Colors (RGB) ================= */
+  --txt-white-rgb:     255 255 255;
+  --txt-muted-rgb:     107 114 128;
+  --txt-black-rgb:    00 00 00;
+  --txt-primary-rgb:   var(--clr-primary-rgb);
+  --txt-secondary-rgb: var(--clr-secondary-rgb);
+  --txt-gray-rgb:    var(--clr-gray-rgb);
+  --txt-red-rgb:    var(--clr-red-rgb);
+
+  /* ================= Border Colors ================= */
+  --border-base:   #ebecf0;
+  --border-primary: var(--clr-primary);
+  --border-primary-light: var(--clr-primary-light);
+  --border-primary-dark: var(--clr-primary-dark);
+  --border-secondary: var(--clr-secondary);
+  --border-red: var(--clr-red);
+
+  /* ================= Border Colors (RGB) ================= */
+  --border-base-rgb:   235 236 239;
+  --border-primary-rgb: var(--clr-primary-rgb);
+  --border-red-rgb: var(--clr-red-rgb);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+
+/* Hide Scrollbar ================= */
+::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+}
+
+*{
+  scrollbar-width: none; 
+}
+
+
+/* ::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background-color: #a9a9a9;
+}
+::-webkit-scrollbar-thumb:hover {
+  background-color: #888b91;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+} */
+
+
+/* ------------------------------------------------------------------------ */
+/* Global Classes ================================================= End */
+/* ------------------------------------------------------------------------ */
+
+
+
+
+/* ------------------------------------------------------------------------ */
+/* Utility Classes ================================================= Start */
+/* ------------------------------------------------------------------------ */
+
+/* Background Color ================= */
+.bg-cstm-primary { background-color: var(--bg-primary); }
+.bg-cstm-primary-5 { background-color: rgb(var(--bg-primary-rgb) / 0.05); }       
+.bg-cstm-primary-10 { background-color: rgb(var(--bg-primary-rgb) / 0.1); } 
+.bg-cstm-primary-20 { background-color: rgb(var(--bg-primary-rgb) / 0.2); }
+.bg-cstm-primary-30 { background-color: rgb(var(--bg-primary-rgb)/ 0.3); }
+.bg-cstm-primary-40 { background-color: rgb(var(--bg-primary-rgb)/ 0.4); }
+.bg-cstm-primary-50 { background-color: rgb(var(--bg-primary-rgb)/ 0.5); }
+.bg-cstm-primary-60 { background-color: rgb(var(--bg-primary-rgb)/ 0.6); }
+.bg-cstm-primary-70 { background-color: rgb(var(--bg-primary-rgb)/ 0.7); }
+.bg-cstm-primary-80 { background-color: rgb(var(--bg-primary-rgb)/ 0.8); }
+.bg-cstm-primary-90 { background-color: rgb(var(--bg-primary-rgb)/ 0.9); }
+     
+.bg-cstm-secondary { background-color: var(--bg-secondary); }
+.bg-cstm-secondary-10 { background-color: rgb(var(--bg-secondary-rgb) / 0.1); }
+.bg-cstm-secondary-20 { background-color: rgb(var(--bg-secondary-rgb) / 0.2); }
+.bg-cstm-secondary-30 { background-color: rgb(var(--bg-secondary-rgb) / 0.3); }
+.bg-cstm-secondary-40 { background-color: rgb(var(--bg-secondary-rgb) / 0.4); }
+.bg-cstm-secondary-50 { background-color: rgb(var(--bg-secondary-rgb) / 0.5); }
+.bg-cstm-secondary-60 { background-color: rgb(var(--bg-secondary-rgb) / 0.6); }
+.bg-cstm-secondary-70 { background-color: rgb(var(--bg-secondary-rgb) / 0.7); }
+.bg-cstm-secondary-80 { background-color: rgb(var(--bg-secondary-rgb) / 0.8); }
+.bg-cstm-secondary-90 { background-color: rgb(var(--bg-secondary-rgb) / 0.9); }
+
+.bg-cstm-black-10 { background-color: rgb(var(--bg-black-rgb) / 0.1); }
+.bg-cstm-black-20 { background-color: rgb(var(--bg-black-rgb) / 0.2); }
+.bg-cstm-black-30 { background-color: rgb(var(--bg-black-rgb) / 0.3); }
+.bg-cstm-black-40 { background-color: rgb(var(--bg-black-rgb) / 0.4); }
+.bg-cstm-black-50 { background-color: rgb(var(--bg-black-rgb) / 0.5); }
+.bg-cstm-black-60 { background-color: rgb(var(--bg-black-rgb) / 0.6); }
+.bg-cstm-black-70 { background-color: rgb(var(--bg-black-rgb) / 0.7); }
+.bg-cstm-black-80 { background-color: rgb(var(--bg-black-rgb) / 0.8); }
+.bg-cstm-black-90 { background-color: rgb(var(--bg-black-rgb) / 0.9); }
+
+/* Gradient BG Colors */
+.bg-cstm-primary-gradient-light{
+  background: linear-gradient(90deg, rgb(var(--bg-primary-rgb) / 0.2) 0.12%, #FDF8F7 99.89%) !important;
+}
+.bg-cstm-primary-gradient-dark{
+  background: linear-gradient( 146deg, var(--bg-primary) -50%, rgb(15 15 15 / 1)) !important
+}
+.bg-cstm-danger-gradient-light{
+  background: linear-gradient(90deg, rgb(var(--bg-red-rgb) / 0.2) 0.12%, #FDF8F7 99.89%) !important;
+}
+.bg-cstm-danger-gradient-dark{
+  background: linear-gradient(90deg, #651e1e 0.12%, #000000 99.89%) !important;
+}
+.bg-cstm-common-gradient-light{
+  background: linear-gradient(90deg, #F7E9FF 0.12%, #FDF8F7 99.89%) !important;
+}
+
+/* Hover Background */
+.hover\:bg-cstm-primary:hover { background-color: var(--bg-primary); }
+.hover\:bg-cstm-primary-10:hover { background-color: rgb(var(--bg-primary-rgb) / 0.1); }
+.hover\:bg-cstm-primary-20:hover { background-color: rgb(var(--bg-primary-rgb) / 0.2); }
+.hover\:bg-cstm-primary-30:hover { background-color: rgb(var(--bg-primary-rgb)/ 0.3); }
+.hover\:bg-cstm-primary-40:hover { background-color: rgb(var(--bg-primary-rgb)/ 0.4); }
+.hover\:bg-cstm-primary-50:hover { background-color: rgb(var(--bg-primary-rgb)/ 0.5); }
+.hover\:bg-cstm-primary-light:hover { background-color: var(--bg-primary-light); }
+.hover\:bg-cstm-primary-dark:hover { background-color: var(--bg-primary-dark); }
+
+.hover\:bg-cstm-secondary:hover { background-color: var(--bg-secondary); }
+.hover\:bg-cstm-secondary-10:hover { background-color: rgb(var(--bg-secondary-rgb) / 0.1); }
+.hover\:bg-cstm-secondary-20:hover { background-color: rgb(var(--bg-secondary-rgb) / 0.2); }
+.hover\:bg-cstm-secondary-30:hover { background-color: rgb(var(--bg-secondary-rgb) / 0.3); }
+.hover\:bg-cstm-secondary-40:hover { background-color: rgb(var(--bg-secondary-rgb) / 0.4); }
+.hover\:bg-cstm-secondary-50:hover { background-color: rgb(var(--bg-secondary-rgb) / 0.5); }
+
+
+/* Text ================= */
+.text-cstm-primary { color: var(--txt-primary); }
+.text-cstm-primary-10 { color: rgb(var(--txt-primary-rgb) / 0.1); }
+.text-cstm-primary-20 { color: rgb(var(--txt-primary-rgb) / 0.2); }
+.text-cstm-primary-30 { color: rgb(var(--txt-primary-rgb) / 0.3); }
+.text-cstm-primary-40 { color: rgb(var(--txt-primary-rgb) / 0.4); }
+.text-cstm-primary-50 { color: rgb(var(--txt-primary-rgb) / 0.5); }
+.text-cstm-primary-60 { color: rgb(var(--txt-primary-rgb) / 0.6); }
+.text-cstm-primary-70 { color: rgb(var(--txt-primary-rgb) / 0.7); }
+.text-cstm-primary-80 { color: rgb(var(--txt-primary-rgb) / 0.8); }
+.text-cstm-primary-90 { color: rgb(var(--txt-primary-rgb) / 0.9); }
+
+.text-cstm-secondary { color: var(--txt-secondary); }
+.text-cstm-secondary-10 { color: rgb(var(--txt-secondary-rgb) / 0.1); }
+.text-cstm-secondary-20 { color: rgb(var(--txt-secondary-rgb) / 0.2); }
+.text-cstm-secondary-30 { color: rgb(var(--txt-secondary-rgb) / 0.3); }
+.text-cstm-secondary-40 { color: rgb(var(--txt-secondary-rgb) / 0.4); }
+.text-cstm-secondary-50 { color: rgb(var(--txt-secondary-rgb) / 0.5); }
+.text-cstm-secondary-60 { color: rgb(var(--txt-secondary-rgb) / 0.6); }
+.text-cstm-secondary-70 { color: rgb(var(--txt-secondary-rgb) / 0.7); }
+.text-cstm-secondary-80 { color: rgb(var(--txt-secondary-rgb) / 0.8); }
+.text-cstm-secondary-90 { color: rgb(var(--txt-secondary-rgb) / 0.9); }
+
+/* Hover Text */
+.hover\:text-cstm-primary:hover { color: var(--txt-primary); }
+.hover\:text-cstm-primary-10:hover { color: rgb(var(--txt-primary-rgb) / 0.1); }
+.hover\:text-cstm-primary-20:hover { color: rgb(var(--txt-primary-rgb) / 0.2); }
+.hover\:text-cstm-primary-30:hover { color: rgb(var(--txt-primary-rgb) / 0.3); }
+.hover\:text-cstm-primary-40:hover { color: rgb(var(--txt-primary-rgb) / 0.4); }
+.hover\:text-cstm-primary-50:hover { color: rgb(var(--txt-primary-rgb) / 0.5); }
+.hover\:text-cstm-primary-60:hover { color: rgb(var(--txt-primary-rgb) / 0.6); }
+.hover\:text-cstm-primary-70:hover { color: rgb(var(--txt-primary-rgb) / 0.7); }
+.hover\:text-cstm-primary-80:hover { color: rgb(var(--txt-primary-rgb) / 0.8); }
+.hover\:text-cstm-primary-90:hover { color: rgb(var(--txt-primary-rgb) / 0.9); }
+
+.hover\:text-cstm-secondary:hover { color: var(--txt-secondary); }
+.hover\:text-cstm-secondary-10:hover { color: rgb(var(--txt-secondary-rgb) / 0.1); }
+.hover\:text-cstm-secondary-20:hover { color: rgb(var(--txt-secondary-rgb) / 0.2); }
+.hover\:text-cstm-secondary-30:hover { color: rgb(var(--txt-secondary-rgb) / 0.3); }
+.hover\:text-cstm-secondary-40:hover { color: rgb(var(--txt-secondary-rgb) / 0.4); }
+.hover\:text-cstm-secondary-50:hover { color: rgb(var(--txt-secondary-rgb) / 0.5); }
+.hover\:text-cstm-secondary-60:hover { color: rgb(var(--txt-secondary-rgb) / 0.6); }
+.hover\:text-cstm-secondary-70:hover { color: rgb(var(--txt-secondary-rgb) / 0.7); }
+.hover\:text-cstm-secondary-80:hover { color: rgb(var(--txt-secondary-rgb) / 0.8); }
+.hover\:text-cstm-secondary-90:hover { color: rgb(var(--txt-secondary-rgb) / 0.9); }
+
+
+/* Buttons ===============*/
+.btn {
+  font-size: 14px;
+  transition-duration: 300ms;
+}
+
+/* primary Btn */
+.btn-cstm-primary {
+  background-color: var(--bg-primary);
+  color: var(--txt-white);
+}
+.dark .btn-cstm-primary {
+  background-color: var(--bg-primary-light);
+}
+.btn-cstm-primary:hover {
+  background-color: var(--bg-primary-dark);
+}
+
+/* Primary light */
+.btn-cstm-primary.light {
+  background-color: var(--bg-base);
+  color: var(--txt-primary);
+  border: 1px solid var(--border-primary); 
+}
+.dark .btn-cstm-primary.light {
+  background-color: unset;
+}
+.btn-cstm-primary.light:hover {
+  background-color: var(--bg-base);
+  color: var(--txt-primary);
+  border: 1px solid rgb(var(--border-primary-rgb) / 0.85);
+}
+.dark .btn-cstm-primary.light:hover {
+  background-color: unset;
+}
+
+/* Muted Btn */
+.btn-cstm-muted {
+  background-color: var(--bg-gray);
+  color: var(--txt-white);
+}
+.btn-cstm-muted:hover {
+  background-color: rgb(var(--bg-gray-rgb) / 0.85);
+  color: var(--txt-white);
+}
+
+/* Danger btn Dark*/
+.btn-cstm-danger {
+  background-color: var(--bg-red);
+  color: var(--txt-white);
+}
+.btn-cstm-danger:hover {
+  background-color: rgb(var(--bg-red-rgb) / 0.85);
+  color: var(--txt-white);
+}
+
+/* Danger btn Light*/
+.btn-cstm-danger.light {
+  background-color: var(--bg-base);
+  color: var(--txt-red);
+  border: 1px solid var(--border-red); 
+}
+.dark .btn-cstm-danger.light {
+  background-color: unset;
+}
+.btn-cstm-danger.light:hover {
+  background-color: var(--bg-base);
+  color: var(--txt-red);
+  border: 1px solid rgb(var(--border-red-rgb) / 0.85);
+}
+.dark .btn-cstm-danger.light:hover {
+  background-color: unset;
+}
+
+
+/* Border ================= */
+.border-cstm-primary { border-color: var(--border-primary); }
+.border-t-cstm-primary { border-top-color: var(--border-primary); }
+.border-b-cstm-primary { border-bottom-color: var(--border-primary); }
+.border-l-cstm-primary { border-left-color: var(--border-primary); }
+.border-r-cstm-primary { border-right-color: var(--border-primary); }
+
+.border-cstm-secondary { border-color: var(--border-secondary); }
+
+
+/* Clamp for limit lines ================= */
+.cstm-limit-line {
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 1.5em;
+}
+
+.cstm-limit-line-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  height: 3em;
+}
+
+
+/* Scroll Bar ==================== */
+.cstm-scroll-sm {
+  scrollbar-width: thin;
+  scrollbar-color: #cecece transparent;
+}
+.cstm-scroll-sm::-webkit-scrollbar {
+  width: 6px;
+}
+.cstm-scroll-sm::-webkit-scrollbar-thumb {
+  background-color: #d4d8df;
+  border-radius: 9999px;
+  min-height: 30px;
+  margin: 4px;
+}
+.cstm-scroll-sm::-webkit-scrollbar-thumb:hover {
+  background-color: #a5aab5;
+}
+.cstm-scroll-sm::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+
+/* Common Spacing ============================ */
+.cstm-inline-space{
+  padding-inline: 80px;
+}
+.cstm-block-space{
+  padding-block: 40px;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Utility Classes ================================================= End */
+/* ------------------------------------------------------------------------ */
+
+
+
+
+/* ------------------------------------------------------------------------ */
+/* Dark Mode ================================================= Start */
+/* ------------------------------------------------------------------------ */
+
+.dark{
+
+  /* Dark Mode Color Conflict */
+  .text-cstm-primary { color: var(--txt-primary-light); }
+  .bg-cstm-primary { background-color: var(--bg-primary-light); }
+  
+  /* Text */
+  .drk-text-cstm-primary { color: var(--txt-primary-light); }
+
+  /* Text Hover */
+  .hover\:drk-text-cstm-primary:hover { color: var(--txt-primary-light); }
+
+  /* Background */
+  .drk-bg-cstm-primary { background-color: var(--bg-primary-light); }
+  .drk-bg-cstm-primary-10 { background-color: rgb(var(--bg-primary-rgb) / 0.1);  }
+  .drk-bg-cstm-primary-20 { background-color: rgb(var(--bg-primary-rgb) / 0.2);  }
+  .drk-bg-cstm-primary-30 { background-color: rgb(var(--bg-primary-rgb) / 0.3);  }
+  .drk-bg-cstm-primary-40 { background-color: rgb(var(--bg-primary-rgb) / 0.4);  }
+  .drk-bg-cstm-primary-50 { background-color: rgb(var(--bg-primary-rgb) / 0.5);  }
+
+  /* BG Hover */
+  .hover\:drk-bg-cstm-primary:hover { background-color: var(--bg-primary-light); }
+
+  /* Gradient BG */
+  .drk-bg-cstm-primary-gradient-light{
+    background: linear-gradient(90deg, rgb(var(--bg-primary-rgb) / 0.2) 0.12%, #FDF8F7 99.89%) !important;
+  }
+  .drk-bg-cstm-primary-gradient-dark{
+    background: linear-gradient( 146deg, var(--bg-primary) -50%, rgb(15 15 15 / 1)) !important
+  }
+  .drk-bg-cstm-danger-gradient-light{
+    background: linear-gradient(90deg, rgb(var(--bg-red-rgb) / 0.2) 0.12%, #FDF8F7 99.89%) !important;
+  }
+  .drk-bg-cstm-danger-gradient-dark{
+    background: linear-gradient(90deg, #651e1e 0.12%, #000000 99.89%) !important;
+  }
+  .drk-bg-cstm-common-gradient-light{
+    background: linear-gradient(90deg, #374151 100%, #374151 100%) !important;
+  }
+}
+
+/* ------------------------------------------------------------------------ */
+/* Dark Mode ================================================= End */
+/* ------------------------------------------------------------------------ */
+
+
+
+/* ------------------------------------------------------------------------ */
+/* Default Settings ================================================= Start */
+/* ------------------------------------------------------------------------ */
+
+
+/* Search Bar ============================= */
+.navbar-search input {
+  background-color: var(--bg-base);
+}
+
+/* Select Dropdown Setting ================ */
+select,
+::picker(select) {
+  appearance: base-select;
+  border: 1px solid #dddddd;
+  border-radius: 5px;
+  margin-top: 4px;
+}
+select::picker-icon {
+  visibility: hidden;
+}
+.dark option {
+  background: #374151;
+  color: var(--txt-white);
+}
+option[selected],
+option:hover {
+  background-color: var(--bg-primary);
+  color: var(--txt-white);
+}
+option::checkmark {
+  padding-left: 10px;
+}
+
+
+/* Check Box ==================*/
+input:checked ~ .peer-checked\:bg-cstm-primary {
+  background-color: var(--bg-primary);
+}
+
+
+/* Pseudo Setting ================= */
+[type='text'], [type='string'], [type='email'], [type='url'], [type='password'], [type='number'], [type='date'], [type='datetime-local'], [type='month'], [type='search'], [type='tel'], [type='time'], [type='week'], [multiple], textarea, select{
+    font-size: 14px;
+}
+[type='checkbox']:checked, [type='radio']:checked, .dark [type='checkbox']:checked, .dark [type='radio']:checked, [type='checkbox']:indeterminate, [type='checkbox']:indeterminate:hover, [type='checkbox']:indeterminate:focus{
+  background-color: var(--bg-primary);
+}
+[type='text']:focus, [type='string']:focus, [type='checkbox']:focus, [type='string']:focus, [type='email']:focus, [type='url']:focus, [type='password']:focus, [type='number']:focus, [type='date']:focus, [type='datetime-local']:focus, [type='month']:focus, [type='search']:focus, [type='tel']:focus, [type='time']:focus, [type='week']:focus, [multiple]:focus, textarea:focus, select:focus{
+  --tw-ring-color: var(--border-primary);
+  border-color: var(--border-primary) !important;
+}
+
+
+/* Table Settings */
+.table th, .table td {
+  text-align: start;
+}
+.table td:last-child,
+.table th:last-child {
+  text-align: center;
+}
+
+/* ------------------------------------------------------------------------ */
+/* Default Settings ================================================= End */
+/* ------------------------------------------------------------------------ */
+
+
+
+
+/* ------------------------------------------------------------------------ */
+/* Custom Styles ================================================= Start */
+/* ------------------------------------------------------------------------ */
+/* Main Body UI ================ */
+.dashboard-main-body {
+  width: 100%;
+}
+/* Sidebar ===================== */
+.cstm-sidebar.active .sidebar-logo img {
+    max-height: 3.2rem;
+}
+
+/* Navbar ====================== */
+.navbar-header {
+    box-shadow: 0px 0px 10px #00000030;
+}
+
+.cstm-sidebar-menu li > a.active-page {
+  background-color: var(--bg-primary);
+  color: var(--txt-white);
+}
+.cstm-sidebar-menu li > a.active-page:hover {
+  background-color: var(--bg-primary-dark);
+}
+.cstm-sidebar-menu li a:hover {
+  color: var(--txt-primary);
+}
+
+
+/* View Profile ================= */
+.cstm-avatar-upload .avatar-preview {
+  border-color: var(--border-primary);
+}
+.cstm-tab-style-gradient button[aria-selected=true] {
+  background: no-repeat;
+  border-top: none;
+  border-bottom: 4px solid var(--border-primary);
+  color: var(--txt-primary);
+}
+.cstm-tab-style-gradient button[aria-selected=true]:hover {
+  color: var(--clr-primary);
+}
+.dark .cstm-tab-style-gradient button[aria-selected=true] {
+  color: var(--clr-primary);
+}
+
+
+/* Faq ===========================*/
+.cstm-accordion-item [aria-expanded=true] {
+  color: var(--txt-primary);
+} 
+
+
+/* Schema Template =============== */
+.cstm-form-select {
+  padding-inline-end: 2.25rem !important;
+}
+.cstm-store-grid-card > div {
+  min-height: 402px;
+}
+
+
+/* Setting ======================= */
+.cstm-formcontrol{
+  padding-block: 0;
+}
+
+
+@media (max-width:768px) {
+
+    .not_flex_mobile{
+        display: unset;
+    }
+    .my-4_mobile{
+        margin: 1rem 0;
+    }
+
+}

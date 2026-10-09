@@ -1,0 +1,210 @@
+<?php
+declare(strict_types=1);
+
+header('Content-Type: application/json; charset=utf-8');
+
+require_once __DIR__ . '/../../includes/config.php';
+require_once __DIR__ . '/../../includes/google/get_account.php';
+require_once __DIR__ . '/../../includes/google/token_manager.php';
+
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+/* ==========================================================
+   READ INPUT
+========================================================== */
+$data = json_decode(file_get_contents('php://input'), true) ?: [];
+
+$instanceId =
+    $data['instance_id']
+    ?? $data['instanceId']
+    ?? $_SESSION['instance_id']
+    ?? $_SESSION['instanceid']
+    ?? null;
+
+$sitemapUrl = trim($data['sitemap_url'] ?? '');
+
+if (!$instanceId || !$sitemapUrl) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'missing_instance_or_sitemap'
+    ]);
+    exit;
+}
+
+/* ==========================================================
+   LOAD GOOGLE ACCOUNT (AUTHORITATIVE)
+========================================================== */
+$google = getGoogleAccountByInstance($instanceId);
+
+if (!$google || empty($google['access_token'])) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'We are unable to process your request. Please return to the previous steps, click on "Disconnect this account," and then reconnect your account.'
+    ]);
+    exit;
+}
+
+
+
+
+/* ==========================================================
+   ENSURE ACCESS TOKEN (DO NOT FAIL EARLY)
+========================================================== */
+$accountId   = (int) $google['id'];
+$tokenResult = ensureAccessToken($accountId, 120);
+
+/*
+ IMPORTANT:
+ If refresh fails but access_token still exists,
+ let Google API decide.
+*/
+$accessToken = $tokenResult['access_token'] ?? $google['access_token'];
+
+if (empty($accessToken)) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'We are unable to process your request. Please return to the previous steps, click on "Disconnect this account," and then reconnect your account.',
+        'debug'   => 'access_token_empty_after_refresh'
+    ]);
+    exit;
+}
+
+/* ==========================================================
+   LOAD VERIFIED SITE
+========================================================== */
+$stmt = $pdo->prepare("
+    SELECT site_url
+    FROM gsc_domain_verifications
+    WHERE instance_id = ?
+    LIMIT 1
+");
+$stmt->execute([$instanceId]);
+$domain = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if (!$domain || empty($domain['site_url'])) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'domain_not_verified'
+    ]);
+    exit;
+}
+
+$siteUrl = trim($domain['site_url']);
+/* ==========================================================
+   USE VERIFIED PROPERTY EXACTLY AS STORED
+========================================================== */
+$siteForApi = $siteUrl; // EXACT string from DB — DO NOT TOUCH
+
+
+
+/* ==========================================================
+   SUBMIT SITEMAP TO GOOGLE
+========================================================== */
+$apiUrl = 'https://www.googleapis.com/webmasters/v3/sites/'
+    . urlencode($siteForApi)
+    . '/sitemaps/'
+    . urlencode($sitemapUrl);
+
+$ch = curl_init($apiUrl);
+curl_setopt_array($ch, [
+    CURLOPT_CUSTOMREQUEST  => 'PUT',
+    CURLOPT_RETURNTRANSFER => true,
+    CURLOPT_HTTPHEADER     => [
+        "Authorization: Bearer {$accessToken}",
+        "Content-Type: application/json"
+    ],
+    CURLOPT_TIMEOUT        => 15,
+    CURLOPT_USERAGENT      => 'Shopify-GSC/1.0'
+]);
+
+$response = curl_exec($ch);
+$http     = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+$curlErr  = curl_error($ch);
+curl_close($ch);
+
+/* ==========================================================
+   HARD FAIL ONLY ON NETWORK ERROR
+========================================================== */
+if ($curlErr) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'network_error',
+        'message' => $curlErr
+    ]);
+    exit;
+}
+
+/* ==========================================================
+   PERMISSION ERROR → RECONNECT (REAL CASE)
+========================================================== */
+if ($http === 401) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'We are unable to process your request. Please return to the previous steps, click on "Disconnect this account," and then reconnect your account.',
+        'google_http' => $http
+    ]);
+    exit;
+}
+
+if ($http === 403) {
+    echo json_encode([
+        'success' => false,
+        'error'   => 'insufficient_permissions',
+        'google_http' => $http,
+        'hint' => 'Property exists but access is denied to this resource'
+    ]);
+    exit;
+}
+
+/* ==========================================================
+   SUCCESS (AUTHORITATIVE)
+========================================================== */
+if ($http >= 200 && $http < 300) {
+
+    try {
+        $pdo->prepare("
+            INSERT INTO sitemap_submission_logs
+                (instance_id, sitemap_url, status, http_code, google_response)
+            VALUES (?, ?, 'Success', ?, ?)
+        ")->execute([
+            $instanceId,
+            $sitemapUrl,
+            $http,
+            (string) $response
+        ]);
+
+        $pdo->prepare("
+            INSERT INTO sitemaps
+                (instance_id, sitemap_url, status, last_submitted_at)
+            VALUES (?, ?, 'Success', NOW())
+            ON DUPLICATE KEY UPDATE
+                status = 'Success',
+                last_submitted_at = NOW(),
+                updated_at = NOW()
+        ")->execute([
+            $instanceId,
+            $sitemapUrl
+        ]);
+    } catch (Throwable $e) {
+        // Silent logging only
+    }
+
+    echo json_encode([
+        'success' => true,
+        'message' => 'Sitemap submitted successfully. Google may take time to process it.'
+    ]);
+    exit;
+}
+
+/* ==========================================================
+   FALLBACK ERROR
+========================================================== */
+echo json_encode([
+    'success' => false,
+    'error'   => 'google_api_error',
+    'http'    => $http,
+    'message' => substr((string) $response, 0, 200)
+]);
+exit;

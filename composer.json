@@ -1,0 +1,18 @@
+{
+  "name": "makkpress/shopify-google-search-console",
+  "description": "Google Search Console integration for Shopify",
+  "type": "project",
+  "require": {
+    "php": ">=8.0",
+    "vlucas/phpdotenv": "^5.6",
+    "google/apiclient": "^2.15",
+    "google/apiclient-services": "^0.421.0",
+    "stripe/stripe-php": "^19.3"
+  },
+  "autoload": {
+    "psr-4": {
+      "App\\": "src/"
+    }
+  }
+}
+

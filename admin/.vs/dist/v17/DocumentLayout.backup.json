@@ -1,0 +1,1363 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\widgets.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:widgets.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\wizard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:wizard.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\wallet.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:wallet.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\voice-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:voice-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\view-profile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:view-profile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\videos.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:videos.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\video-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:video-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\veiw-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:veiw-details.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\users-list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:users-list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\users-grid.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:users-grid.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\typography.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:typography.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tooltip.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tooltip.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\theme.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:theme.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\text-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:text-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\text-generator-new.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:text-generator-new.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\terms-condition.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:terms-condition.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tags.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tags.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tabs.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:tabs.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\table-data.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:table-data.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\table-basic.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:table-basic.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\switch.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:switch.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\starred.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:starred.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\star-rating.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:star-rating.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\sign-up.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:sign-up.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\sign-in.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:sign-in.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\radio.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:radio.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\progress.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:progress.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pricing.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pricing.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pie-chart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pie-chart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\payment-gateway.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:payment-gateway.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pagination.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:pagination.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\notification.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:notification.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\notification-alert.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:notification-alert.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\line-chart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:line-chart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\language.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:language.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\kanban.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:kanban.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-preview.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:invoice-preview.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:invoice-list.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-edit.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:invoice-edit.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-add.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:invoice-add.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-9.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index-9.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-8.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index-8.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-7.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index-7.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-6.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index-6.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-5.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index-5.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-4.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index-4.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-3.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index-3.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-2.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:index-2.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\image-upload.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:image-upload.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\image-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:image-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\gallery.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:gallery.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:form.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form-validation.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:form-validation.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form-layout.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:form-layout.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\forgot-password.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:forgot-password.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\faq.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:faq.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\error.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:error.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\email.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:email.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\dropdown.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:dropdown.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\currencies.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:currencies.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\company.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:company.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\column-chart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:column-chart.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\colors.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:colors.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\code-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:code-generator.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\code-generator-new.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:code-generator-new.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-profile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:chat-profile.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-message.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:chat-message.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-empty.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:chat-empty.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\carousel.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:carousel.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\card.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:card.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\calendar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:calendar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\calendar-main.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:calendar-main.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\button.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:button.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\badges.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:badges.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\avatar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:avatar.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\alert.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:alert.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\add-user.html||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:add-user.html||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "wizard.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\wizard.html",
+              "RelativeDocumentMoniker": "wizard.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\wizard.html",
+              "RelativeToolTip": "wizard.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:30:02.479Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "widgets.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\widgets.html",
+              "RelativeDocumentMoniker": "widgets.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\widgets.html",
+              "RelativeToolTip": "widgets.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:58.374Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "wallet.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\wallet.html",
+              "RelativeDocumentMoniker": "wallet.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\wallet.html",
+              "RelativeToolTip": "wallet.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:54.265Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "voice-generator.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\voice-generator.html",
+              "RelativeDocumentMoniker": "voice-generator.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\voice-generator.html",
+              "RelativeToolTip": "voice-generator.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:50.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "view-profile.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\view-profile.html",
+              "RelativeDocumentMoniker": "view-profile.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\view-profile.html",
+              "RelativeToolTip": "view-profile.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:46.788Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "videos.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\videos.html",
+              "RelativeDocumentMoniker": "videos.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\videos.html",
+              "RelativeToolTip": "videos.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:42.478Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "video-generator.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\video-generator.html",
+              "RelativeDocumentMoniker": "video-generator.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\video-generator.html",
+              "RelativeToolTip": "video-generator.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:38.625Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "veiw-details.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\veiw-details.html",
+              "RelativeDocumentMoniker": "veiw-details.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\veiw-details.html",
+              "RelativeToolTip": "veiw-details.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:34.981Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "users-list.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\users-list.html",
+              "RelativeDocumentMoniker": "users-list.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\users-list.html",
+              "RelativeToolTip": "users-list.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:30.276Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "users-grid.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\users-grid.html",
+              "RelativeDocumentMoniker": "users-grid.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\users-grid.html",
+              "RelativeToolTip": "users-grid.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:26.414Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "typography.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\typography.html",
+              "RelativeDocumentMoniker": "typography.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\typography.html",
+              "RelativeToolTip": "typography.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:21.738Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
+              "Title": "tooltip.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tooltip.html",
+              "RelativeDocumentMoniker": "tooltip.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tooltip.html",
+              "RelativeToolTip": "tooltip.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:17.765Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 12,
+              "Title": "theme.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\theme.html",
+              "RelativeDocumentMoniker": "theme.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\theme.html",
+              "RelativeToolTip": "theme.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:12.651Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 13,
+              "Title": "text-generator.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\text-generator.html",
+              "RelativeDocumentMoniker": "text-generator.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\text-generator.html",
+              "RelativeToolTip": "text-generator.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:07.922Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 14,
+              "Title": "text-generator-new.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\text-generator-new.html",
+              "RelativeDocumentMoniker": "text-generator-new.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\text-generator-new.html",
+              "RelativeToolTip": "text-generator-new.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:29:03.396Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 15,
+              "Title": "terms-condition.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\terms-condition.html",
+              "RelativeDocumentMoniker": "terms-condition.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\terms-condition.html",
+              "RelativeToolTip": "terms-condition.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:58.883Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 16,
+              "Title": "tags.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tags.html",
+              "RelativeDocumentMoniker": "tags.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tags.html",
+              "RelativeToolTip": "tags.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:53.918Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 17,
+              "Title": "tabs.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tabs.html",
+              "RelativeDocumentMoniker": "tabs.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\tabs.html",
+              "RelativeToolTip": "tabs.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:47.307Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 18,
+              "Title": "table-data.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\table-data.html",
+              "RelativeDocumentMoniker": "table-data.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\table-data.html",
+              "RelativeToolTip": "table-data.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:41.999Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 19,
+              "Title": "table-basic.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\table-basic.html",
+              "RelativeDocumentMoniker": "table-basic.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\table-basic.html",
+              "RelativeToolTip": "table-basic.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:37.593Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 20,
+              "Title": "switch.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\switch.html",
+              "RelativeDocumentMoniker": "switch.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\switch.html",
+              "RelativeToolTip": "switch.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:32.529Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 21,
+              "Title": "starred.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\starred.html",
+              "RelativeDocumentMoniker": "starred.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\starred.html",
+              "RelativeToolTip": "starred.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:26.191Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 22,
+              "Title": "star-rating.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\star-rating.html",
+              "RelativeDocumentMoniker": "star-rating.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\star-rating.html",
+              "RelativeToolTip": "star-rating.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:21.293Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 23,
+              "Title": "sign-up.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\sign-up.html",
+              "RelativeDocumentMoniker": "sign-up.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\sign-up.html",
+              "RelativeToolTip": "sign-up.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:16.059Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 24,
+              "Title": "sign-in.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\sign-in.html",
+              "RelativeDocumentMoniker": "sign-in.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\sign-in.html",
+              "RelativeToolTip": "sign-in.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:12.253Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 25,
+              "Title": "radio.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\radio.html",
+              "RelativeDocumentMoniker": "radio.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\radio.html",
+              "RelativeToolTip": "radio.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:08.254Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 26,
+              "Title": "progress.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\progress.html",
+              "RelativeDocumentMoniker": "progress.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\progress.html",
+              "RelativeToolTip": "progress.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:28:03.844Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 27,
+              "Title": "pricing.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pricing.html",
+              "RelativeDocumentMoniker": "pricing.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pricing.html",
+              "RelativeToolTip": "pricing.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:59.543Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 28,
+              "Title": "pie-chart.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pie-chart.html",
+              "RelativeDocumentMoniker": "pie-chart.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pie-chart.html",
+              "RelativeToolTip": "pie-chart.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:55.388Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 29,
+              "Title": "payment-gateway.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\payment-gateway.html",
+              "RelativeDocumentMoniker": "payment-gateway.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\payment-gateway.html",
+              "RelativeToolTip": "payment-gateway.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:51.68Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 30,
+              "Title": "pagination.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pagination.html",
+              "RelativeDocumentMoniker": "pagination.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\pagination.html",
+              "RelativeToolTip": "pagination.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:42.828Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 31,
+              "Title": "notification.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\notification.html",
+              "RelativeDocumentMoniker": "notification.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\notification.html",
+              "RelativeToolTip": "notification.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:35.609Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 32,
+              "Title": "notification-alert.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\notification-alert.html",
+              "RelativeDocumentMoniker": "notification-alert.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\notification-alert.html",
+              "RelativeToolTip": "notification-alert.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:31.604Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 33,
+              "Title": "list.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\list.html",
+              "RelativeDocumentMoniker": "list.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\list.html",
+              "RelativeToolTip": "list.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:27.789Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 34,
+              "Title": "line-chart.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\line-chart.html",
+              "RelativeDocumentMoniker": "line-chart.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\line-chart.html",
+              "RelativeToolTip": "line-chart.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:23.893Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 35,
+              "Title": "language.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\language.html",
+              "RelativeDocumentMoniker": "language.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\language.html",
+              "RelativeToolTip": "language.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:20.372Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 36,
+              "Title": "kanban.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\kanban.html",
+              "RelativeDocumentMoniker": "kanban.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\kanban.html",
+              "RelativeToolTip": "kanban.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:16.077Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 37,
+              "Title": "invoice-preview.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-preview.html",
+              "RelativeDocumentMoniker": "invoice-preview.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-preview.html",
+              "RelativeToolTip": "invoice-preview.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:12.217Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 38,
+              "Title": "invoice-list.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-list.html",
+              "RelativeDocumentMoniker": "invoice-list.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-list.html",
+              "RelativeToolTip": "invoice-list.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:07.982Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 39,
+              "Title": "invoice-edit.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-edit.html",
+              "RelativeDocumentMoniker": "invoice-edit.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-edit.html",
+              "RelativeToolTip": "invoice-edit.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:27:03.964Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 40,
+              "Title": "invoice-add.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-add.html",
+              "RelativeDocumentMoniker": "invoice-add.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\invoice-add.html",
+              "RelativeToolTip": "invoice-add.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:59.14Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 41,
+              "Title": "index.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index.html",
+              "RelativeDocumentMoniker": "index.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index.html",
+              "RelativeToolTip": "index.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:55.156Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 42,
+              "Title": "index-9.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-9.html",
+              "RelativeDocumentMoniker": "index-9.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-9.html",
+              "RelativeToolTip": "index-9.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:51.206Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 43,
+              "Title": "index-8.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-8.html",
+              "RelativeDocumentMoniker": "index-8.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-8.html",
+              "RelativeToolTip": "index-8.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:47.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 44,
+              "Title": "index-7.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-7.html",
+              "RelativeDocumentMoniker": "index-7.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-7.html",
+              "RelativeToolTip": "index-7.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:42.853Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 45,
+              "Title": "index-6.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-6.html",
+              "RelativeDocumentMoniker": "index-6.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-6.html",
+              "RelativeToolTip": "index-6.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:38.215Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 46,
+              "Title": "index-5.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-5.html",
+              "RelativeDocumentMoniker": "index-5.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-5.html",
+              "RelativeToolTip": "index-5.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:33.978Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 47,
+              "Title": "index-4.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-4.html",
+              "RelativeDocumentMoniker": "index-4.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-4.html",
+              "RelativeToolTip": "index-4.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB4AAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:27.491Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 48,
+              "Title": "index-3.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-3.html",
+              "RelativeDocumentMoniker": "index-3.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-3.html",
+              "RelativeToolTip": "index-3.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:22.407Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 49,
+              "Title": "index-2.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-2.html",
+              "RelativeDocumentMoniker": "index-2.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\index-2.html",
+              "RelativeToolTip": "index-2.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:18.349Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 50,
+              "Title": "image-upload.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\image-upload.html",
+              "RelativeDocumentMoniker": "image-upload.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\image-upload.html",
+              "RelativeToolTip": "image-upload.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAB0AAAA7AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:14.634Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 51,
+              "Title": "image-generator.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\image-generator.html",
+              "RelativeDocumentMoniker": "image-generator.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\image-generator.html",
+              "RelativeToolTip": "image-generator.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABwAAAAdAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:10.468Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 52,
+              "Title": "gallery.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\gallery.html",
+              "RelativeDocumentMoniker": "gallery.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\gallery.html",
+              "RelativeToolTip": "gallery.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:06.242Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 53,
+              "Title": "form.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form.html",
+              "RelativeDocumentMoniker": "form.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form.html",
+              "RelativeToolTip": "form.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABsAAABEAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:26:02.53Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 54,
+              "Title": "form-validation.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form-validation.html",
+              "RelativeDocumentMoniker": "form-validation.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form-validation.html",
+              "RelativeToolTip": "form-validation.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABoAAAAWAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:55.684Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 55,
+              "Title": "form-layout.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form-layout.html",
+              "RelativeDocumentMoniker": "form-layout.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\form-layout.html",
+              "RelativeToolTip": "form-layout.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:51.854Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 56,
+              "Title": "forgot-password.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\forgot-password.html",
+              "RelativeDocumentMoniker": "forgot-password.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\forgot-password.html",
+              "RelativeToolTip": "forgot-password.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:47.869Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 57,
+              "Title": "faq.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\faq.html",
+              "RelativeDocumentMoniker": "faq.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\faq.html",
+              "RelativeToolTip": "faq.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:43.913Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 58,
+              "Title": "error.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\error.html",
+              "RelativeDocumentMoniker": "error.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\error.html",
+              "RelativeToolTip": "error.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABkAAABNAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:39.812Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 59,
+              "Title": "email.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\email.html",
+              "RelativeDocumentMoniker": "email.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\email.html",
+              "RelativeToolTip": "email.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:35.732Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 60,
+              "Title": "dropdown.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\dropdown.html",
+              "RelativeDocumentMoniker": "dropdown.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\dropdown.html",
+              "RelativeToolTip": "dropdown.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:32.089Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 61,
+              "Title": "currencies.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\currencies.html",
+              "RelativeDocumentMoniker": "currencies.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\currencies.html",
+              "RelativeToolTip": "currencies.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:28.57Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 62,
+              "Title": "company.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\company.html",
+              "RelativeDocumentMoniker": "company.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\company.html",
+              "RelativeToolTip": "company.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:25.229Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 63,
+              "Title": "column-chart.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\column-chart.html",
+              "RelativeDocumentMoniker": "column-chart.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\column-chart.html",
+              "RelativeToolTip": "column-chart.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:22.205Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 64,
+              "Title": "colors.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\colors.html",
+              "RelativeDocumentMoniker": "colors.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\colors.html",
+              "RelativeToolTip": "colors.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:19.02Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 65,
+              "Title": "code-generator.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\code-generator.html",
+              "RelativeDocumentMoniker": "code-generator.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\code-generator.html",
+              "RelativeToolTip": "code-generator.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:15.813Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 66,
+              "Title": "code-generator-new.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\code-generator-new.html",
+              "RelativeDocumentMoniker": "code-generator-new.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\code-generator-new.html",
+              "RelativeToolTip": "code-generator-new.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:12.794Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 67,
+              "Title": "chat-profile.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-profile.html",
+              "RelativeDocumentMoniker": "chat-profile.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-profile.html",
+              "RelativeToolTip": "chat-profile.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABUAAABDAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:09.163Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 68,
+              "Title": "chat-message.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-message.html",
+              "RelativeDocumentMoniker": "chat-message.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-message.html",
+              "RelativeToolTip": "chat-message.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABYAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:05.408Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 69,
+              "Title": "chat-empty.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-empty.html",
+              "RelativeDocumentMoniker": "chat-empty.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\chat-empty.html",
+              "RelativeToolTip": "chat-empty.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:25:02.294Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 70,
+              "Title": "carousel.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\carousel.html",
+              "RelativeDocumentMoniker": "carousel.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\carousel.html",
+              "RelativeToolTip": "carousel.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:59.093Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 71,
+              "Title": "card.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\card.html",
+              "RelativeDocumentMoniker": "card.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\card.html",
+              "RelativeToolTip": "card.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABQAAAAcAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:56.16Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 72,
+              "Title": "calendar.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\calendar.html",
+              "RelativeDocumentMoniker": "calendar.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\calendar.html",
+              "RelativeToolTip": "calendar.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:52.594Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 73,
+              "Title": "calendar-main.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\calendar-main.html",
+              "RelativeDocumentMoniker": "calendar-main.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\calendar-main.html",
+              "RelativeToolTip": "calendar-main.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:49.89Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 74,
+              "Title": "button.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\button.html",
+              "RelativeDocumentMoniker": "button.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\button.html",
+              "RelativeToolTip": "button.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABIAAABOAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:46.441Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 75,
+              "Title": "badges.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\badges.html",
+              "RelativeDocumentMoniker": "badges.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\badges.html",
+              "RelativeToolTip": "badges.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABEAAABGAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:42.573Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 76,
+              "Title": "avatar.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\avatar.html",
+              "RelativeDocumentMoniker": "avatar.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\avatar.html",
+              "RelativeToolTip": "avatar.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:39.453Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 77,
+              "Title": "alert.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\alert.html",
+              "RelativeDocumentMoniker": "alert.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\alert.html",
+              "RelativeToolTip": "alert.html",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABMAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:35.179Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 78,
+              "Title": "add-user.html",
+              "DocumentMoniker": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\add-user.html",
+              "RelativeDocumentMoniker": "add-user.html",
+              "ToolTip": "D:\\Theme\\Wowtheme7\\WowDash\\HTML\\wowdash-tailwind\\WowDash\\dist\\add-user.html",
+              "RelativeToolTip": "add-user.html",
+              "ViewState": "AgIAAJAAAAAAAAAAAAAAABYAAAAZAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001512|",
+              "WhenOpened": "2025-02-03T10:24:22.413Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

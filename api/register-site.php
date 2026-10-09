@@ -142,9 +142,9 @@ try {
 
     $ins = $pdo->prepare("
         INSERT INTO WpSite
-            (instance_id, secret_hash, site_url, wp_version, plugin_version, email, is_active, last_seen)
+            (instance_id, secret_hash, site_url, shop_name, shop_domain, domain, wp_version, plugin_version, email, is_active, last_seen)
         VALUES
-            (:instance_id, :secret_hash, :site_url, :wp_version, :plugin_version, '', 1, NOW())
+            (:instance_id, :secret_hash, :site_url, :shop_name, :shop_domain, :domain, :wp_version, :plugin_version, '', 1, NOW())
     ");
     $ins->execute([
         ':instance_id'    => $instanceId,
