@@ -103,22 +103,33 @@ try {
     $find->execute([':site_url' => $siteUrl]);
     $existing = $find->fetch(PDO::FETCH_ASSOC);
 
+    /* The secret authenticates every plugin->panel call afterwards
+       (instance-meta, content-ping, push-verify-token). Handed out on
+       every registration; the database keeps only its hash. Re-register
+       rotates it, so a lost secret is recovered by re-registering. */
+    $secret = bin2hex(random_bytes(24));
+
     if ($existing) {
         $upd = $pdo->prepare("
             UPDATE WpSite
-            SET wp_version = :wp_version,
+            SET secret_hash = :secret_hash,
+                wp_version = :wp_version,
                 plugin_version = :plugin_version,
                 is_active = 1,
                 last_seen = NOW()
             WHERE id = :id
         ");
         $upd->execute([
+            ':secret_hash'    => hash('sha256', $secret),
             ':wp_version'     => $wpVersion,
             ':plugin_version' => $pluginVersion,
             ':id'             => (int) $existing['id'],
         ]);
 
-        respond(true, ['instance_id' => (string) $existing['instance_id']]);
+        respond(true, [
+            'instance_id' => (string) $existing['instance_id'],
+            'secret'      => $secret,
+        ]);
     }
 
     /* ---------- new registration ---------- */
@@ -131,18 +142,19 @@ try {
 
     $ins = $pdo->prepare("
         INSERT INTO WpSite
-            (instance_id, site_url, wp_version, plugin_version, email, is_active, last_seen)
+            (instance_id, secret_hash, site_url, wp_version, plugin_version, email, is_active, last_seen)
         VALUES
-            (:instance_id, :site_url, :wp_version, :plugin_version, '', 1, NOW())
+            (:instance_id, :secret_hash, :site_url, :wp_version, :plugin_version, '', 1, NOW())
     ");
     $ins->execute([
         ':instance_id'    => $instanceId,
+        ':secret_hash'    => hash('sha256', $secret),
         ':site_url'       => $siteUrl,
         ':wp_version'     => $wpVersion,
         ':plugin_version' => $pluginVersion,
     ]);
 
-    respond(true, ['instance_id' => $instanceId]);
+    respond(true, ['instance_id' => $instanceId, 'secret' => $secret]);
 
 } catch (Throwable $e) {
     error_log('register-site: ' . $e->getMessage());
