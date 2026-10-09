@@ -21,6 +21,25 @@ declare(strict_types=1);
 require_once __DIR__ . '/../includes/config.php';
 
 header('Content-Type: application/json; charset=utf-8');
+header('X-Content-Type-Options: nosniff');
+header('X-Frame-Options: DENY');
+header('Referrer-Policy: no-referrer');
+
+/* POST + JSON only. A GET or a form-encoded body has no business
+   here, and refusing it early keeps every later check meaningful. */
+if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') {
+    respond(false, ['error' => 'POST required'], 405);
+}
+if (stripos((string) ($_SERVER['CONTENT_TYPE'] ?? ''), 'application/json') === false) {
+    respond(false, ['error' => 'JSON required'], 415);
+}
+
+/* A body beyond 4 KB is abuse: a valid registration is a few hundred
+   bytes. */
+$raw = file_get_contents('php://input');
+if (strlen((string) $raw) > 4096) {
+    respond(false, ['error' => 'body too large'], 413);
+}
 
 function respond(bool $success, array $payload, int $status = 200): void
 {
