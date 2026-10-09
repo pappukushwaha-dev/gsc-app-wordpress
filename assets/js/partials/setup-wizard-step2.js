@@ -172,6 +172,18 @@ async function checkProperty() {
   }
 
   if (!json.success) {
+    if (json.error === "account_needs_reconnect") {
+    /* No Google account on file: the Connect card (server-rendered at
+       the top of this step) is the only useful thing here - the
+       property UI below cannot work without the account. */
+    propertyNotFoundContent?.classList.add("hidden");
+    propertyMissingBox?.classList.add("hidden");
+    document.getElementById("connectGoogleCard")?.classList.remove("hidden");
+    document.getElementById("connectGoogleCard")?.scrollIntoView({ behavior: "smooth" });
+    setStatus({ type: "info", text: "Connect your Google account first, then create the property." });
+    return;
+  }
+
     setStatus({ type: "error", text: json.error || "Property check failed." });
     return;
   }

@@ -235,13 +235,22 @@ if (!empty($status) && $status == 'verified') {
     }
 </style>
 
+<?php if (!$isConnected): ?>
+<style>
+    /* No Google account on file: the property and verification
+       machinery cannot do anything without it, so only the Connect
+       card shows on this step. */
+    #propertyCard, #verificationCard, #methodCard { display: none !important; }
+</style>
+<?php endif; ?>
+
 <div id="step2-container" class="space-y-14">
 
     <?php if (!$isConnected): ?>
     <!-- Google account not connected yet: nothing else on this step
          works without it, so this card replaces the verify UI until
          the account comes back from the OAuth round trip. -->
-    <div class="mx-auto max-w-2xl text-center bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-xl shadow-sm p-8">
+    <div id="connectGoogleCard" class="mx-auto max-w-2xl text-center bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-xl shadow-sm p-8">
         <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-cstm-primary-10 rounded-full">
             <iconify-icon icon="logos:google-icon" class="text-3xl"></iconify-icon>
         </div>
