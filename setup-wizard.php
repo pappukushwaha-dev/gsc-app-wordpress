@@ -14,7 +14,8 @@ require_once __DIR__ . '/includes/config.php';
 /* ==========================================================
    1. INSTANCE RESOLUTION (STANDARDIZED)
 ========================================================== */
-$instanceId = $_SESSION['instance_id'] ?? $_GET['instanceId'] ?? null;
+$instanceId = $_SESSION['instance_id'] ?? $_SESSION['instanceid']
+    ?? $_GET['instance_id'] ?? $_GET['instanceId'] ?? null;
 
 
 if (!$instanceId) {
