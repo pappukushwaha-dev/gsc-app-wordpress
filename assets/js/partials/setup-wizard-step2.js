@@ -483,3 +483,34 @@ verifyBtn.addEventListener("click", async (e) => {
 
 });
 
+  /* ------------------------------------------------------------
+     CONNECT GOOGLE ACCOUNT
+     Shown on step 2 when no Google account is on file for this
+     instance. Fetches the OAuth URL from the panel and jumps to
+     Googles consent screen. The callback returns to the wizard.
+  ------------------------------------------------------------ */
+  const connectBtn = document.getElementById("connectGoogleBtn");
+  if (connectBtn) {
+    connectBtn.addEventListener("click", async () => {
+      const label = document.getElementById("connectGoogleBtnText");
+      connectBtn.disabled = true;
+      if (label) label.textContent = "Connecting...";
+
+      try {
+        const res = await fetch(connectBtn.dataset.authUrl, {
+          headers: { "Accept": "application/json" }
+        });
+        const data = await res.json();
+
+        if (data.success && data.authUrl) {
+          window.location.href = data.authUrl;
+          return;
+        }
+        throw new Error(data.error || "Could not start the Google connection");
+      } catch (err) {
+        alert("Could not connect: " + err.message);
+        connectBtn.disabled = false;
+        if (label) label.textContent = "Connect Google Account";
+      }
+    });
+  }

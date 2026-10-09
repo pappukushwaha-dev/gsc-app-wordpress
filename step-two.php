@@ -236,6 +236,28 @@ if (!empty($status) && $status == 'verified') {
 </style>
 
 <div id="step2-container" class="space-y-14">
+
+    <?php if (!$isConnected): ?>
+    <!-- Google account not connected yet: nothing else on this step
+         works without it, so this card replaces the verify UI until
+         the account comes back from the OAuth round trip. -->
+    <div class="mx-auto max-w-2xl text-center bg-white dark:bg-neutral-800 border border-neutral-200 dark:border-neutral-600 rounded-xl shadow-sm p-8">
+        <div class="flex items-center justify-center w-16 h-16 mx-auto mb-4 bg-cstm-primary-10 rounded-full">
+            <iconify-icon icon="logos:google-icon" class="text-3xl"></iconify-icon>
+        </div>
+        <h3 class="text-lg font-semibold text-slate-800 dark:text-white mb-2">Connect your Google account</h3>
+        <p class="text-sm text-gray-500 mb-6">
+            Step 2 needs the Google account that owns your Search Console property.
+            Connect it once - you will come right back to this step.
+        </p>
+        <button id="connectGoogleBtn" data-auth-url="<?= APP_BASE ?>/api/google/get_auth_url.php?instanceId=<?= urlencode($instanceId) ?>"
+            class="btn btn-primary inline-flex items-center gap-2 px-6 py-3">
+            <iconify-icon icon="logos:google-icon" class="text-lg"></iconify-icon>
+            <span id="connectGoogleBtnText">Connect Google Account</span>
+        </button>
+    </div>
+    <?php else: ?>
+
     <div class="mx-auto my-4">
         <!-- Grid container: stacks on mobile, goes 2-columns on tablets, 3 columns on large screens -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -836,3 +858,4 @@ if (!empty($status) && $status == 'verified') {
         }
     });
 </script>
+<?php endif; ?>
