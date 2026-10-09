@@ -28,6 +28,7 @@ if (session_status() === PHP_SESSION_NONE) {
 $instanceId =
     $_SESSION['instance_id']
     ?? $_GET['instanceId']
+    ?? $_GET['instance_id']
     ?? $_SESSION['instanceid']
     ?? null;
 
