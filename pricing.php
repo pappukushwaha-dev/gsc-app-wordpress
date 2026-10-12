@@ -481,7 +481,7 @@ if ($hasHadPaidGrow) {
                                                 <ul class="flex gap-2 bg-gray-100 rounded-lg p-1 size-fit relative dark:bg-neutral-600">
                                                     <li><button class="px-6 py-2.5 rounded-lg font-semibold toggle-btn" data-target="monthly">Monthly</button></li>
                                                     <li><button class="px-6 py-2.5 rounded-lg font-semibold toggle-btn active" data-target="yearly">Yearly</button></li>
-                                                    <p class="text-sm text-neutral-500 absolute discount-sticker bottom-4 -right-4 bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow">🎁 3 Months FREE</p>
+                                                    <p class="text-sm text-neutral-500 absolute discount-sticker bottom-4 -right-4 bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow">🎁 5 Months FREE</p>
                                                 </ul>
                                             </div>
                                         </th>
@@ -526,7 +526,7 @@ if ($hasHadPaidGrow) {
                                                     <div class="relative max-w-max mx-auto">
                                                         <p class="text-neutral-800 text-xl font-semibold">Pro</p>
                                                         <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$20</span> $<?= floor(($growYearlyPlan['price'] ?? 0) / 12) ?> <span class="text-sm text-neutral-700">/month</span></h3>
-                                                        <p class="text-sm text-neutral-500 absolute discount-sticker bottom-3 -right-5 bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow w-full max-w-max">🎁 3 Months FREE</p>
+                                                        <p class="text-sm text-neutral-500 absolute discount-sticker bottom-3 -right-5 bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow w-full max-w-max">🎁 5 Months FREE</p>
                                                         <p class="text-sm text-neutral-500 absolute -bottom-3 left-1/2 -translate-x-1/2 w-full">Paid annually</p>
                                                     </div>
                                                     <form method="post" action="api/billing.php" class="">
@@ -668,7 +668,7 @@ if ($hasHadPaidGrow) {
                                 </li>
 
                                 <p class="absolute -top-3 -right-4 green_color_bg text-white text-xs font-semibold px-3 py-1 rounded-full shadow discount-sticker">
-                                    🎁 3 Months FREE
+                                    🎁 5 Months FREE
                                 </p>
                             </ul>
 
@@ -722,7 +722,7 @@ if ($hasHadPaidGrow) {
                                             <p class="text-neutral-800 text-xl font-semibold">Pro</p>
                                             <div class="relative max-w-max mx-auto">
                                                 <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$20</span> $<?= floor(($growYearlyPlan['price'] ?? 0) / 12) ?> <span class="text-sm text-neutral-700">/month</span></h3>
-                                                <p class="min-w-max text-sm text-neutral-500 absolute discount-sticker green_color_bg text-white text-xs font-semibold px-3 py-1 rounded-full shadow -right-5 -top-1">🎁 3 Months FREE</p>
+                                                <p class="min-w-max text-sm text-neutral-500 absolute discount-sticker green_color_bg text-white text-xs font-semibold px-3 py-1 rounded-full shadow -right-5 -top-1">🎁 5 Months FREE</p>
                                             </div>
                                             <p class="text-sm text-neutral-500 absolute -bottom-3 left-1/2 -translate-x-1/2 w-full">Paid annually</p>
                                         </div>

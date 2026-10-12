@@ -173,7 +173,7 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
                                 <li><button type="button" class="px-6 py-2.5 rounded-lg font-semibold toggle-btn" data-target="monthly">Monthly</button></li>
                                 <li><button type="button" class="px-6 py-2.5 rounded-lg font-semibold toggle-btn active" data-target="yearly">Yearly</button></li>
                             </ul>
-                            <p class="text-sm text-neutral-500 discount-sticker mt-3 size-fit bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow">🎁 3 Months FREE on yearly</p>
+                            <p class="text-sm text-neutral-500 discount-sticker mt-3 size-fit bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow">🎁 5 Months FREE on yearly</p>
                         </div>
                     </th>
 
@@ -212,7 +212,7 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
                                 <div class="relative max-w-max mx-auto">
                                     <p class="text-neutral-800 text-xl font-semibold">Pro</p>
                                     <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$<?= h($proMonthlyPlan['price'] ?? 0) ?></span> $<?= number_format(($proYearlyPlan['price'] ?? 0) / 12, 2) ?> <span class="text-sm text-neutral-700">/month</span></h3>
-                                    <p class="text-sm text-neutral-500 absolute discount-sticker bottom-3 -right-5 bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow w-full max-w-max">🎁 3 Months FREE</p>
+                                    <p class="text-sm text-neutral-500 absolute discount-sticker bottom-3 -right-5 bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow w-full max-w-max">🎁 5 Months FREE</p>
                                     <p class="text-sm text-neutral-500 absolute -bottom-3 left-1/2 -translate-x-1/2 w-full">Paid annually</p>
                                 </div>
 
@@ -323,7 +323,7 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
             <li><button type="button" class="px-6 py-2.5 rounded-lg font-semibold toggle-btn" data-target="monthly">Monthly</button></li>
             <li><button type="button" class="px-6 py-2.5 rounded-lg font-semibold toggle-btn active" data-target="yearly">Yearly</button></li>
         </ul>
-        <p class="text-xs text-center text-neutral-500 discount-sticker w-fit mx-auto bg_orange_gradiant text-white font-semibold px-3 py-1 rounded-full shadow">🎁 3 Months FREE on yearly</p>
+        <p class="text-xs text-center text-neutral-500 discount-sticker w-fit mx-auto bg_orange_gradiant text-white font-semibold px-3 py-1 rounded-full shadow">🎁 5 Months FREE on yearly</p>
 
         <!-- ===== PRO PLAN CARD ===== -->
         <div class="border border-gray-200 rounded-xl p-5 bg-cstm-primary-10 shadow-sm relative">
@@ -351,7 +351,7 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
             <div class="yearly plan-variant text-center">
                 <p class="text-neutral-800 text-xl font-semibold">Pro</p>
                 <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$<?= h($proMonthlyPlan['price'] ?? 0) ?></span> $<?= number_format(($proYearlyPlan['price'] ?? 0) / 12, 2) ?> <span class="text-sm text-neutral-700">/month</span></h3>
-                <p class="text-sm text-neutral-500">Paid annually &middot; 🎁 3 Months FREE</p>
+                <p class="text-sm text-neutral-500">Paid annually &middot; 🎁 5 Months FREE</p>
 
                 <?php if (!empty($proYearlyPlan['price_id'])): ?>
                 <form method="post" action="api/billing.php" class="">
