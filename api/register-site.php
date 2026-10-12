@@ -59,6 +59,10 @@ if (!is_array($data)) {
 $siteUrl       = trim((string) ($data['site_url'] ?? ''));
 $wpVersion     = substr(trim((string) ($data['wp_version'] ?? '')), 0, 20);
 $pluginVersion = substr(trim((string) ($data['plugin_version'] ?? '')), 0, 20);
+$email         = substr(trim((string) ($data['email'] ?? '')), 0, 320);
+if ($email !== '' && !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+    $email = '';
+}
 
 $host   = parse_url($siteUrl, PHP_URL_HOST);
 $scheme = strtolower((string) parse_url($siteUrl, PHP_URL_SCHEME));
@@ -121,6 +125,7 @@ try {
                 sync_secret = :sync_secret,
                 wp_version = :wp_version,
                 plugin_version = :plugin_version,
+                email = COALESCE(NULLIF(:email, ''), email),
                 is_active = 1,
                 last_seen = NOW()
             WHERE id = :id
@@ -130,6 +135,7 @@ try {
             ':sync_secret'    => $syncSecret,
             ':wp_version'     => $wpVersion,
             ':plugin_version' => $pluginVersion,
+            ':email'          => $email,
             ':id'             => (int) $existing['id'],
         ]);
 
@@ -152,7 +158,7 @@ try {
         INSERT INTO WpSite
             (instance_id, secret_hash, sync_secret, site_url, shop_name, shop_domain, domain, wp_version, plugin_version, email, is_active, last_seen)
         VALUES
-            (:instance_id, :secret_hash, :sync_secret, :site_url, :shop_name, :shop_domain, :domain, :wp_version, :plugin_version, '', 1, NOW())
+            (:instance_id, :secret_hash, :sync_secret, :site_url, :shop_name, :shop_domain, :domain, :wp_version, :plugin_version, :email, 1, NOW())
     ");
     $ins->execute([
         ':instance_id'    => $instanceId,
@@ -164,6 +170,7 @@ try {
         ':domain'         => $host,
         ':wp_version'     => $wpVersion,
         ':plugin_version' => $pluginVersion,
+        ':email'          => $email,
     ]);
 
     respond(true, [
