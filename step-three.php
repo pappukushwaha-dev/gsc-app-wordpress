@@ -9,9 +9,14 @@ if (session_status() === PHP_SESSION_NONE) {
 
 $_SESSION['show_review_modal'] = true;
 
-$instanceId = $_SESSION['instance_id']
-    ?? $_SESSION['instanceid']
-    ?? null;
+// setup-wizard.php already resolved the id (URL first, shared session
+// second) and includes this file, so reuse it. The fallbacks keep a
+// direct hit on this file working.
+$instanceId = $instanceId
+    ?? ($_GET['instance_id'] ?? null)
+    ?? ($_GET['instanceId'] ?? null)
+    ?? ($_SESSION['instanceid'] ?? null)
+    ?? ($_SESSION['instance_id'] ?? null);
 
 if (!$instanceId) {
     die("Missing instance ID");

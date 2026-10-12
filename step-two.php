@@ -84,10 +84,15 @@ require_once __DIR__ . '/includes/google/get_account.php';
 
 
 
-// SESSION
-$instanceId = $_SESSION['instance_id']
-    ?? $_SESSION['instanceid']
-    ?? null;
+// INSTANCE — setup-wizard.php already resolved the id (URL first, shared
+// session second) and includes this file, so reuse it. The fallbacks keep
+// a direct hit on this file working. Reading the session first here would
+// point the token push at whatever instance another panel app left behind.
+$instanceId = $instanceId
+    ?? ($_GET['instance_id'] ?? null)
+    ?? ($_GET['instanceId'] ?? null)
+    ?? ($_SESSION['instanceid'] ?? null)
+    ?? ($_SESSION['instance_id'] ?? null);
 if (!$instanceId) {
     die("Instance ID missing");
 }
@@ -108,7 +113,7 @@ $isConnected = (
 );
 
 // -----------------------------------------------------
-// 1. GET SITE URL FROM WixSite TABLE
+// 1. GET SITE URL FROM WpSite TABLE
 // -----------------------------------------------------
 $wixSite = getWpSiteByInstance($instanceId);
 $siteUrl = $wixSite['site_url'] ?? null;
@@ -124,9 +129,6 @@ if ($siteUrl) {
 if (!$normalizedSiteUrl) {
     die("Invalid Wix site URL");
 }
-
-// $isInstantSite = !(bool)preg_match('/\.(company\.site|ecwid\.com|ecwid\.site)$/i', $normalizedSiteUrl);
-$isInstantSite = true; //default
 
 // -----------------------------------------------------
 // 2. LOAD OR CREATE VERIFICATION RECORD
@@ -451,7 +453,7 @@ if (!empty($status) && $status == 'verified') {
                                 <div class="space-y-1">
                                     <h4 class="text-base font-bold text-primary-600">Fully Automated</h4>
                                     <p class="text-sm text-gray-800 leading-relaxed">
-                                        We'll create the property, generate verification token, add meta tag to your Ecwid site and verify automatically.
+                                        We'll create the property, generate verification token, add the meta tag to your WordPress site and verify automatically.
                                     </p>
                                 </div>
                             </div>
@@ -501,7 +503,7 @@ if (!empty($status) && $status == 'verified') {
                                 Verification Token Generated
                             </h2>
                             <p class="text-sm font-medium text-gray-600 max-w-3xl leading-relaxed mb-6">
-                                We've generated a Google Verification Token for your website. We will now automatically add the verification tag to your Shopify site and verify your domain ownership.
+                                We've generated a Google Verification Token for your website. We will now automatically add the verification tag to your WordPress site and verify your domain ownership.
                             </p>
                             <div class="flex justify-between items-center mt-3 mb-2">
                                 <span class="text-xs text-neutral-500">
@@ -653,7 +655,7 @@ if (!empty($status) && $status == 'verified') {
                                 Generate Verification Token
                             </h2>
                             <p class="text-sm text-gray-600">
-                                We will generate a Google Verification Token and add it to your Ecwid site automatically.
+                                We will generate a Google Verification Token and add it to your WordPress site automatically.
                             </p>
                         </div>
                         <button id="generateTokenBtn"
@@ -684,7 +686,7 @@ if (!empty($status) && $status == 'verified') {
                                 </div>
                                 <div>
                                     <h3 class="text-sm font-semibold text-gray-800 mb-0.5">1. Meta Tag Added</h3>
-                                    <p class="text-sm text-gray-500">We will add the verification meta tag to your Shopify website automatically.</p>
+                                    <p class="text-sm text-gray-500">We will add the verification meta tag to your WordPress website automatically.</p>
                                 </div>
                             </div>
 
@@ -764,11 +766,7 @@ if (!empty($status) && $status == 'verified') {
                 Verification Meta Tag
             </label>
             <p class="text-xs text-neutral-500 mb-2">
-                <?php if ($isInstantSite): ?>
-                    Paste this tag into Ecwid &rarr; <b>Website &rarr; SEO &rarr; Header meta tags and site verification</b>.
-                <?php else: ?>
-                    Paste this tag inside the <?= $isInstantSite ?> <code>&lt;head&gt;</code> of your website. Exact steps vary by platform &mdash; see the guide below.
-                <?php endif; ?>
+                On WordPress the <b>GSC plugin adds this tag automatically</b> once it syncs. To add it by hand instead, paste it inside your site&rsquo;s <code>&lt;head&gt;</code> &mdash; a Header/Footer plugin like WPCode works.
             </p>
             <div class="relative">
                 <button onclick="copyMetaTag('popupMetaTagText')"

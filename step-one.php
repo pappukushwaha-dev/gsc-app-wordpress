@@ -11,14 +11,17 @@ if (session_status() === PHP_SESSION_NONE) {
 
 
 /* ==========================================================
-   INSTANCE (SHOPIFY)
+   INSTANCE — setup-wizard.php already resolved the id (URL first,
+   shared session second) and includes this file, so reuse it. The
+   fallbacks keep a direct hit on this file working.
 ========================================================== */
-$instanceId =
-    $_SESSION['instance_id']
-    ?? $_GET['instanceId']
-    ?? null;
+$instanceId = $instanceId
+    ?? ($_GET['instance_id'] ?? null)
+    ?? ($_GET['instanceId'] ?? null)
+    ?? ($_SESSION['instanceid'] ?? null)
+    ?? ($_SESSION['instance_id'] ?? null);
 /* ==========================================================
-   GOOGLE ACCOUNT (SHOPIFY)
+   GOOGLE ACCOUNT
 ========================================================== */
 $googleAccount = null;
 $isConnected   = false;
@@ -37,7 +40,7 @@ if ($instanceId) {
 
 
 /* ==========================================================
-   LOAD SITE URL (SHOPIFY — SINGLE SOURCE OF TRUTH)
+   LOAD SITE URL FROM WpSite — SINGLE SOURCE OF TRUTH
 ========================================================== */
 $siteUrl = null;
 
