@@ -30,6 +30,9 @@ if (!function_exists('b64url_decode')) {
 }
 
 // 3. INSTANCE & SESSION LOGIC
+// An explicit URL param wins: every MakkPress panel on this domain shares
+// one PHP session cookie, so a session left over from another app would
+// otherwise open this page on the wrong instance.
 $instanceId = $_GET['instanceid'] ?? $_GET['instanceId'] ?? null;
 if (!$instanceId && isset($_GET['instance'])) {
     $parts = explode('.', $_GET['instance']);
@@ -38,12 +41,13 @@ if (!$instanceId && isset($_GET['instance'])) {
         $instanceId = $payload['instanceId'] ?? null;
     }
 }
+if (!$instanceId) {
+    $instanceId = $_SESSION['instanceid'] ?? $_SESSION['instance_id'] ?? null;
+}
 if ($instanceId) {
     $_SESSION['instanceid'] = $instanceId;
+    $_SESSION['instance_id'] = $instanceId;
 }
-$instanceId = $_SESSION['instance_id']
-    ?? $_SESSION['instanceid']
-    ?? null;
 
 if (!$instanceId) {
     header("Location: sign-in.php");
@@ -87,7 +91,7 @@ $hasHadPaidGrow = false;
 
 if (!empty($currentSub)) {
     $plan = strtolower($currentSub['plan_name'] ?? '');
-    if ($plan === 'organic booster') {
+    if ($plan === 'pro') {
         $hasHadPaidGrow = true;
     }
 }
@@ -282,10 +286,10 @@ if ($currentSub) {
 
     $subType = strtolower($currentSub['type'] ?? '');
 
-    if ($currentPlanName === 'organic booster') {
+    if ($currentPlanName === 'pro') {
 
-        // ✅ Grow → Organic Booster
-        $currentLabel = 'Organic Booster (' . h($currentBillingPeriod) . ')';
+        // ✅ Pro plan
+        $currentLabel = 'Pro (' . h($currentBillingPeriod) . ')';
     } elseif ($subType === 'free_trial') {
 
         // ✅ Free Trial
@@ -306,7 +310,7 @@ if ($currentSub) {
 $siteUrlDisplay = $siteUrl ? preg_replace('#^https?://#', '', $siteUrl) : null;
 
 
-$isGrow = ($currentPlanName === 'organic booster');
+$isGrow = ($currentPlanName === 'pro');
 
 //$disableMonthly = $isGrow && $currentBillingPeriod === 'monthly';
 //$isGrowYearlyActive  = $isGrow && $currentBillingPeriod === 'yearly';
@@ -381,7 +385,7 @@ foreach ($plansRaw as $p) {
             $freeFeatures[(int)$f['id']] = $f;
         }
     }
-    if ($code === 'richsnippet') {
+    if ($code === 'pro') {
         if (in_array($bp, ['month', 'monthly'])) $growMonthlyPlan = $p;
         if (in_array($bp, ['year', 'yearly']))   $growYearlyPlan = $p;
         foreach ($p['features'] ?? [] as $f) {
@@ -398,10 +402,10 @@ foreach ($plansRaw as $p) {
 include './partials/head.php';
 ?>
 <?php
-$ctaText = '7 days free trial';
+$ctaText = 'Start Pro Plan';
 
 if ($hasHadPaidGrow) {
-    $ctaText = 'Start Organic Booster Plan';
+    $ctaText = 'Start Pro Plan';
 }
 ?>
 <body>
@@ -487,7 +491,7 @@ if ($hasHadPaidGrow) {
                                                 <div class="monthly plan-variant hidden">
                                                     <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cstm-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow z-10 whitespace-nowrap">Most Popular</span>
                                                     <div class="relative">
-                                                         <p class="text-neutral-800 text-xl font-semibold">Organic Booster</p>
+                                                         <p class="text-neutral-800 text-xl font-semibold">Pro</p>
                                                     <h3 class="my-3 text-4xl font-bold text-[#652ec3]"> $<?= h($growMonthlyPlan['price'] ?? 0) ?> <span class="text-sm text-neutral-700">/month</span></h3>
                                                         <?php if ($disableMonthly && !$isGrowMonthlyActive): ?>
                                                             <p class="text-sm text-neutral-500 absolute -bottom-3 left-1/2 -translate-x-1/2 w-full">
@@ -520,7 +524,7 @@ if ($hasHadPaidGrow) {
                                                 <div class="yearly plan-variant">
                                                     <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cstm-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow z-10 whitespace-nowrap">Most Popular</span>
                                                     <div class="relative max-w-max mx-auto">
-                                                        <p class="text-neutral-800 text-xl font-semibold">Organic Booster</p>
+                                                        <p class="text-neutral-800 text-xl font-semibold">Pro</p>
                                                         <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$20</span> $<?= floor(($growYearlyPlan['price'] ?? 0) / 12) ?> <span class="text-sm text-neutral-700">/month</span></h3>
                                                         <p class="text-sm text-neutral-500 absolute discount-sticker bottom-3 -right-5 bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow w-full max-w-max">🎁 3 Months FREE</p>
                                                         <p class="text-sm text-neutral-500 absolute -bottom-3 left-1/2 -translate-x-1/2 w-full">Paid annually</p>
@@ -680,7 +684,7 @@ if ($hasHadPaidGrow) {
                                     <div class="monthly plan-variant hidden text-center">
                                         <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cstm-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow z-10 whitespace-nowrap">Most Popular</span>
                                         <div class="relative">
-                                            <p class="text-neutral-800 text-xl font-semibold">Organic Booster</p>
+                                            <p class="text-neutral-800 text-xl font-semibold">Pro</p>
                                         <h3 class="my-3 text-4xl font-bold text-[#652ec3]">$<?= h($growMonthlyPlan['price'] ?? 0) ?> <span class="text-sm text-neutral-700">/month</span></h3>
                                         <?php if ($disableMonthly && !$isGrowMonthlyActive): ?>
                                                 <p class="text-sm text-neutral-500 absolute -bottom-3 left-1/2 -translate-x-1/2 w-full">
@@ -715,7 +719,7 @@ if ($hasHadPaidGrow) {
                                     <div class="yearly plan-variant text-center">
                                         <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cstm-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow z-10 whitespace-nowrap">Most Popular</span>
                                         <div class="relative">
-                                            <p class="text-neutral-800 text-xl font-semibold">Organic Booster</p>
+                                            <p class="text-neutral-800 text-xl font-semibold">Pro</p>
                                             <div class="relative max-w-max mx-auto">
                                                 <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$20</span> $<?= floor(($growYearlyPlan['price'] ?? 0) / 12) ?> <span class="text-sm text-neutral-700">/month</span></h3>
                                                 <p class="min-w-max text-sm text-neutral-500 absolute discount-sticker green_color_bg text-white text-xs font-semibold px-3 py-1 rounded-full shadow -right-5 -top-1">🎁 3 Months FREE</p>
@@ -758,7 +762,7 @@ if ($hasHadPaidGrow) {
                                             </iconify-icon>
 
                                             <div>
-                                                <p class="font-medium"><?= h($feature['name']) ?></p>
+                                                <p class="font-medium"><?= h($feature['featureName'] ?? ($feature['name'] ?? '')) ?></p>
                                                 <?php if ($text): ?>
                                                     <p class="text-sm text-gray-500"><?= h($text) ?></p>
                                                 <?php endif; ?>

@@ -1085,6 +1085,7 @@ $alreadySubmitted = !empty($sitemapRow);
                 </div>
                 </div>
 
+                <?php include __DIR__ . '/pricing-block.php'; ?>
 
                 <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-4">
                     <a href="dashboard.php" id="finishBtn"
