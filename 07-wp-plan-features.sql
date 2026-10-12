@@ -16,10 +16,79 @@
 --
 -- Migrates away the earlier 'Pro'/'pro' seed if present.
 --
+-- REPAIRS the schema when the four raw wix-shaped dumps were imported
+-- over this table set: they lack price_id / planProductId / lookup_key
+-- (pricing_plans) and sort_order (plan_features) - columns the panel's
+-- queries need - and they add CASCADE foreign keys this app does not
+-- use. Those are added back / dropped here, guarded, before any data
+-- work so the same file also fixes that state.
+--
 -- Safe to run more than once: plan rows are created only when
 -- missing, features are wiped and re-copied to the exact set.
 -- Run 06-wp-plans.sql first on a fresh install.
 -- ============================================================ */
+
+-- ---------- 0. schema repair (guarded, safe when already present) ----------
+
+SET @s := IF((SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'pricing_plans'
+    AND COLUMN_NAME = 'price_id') = 0,
+  'ALTER TABLE pricing_plans ADD COLUMN price_id VARCHAR(255) DEFAULT NULL AFTER showInMarket',
+  'SELECT ''pricing_plans.price_id already present'' AS note');
+PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
+
+SET @s := IF((SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'pricing_plans'
+    AND COLUMN_NAME = 'planProductId') = 0,
+  'ALTER TABLE pricing_plans ADD COLUMN planProductId VARCHAR(255) DEFAULT NULL AFTER billingPeriod',
+  'SELECT ''pricing_plans.planProductId already present'' AS note');
+PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
+
+SET @s := IF((SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'pricing_plans'
+    AND COLUMN_NAME = 'lookup_key') = 0,
+  'ALTER TABLE pricing_plans ADD COLUMN lookup_key VARCHAR(255) DEFAULT NULL',
+  'SELECT ''pricing_plans.lookup_key already present'' AS note');
+PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
+
+SET @s := IF((SELECT COUNT(*) FROM information_schema.COLUMNS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plan_features'
+    AND COLUMN_NAME = 'sort_order') = 0,
+  'ALTER TABLE plan_features ADD COLUMN sort_order INT NOT NULL DEFAULT 0 AFTER tooltip_text',
+  'SELECT ''plan_features.sort_order already present'' AS note');
+PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
+
+-- dumps never carry sort_order values - derive a stable order from id
+UPDATE plan_features SET sort_order = id WHERE sort_order = 0 OR sort_order IS NULL;
+
+-- the dump FKs cascade deletes silently; this app manages rows itself
+SET @s := IF((SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plan_feature_map'
+    AND CONSTRAINT_NAME = 'plan_feature_map_ibfk_1') > 0,
+  'ALTER TABLE plan_feature_map DROP FOREIGN KEY plan_feature_map_ibfk_1',
+  'SELECT ''plan_feature_map fk1 not present'' AS note');
+PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
+
+SET @s := IF((SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plan_feature_map'
+    AND CONSTRAINT_NAME = 'plan_feature_map_ibfk_2') > 0,
+  'ALTER TABLE plan_feature_map DROP FOREIGN KEY plan_feature_map_ibfk_2',
+  'SELECT ''plan_feature_map fk2 not present'' AS note');
+PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
+
+SET @s := IF((SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plan_feature_text'
+    AND CONSTRAINT_NAME = 'plan_feature_text_ibfk_1') > 0,
+  'ALTER TABLE plan_feature_text DROP FOREIGN KEY plan_feature_text_ibfk_1',
+  'SELECT ''plan_feature_text fk1 not present'' AS note');
+PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
+
+SET @s := IF((SELECT COUNT(*) FROM information_schema.TABLE_CONSTRAINTS
+  WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'plan_feature_text'
+    AND CONSTRAINT_NAME = 'plan_feature_text_ibfk_2') > 0,
+  'ALTER TABLE plan_feature_text DROP FOREIGN KEY plan_feature_text_ibfk_2',
+  'SELECT ''plan_feature_text fk2 not present'' AS note');
+PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
 
 -- ---------- 1. plans: converge on Free + Grow monthly/yearly ----------
 
@@ -149,8 +218,13 @@ INSERT INTO plan_feature_text (plan_id, feature_id, display_text) VALUES
 
 -- ---------- 6. verify ----------
 
-SELECT id, name, code, price, billingPeriod FROM pricing_plans ORDER BY id;
+SELECT id, name, code, price, billingPeriod, price_id FROM pricing_plans ORDER BY id;
 
 SELECT 'features' AS what, COUNT(*) AS rows_now FROM plan_features
 UNION ALL SELECT 'feature_map',  COUNT(*) FROM plan_feature_map
 UNION ALL SELECT 'feature_text', COUNT(*) FROM plan_feature_text;
+
+SELECT COLUMN_NAME FROM information_schema.COLUMNS
+WHERE TABLE_SCHEMA = DATABASE() AND TABLE_NAME = 'pricing_plans'
+  AND COLUMN_NAME IN ('price_id', 'planProductId', 'lookup_key')
+ORDER BY COLUMN_NAME;
