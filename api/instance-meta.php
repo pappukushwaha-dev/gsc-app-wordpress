@@ -20,6 +20,10 @@ header('X-Content-Type-Options: nosniff');
 $site = gscwp_resolve_instance($pdo);
 
 if (!$site) {
+    $dbg = gscwp_instance_credentials();
+    error_log('instance-meta AUTH FAIL: iid=' . substr($dbg['instance_id'], 0, 13)
+        . ' secret_len=' . strlen($dbg['secret'])
+        . ' method=' . ($_SERVER['REQUEST_METHOD'] ?? '?'));
     gscwp_respond(false, ['error' => 'unauthorised'], 401);
 }
 
