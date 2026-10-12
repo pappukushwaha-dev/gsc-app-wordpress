@@ -11,7 +11,7 @@ declare(strict_types=1);
  * pricing could not load.
  *
  * Plan codes come from this app's own seed (06-wp-plans.sql):
- * 'free' and 'pro' (pro has monthly + yearly rows).
+ * 'free' and 'grow' (grow has monthly + yearly rows).
  */
 
 if (empty($instanceId)) {
@@ -70,8 +70,8 @@ if (in_array($rawBP, ['year', 'yearly'], true))   $currentBillingPeriod = 'yearl
 $subType  = strtolower($currentSub['type'] ?? '');
 $isTrial  = ($subType === 'free_trial');
 
-if ($currentPlanName === 'pro') {
-    $currentLabel = 'Pro (' . h($currentBillingPeriod) . ')';
+if ($currentPlanName === 'grow') {
+    $currentLabel = 'Organic Booster (' . h($currentBillingPeriod) . ')';
 } elseif ($isTrial) {
     $currentLabel = 'Free Trial';
 } elseif ($currentPlanName === 'free') {
@@ -80,9 +80,9 @@ if ($currentPlanName === 'pro') {
     $currentLabel = "No active plan";
 }
 
-$isPro = ($currentPlanName === 'pro');
+$isGrow = ($currentPlanName === 'grow');
 
-$isProActive = false;
+$isGrowActive = false;
 if (!empty($currentSub)) {
     $status    = strtolower($currentSub['status'] ?? '');
     $expiresOn = $currentSub['expires_on'] ?? null;
@@ -96,38 +96,38 @@ if (!empty($currentSub)) {
         }
     }
 
-    $isProActive = $isPro
+    $isGrowActive = $isGrow
         && !$isTrial
         && in_array($status, ['active', 'non_renewing'], true)
         && $isValidPeriod;
 }
 
-$isProMonthlyActive = false;
-$isProYearlyActive  = false;
+$isGrowMonthlyActive = false;
+$isGrowYearlyActive  = false;
 $disableMonthly     = false;
 $disableYearly      = false;
 
-if ($isProActive) {
+if ($isGrowActive) {
     if ($currentBillingPeriod === 'monthly') {
-        $isProMonthlyActive = true;
+        $isGrowMonthlyActive = true;
         $disableMonthly     = true;
     }
     if ($currentBillingPeriod === 'yearly') {
-        $isProYearlyActive = true;
+        $isGrowYearlyActive = true;
         $disableYearly     = true;
     }
 }
 
-$disableFree = $isPro || $currentPlanName === 'free';
+$disableFree = $isGrow || $currentPlanName === 'free';
 
-$ctaText = 'Start Pro Plan';
+$ctaText = 'Start Organic Booster Plan';
 
 /* ---------- map plans + features ---------- */
 
 $freeFeatures  = [];
-$proFeatures   = [];
-$proMonthlyPlan = null;
-$proYearlyPlan  = null;
+$growFeatures   = [];
+$growMonthlyPlan = null;
+$growYearlyPlan  = null;
 $freePlan       = null;
 
 foreach ($plansRaw as $p) {
@@ -140,16 +140,16 @@ foreach ($plansRaw as $p) {
             $freeFeatures[(int) $f['id']] = $f;
         }
     }
-    if ($code === 'pro') {
-        if (in_array($bp, ['month', 'monthly'], true)) $proMonthlyPlan = $p;
-        if (in_array($bp, ['year', 'yearly'], true))   $proYearlyPlan  = $p;
+    if ($code === 'grow') {
+        if (in_array($bp, ['month', 'monthly'], true)) $growMonthlyPlan = $p;
+        if (in_array($bp, ['year', 'yearly'], true))   $growYearlyPlan  = $p;
         foreach ($p['features'] ?? [] as $f) {
-            $proFeatures[(int) $f['id']] = $f;
+            $growFeatures[(int) $f['id']] = $f;
         }
     }
 }
 
-if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
+if (!$freePlan && !$growMonthlyPlan && !$growYearlyPlan) {
     return; // plans not seeded yet - nothing useful to render
 }
 ?>
@@ -182,19 +182,19 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
                             <div class="monthly plan-variant hidden">
                                 <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cstm-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow z-10 whitespace-nowrap">Most Popular</span>
                                 <div class="relative">
-                                    <p class="text-neutral-800 text-xl font-semibold">Pro</p>
-                                    <h3 class="my-3 text-4xl font-bold text-[#652ec3]"> $<?= h($proMonthlyPlan['price'] ?? 0) ?> <span class="text-sm text-neutral-700">/month</span></h3>
-                                    <?php if ($disableMonthly && !$isProMonthlyActive): ?>
+                                    <p class="text-neutral-800 text-xl font-semibold">Organic Booster</p>
+                                    <h3 class="my-3 text-4xl font-bold text-[#652ec3]"> $<?= h($growMonthlyPlan['price'] ?? 0) ?> <span class="text-sm text-neutral-700">/month</span></h3>
+                                    <?php if ($disableMonthly && !$isGrowMonthlyActive): ?>
                                         <p class="text-sm text-neutral-500 absolute -bottom-3 left-1/2 -translate-x-1/2 w-full">
                                             You are already on a higher plan
                                         </p>
                                     <?php endif; ?>
                                 </div>
 
-                                <?php if (!empty($proMonthlyPlan['price_id'])): ?>
+                                <?php if (!empty($growMonthlyPlan['price_id'])): ?>
                                 <form method="post" action="api/billing.php">
                                     <input type="hidden" name="instance_id" value="<?= h($instanceId) ?>">
-                                    <input type="hidden" name="price_id" value="<?= h($proMonthlyPlan['price_id']) ?>">
+                                    <input type="hidden" name="price_id" value="<?= h($growMonthlyPlan['price_id']) ?>">
                                     <input type="hidden" name="billing_period" value="monthly">
 
                                     <button type="submit"
@@ -210,16 +210,16 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
                             <div class="yearly plan-variant">
                                 <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-cstm-primary text-white text-xs font-semibold px-3 py-1 rounded-full shadow z-10 whitespace-nowrap">Most Popular</span>
                                 <div class="relative max-w-max mx-auto">
-                                    <p class="text-neutral-800 text-xl font-semibold">Pro</p>
-                                    <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$<?= h($proMonthlyPlan['price'] ?? 0) ?></span> $<?= number_format(($proYearlyPlan['price'] ?? 0) / 12, 2) ?> <span class="text-sm text-neutral-700">/month</span></h3>
+                                    <p class="text-neutral-800 text-xl font-semibold">Organic Booster</p>
+                                    <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$<?= h($growMonthlyPlan['price'] ?? 0) ?></span> $<?= number_format(($growYearlyPlan['price'] ?? 0) / 12, 2) ?> <span class="text-sm text-neutral-700">/month</span></h3>
                                     <p class="text-sm text-neutral-500 absolute discount-sticker bottom-3 -right-5 bg_orange_gradiant text-white text-xs font-semibold px-3 py-1 rounded-full shadow w-full max-w-max">🎁 5 Months FREE</p>
                                     <p class="text-sm text-neutral-500 absolute -bottom-3 left-1/2 -translate-x-1/2 w-full">Paid annually</p>
                                 </div>
 
-                                <?php if (!empty($proYearlyPlan['price_id'])): ?>
+                                <?php if (!empty($growYearlyPlan['price_id'])): ?>
                                 <form method="post" action="api/billing.php" class="">
                                     <input type="hidden" name="instance_id" value="<?= h($instanceId) ?>">
-                                    <input type="hidden" name="price_id" value="<?= h($proYearlyPlan['price_id']) ?>">
+                                    <input type="hidden" name="price_id" value="<?= h($growYearlyPlan['price_id']) ?>">
                                     <input type="hidden" name="billing_period" value="yearly">
 
                                     <button type="submit"
@@ -253,7 +253,7 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
                                     <?php
                                         if ($currentPlanName === 'free') {
                                             echo 'Selected Plan';
-                                        } elseif ($isProActive) {
+                                        } elseif ($isGrowActive) {
                                             echo 'Downgrade Not Allowed';
                                         } else {
                                             echo 'Activate Free Plan';
@@ -291,7 +291,7 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
                         <td class="px-10 py-4 border border-gray-200 pricing_font font-medium">
                             <div class="flex items-center gap-4">
                                 <iconify-icon icon="heroicons:check-circle" class="text-2xl text-success-600"></iconify-icon>
-                                <?= h($fVal($proFeatures[$fid] ?? null)) ?>
+                                <?= h($fVal($growFeatures[$fid] ?? null)) ?>
                             </div>
                         </td>
                         <?php
@@ -330,13 +330,13 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
             <span class="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#652ec3] text-white text-xs font-semibold px-3 py-1 rounded-full shadow">Most Popular</span>
 
             <div class="monthly plan-variant hidden text-center">
-                <p class="text-neutral-800 text-xl font-semibold">Pro</p>
-                <h3 class="my-3 text-4xl font-bold text-[#652ec3]">$<?= h($proMonthlyPlan['price'] ?? 0) ?> <span class="text-sm text-neutral-700">/month</span></h3>
+                <p class="text-neutral-800 text-xl font-semibold">Organic Booster</p>
+                <h3 class="my-3 text-4xl font-bold text-[#652ec3]">$<?= h($growMonthlyPlan['price'] ?? 0) ?> <span class="text-sm text-neutral-700">/month</span></h3>
 
-                <?php if (!empty($proMonthlyPlan['price_id'])): ?>
+                <?php if (!empty($growMonthlyPlan['price_id'])): ?>
                 <form method="post" action="api/billing.php">
                     <input type="hidden" name="instance_id" value="<?= h($instanceId) ?>">
-                    <input type="hidden" name="price_id" value="<?= h($proMonthlyPlan['price_id']) ?>">
+                    <input type="hidden" name="price_id" value="<?= h($growMonthlyPlan['price_id']) ?>">
                     <input type="hidden" name="billing_period" value="monthly">
 
                     <button type="submit"
@@ -349,14 +349,14 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
             </div>
 
             <div class="yearly plan-variant text-center">
-                <p class="text-neutral-800 text-xl font-semibold">Pro</p>
-                <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$<?= h($proMonthlyPlan['price'] ?? 0) ?></span> $<?= number_format(($proYearlyPlan['price'] ?? 0) / 12, 2) ?> <span class="text-sm text-neutral-700">/month</span></h3>
+                <p class="text-neutral-800 text-xl font-semibold">Organic Booster</p>
+                <h3 class="my-3 text-4xl font-bold text-[#652ec3]"><span class="text-neutral-400 line-through text-2xl">$<?= h($growMonthlyPlan['price'] ?? 0) ?></span> $<?= number_format(($growYearlyPlan['price'] ?? 0) / 12, 2) ?> <span class="text-sm text-neutral-700">/month</span></h3>
                 <p class="text-sm text-neutral-500">Paid annually &middot; 🎁 5 Months FREE</p>
 
-                <?php if (!empty($proYearlyPlan['price_id'])): ?>
+                <?php if (!empty($growYearlyPlan['price_id'])): ?>
                 <form method="post" action="api/billing.php" class="">
                     <input type="hidden" name="instance_id" value="<?= h($instanceId) ?>">
-                    <input type="hidden" name="price_id" value="<?= h($proYearlyPlan['price_id']) ?>">
+                    <input type="hidden" name="price_id" value="<?= h($growYearlyPlan['price_id']) ?>">
                     <input type="hidden" name="billing_period" value="yearly">
 
                     <button type="submit"
@@ -376,7 +376,7 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
             <div class="features-list hidden mt-4 space-y-3">
                 <?php foreach ($featuresMaster as $feature):
                     $fid  = (int) $feature['id'];
-                    $f    = $proFeatures[$fid] ?? null;
+                    $f    = $growFeatures[$fid] ?? null;
                     $text = (!empty($f['display_text']) && $f['display_text'] !== '-')
                         ? $f['display_text']
                         : (!empty($f['included']) ? 'Included' : null);
@@ -416,7 +416,7 @@ if (!$freePlan && !$proMonthlyPlan && !$proYearlyPlan) {
                         <?php
                             if ($currentPlanName === 'free') {
                                 echo 'Selected Plan';
-                            } elseif ($isProActive) {
+                            } elseif ($isGrowActive) {
                                 echo 'Downgrade Not Allowed';
                             } else {
                                 echo 'Activate Free Plan';

@@ -9,8 +9,8 @@
 --   when price_id holds the REAL Stripe Price ID (price_1ABC...).
 --   Create the products/prices in the Stripe dashboard, then:
 --
---     UPDATE pricing_plans SET price_id = 'price_XXXX' WHERE name = 'Pro' AND billingPeriod = 'monthly';
---     UPDATE pricing_plans SET price_id = 'price_YYYY' WHERE name = 'Pro' AND billingPeriod = 'yearly';
+--     UPDATE pricing_plans SET price_id = 'price_XXXX' WHERE name = 'Grow' AND billingPeriod = 'monthly';
+--     UPDATE pricing_plans SET price_id = 'price_YYYY' WHERE name = 'Grow' AND billingPeriod = 'yearly';
 --
 --   The Stripe webhook (webhook/payment.php) maps incoming
 --   subscriptions back to plans by this same price_id.
@@ -36,18 +36,18 @@ WHERE NOT EXISTS (SELECT 1 FROM pricing_plans WHERE code = 'free');
 INSERT INTO pricing_plans
     (name, code, price, isRecurring, billingPeriod, planProductId, showInMarket, price_id)
 SELECT * FROM (
-    SELECT 'Pro' AS name, 'pro' AS code, 20 AS price, 1 AS isRecurring,
+    SELECT 'Grow' AS name, 'grow' AS code, 20 AS price, 1 AS isRecurring,
            'monthly' AS billingPeriod, '' AS planProductId, 1 AS showInMarket, NULL AS price_id
 ) AS src
-WHERE NOT EXISTS (SELECT 1 FROM pricing_plans WHERE code = 'pro' AND billingPeriod = 'monthly');
+WHERE NOT EXISTS (SELECT 1 FROM pricing_plans WHERE code = 'grow' AND billingPeriod = 'monthly');
 
 INSERT INTO pricing_plans
     (name, code, price, isRecurring, billingPeriod, planProductId, showInMarket, price_id)
 SELECT * FROM (
-    SELECT 'Pro' AS name, 'pro' AS code, 200 AS price, 1 AS isRecurring,
+    SELECT 'Grow' AS name, 'grow' AS code, 200 AS price, 1 AS isRecurring,
            'yearly' AS billingPeriod, '' AS planProductId, 1 AS showInMarket, NULL AS price_id
 ) AS src
-WHERE NOT EXISTS (SELECT 1 FROM pricing_plans WHERE code = 'pro' AND billingPeriod = 'yearly');
+WHERE NOT EXISTS (SELECT 1 FROM pricing_plans WHERE code = 'grow' AND billingPeriod = 'yearly');
 
 /* ------------------------------------------------------------
    Verify:
