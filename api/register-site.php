@@ -109,10 +109,16 @@ try {
        rotates it, so a lost secret is recovered by re-registering. */
     $secret = bin2hex(random_bytes(24));
 
+    /* A separate one-time sync secret: the panel uses it to nudge the
+       site's REST endpoint for an instant sync (verify-token push).
+       Rotated with the registration secret. */
+    $syncSecret = bin2hex(random_bytes(16));
+
     if ($existing) {
         $upd = $pdo->prepare("
             UPDATE WpSite
             SET secret_hash = :secret_hash,
+                sync_secret = :sync_secret,
                 wp_version = :wp_version,
                 plugin_version = :plugin_version,
                 is_active = 1,
@@ -121,6 +127,7 @@ try {
         ");
         $upd->execute([
             ':secret_hash'    => hash('sha256', $secret),
+            ':sync_secret'    => $syncSecret,
             ':wp_version'     => $wpVersion,
             ':plugin_version' => $pluginVersion,
             ':id'             => (int) $existing['id'],
@@ -129,6 +136,7 @@ try {
         respond(true, [
             'instance_id' => (string) $existing['instance_id'],
             'secret'      => $secret,
+            'sync_secret' => $syncSecret,
         ]);
     }
 
@@ -142,19 +150,27 @@ try {
 
     $ins = $pdo->prepare("
         INSERT INTO WpSite
-            (instance_id, secret_hash, site_url, shop_name, shop_domain, domain, wp_version, plugin_version, email, is_active, last_seen)
+            (instance_id, secret_hash, sync_secret, site_url, shop_name, shop_domain, domain, wp_version, plugin_version, email, is_active, last_seen)
         VALUES
-            (:instance_id, :secret_hash, :site_url, :shop_name, :shop_domain, :domain, :wp_version, :plugin_version, '', 1, NOW())
+            (:instance_id, :secret_hash, :sync_secret, :site_url, :shop_name, :shop_domain, :domain, :wp_version, :plugin_version, '', 1, NOW())
     ");
     $ins->execute([
         ':instance_id'    => $instanceId,
         ':secret_hash'    => hash('sha256', $secret),
+        ':sync_secret'    => $syncSecret,
         ':site_url'       => $siteUrl,
+        ':shop_name'      => $host,
+        ':shop_domain'    => $host,
+        ':domain'         => $host,
         ':wp_version'     => $wpVersion,
         ':plugin_version' => $pluginVersion,
     ]);
 
-    respond(true, ['instance_id' => $instanceId, 'secret' => $secret]);
+    respond(true, [
+        'instance_id' => $instanceId,
+        'secret'      => $secret,
+        'sync_secret' => $syncSecret,
+    ]);
 
 } catch (Throwable $e) {
     error_log('register-site: ' . $e->getMessage());

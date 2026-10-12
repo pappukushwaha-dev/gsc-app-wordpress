@@ -168,6 +168,35 @@ try {
         WHERE instance_id = :iid AND is_active = 1
     ");
     $vt->execute([':token' => $metaToken, ':iid' => $instanceId]);
+
+    /* Instant nudge: ping the site's sync REST route so the plugin
+       picks the token up right away instead of waiting for its hourly
+       pull. Any failure is fine - the hourly pull is the fallback. */
+    $trig = $pdo->prepare("
+        SELECT site_url, sync_secret
+        FROM WpSite
+        WHERE instance_id = :iid AND is_active = 1
+        LIMIT 1
+    ");
+    $trig->execute([':iid' => $instanceId]);
+    $t = $trig->fetch(PDO::FETCH_ASSOC);
+
+    if ($t && !empty($t['sync_secret']) && !empty($t['site_url'])) {
+        $ch = curl_init(rtrim((string) $t['site_url'], '/') . '/?rest_route=/gscwp/v1/sync');
+        curl_setopt_array($ch, [
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_POST           => true,
+            CURLOPT_POSTFIELDS     => json_encode([
+                'instance_id' => $instanceId,
+                'sync_secret' => (string) $t['sync_secret'],
+            ]),
+            CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+            CURLOPT_TIMEOUT        => 5,
+            CURLOPT_CONNECTTIMEOUT => 3,
+        ]);
+        curl_exec($ch);
+        curl_close($ch);
+    }
 } catch (Throwable $e) {
     error_log('step-two verify-token sync: ' . $e->getMessage());
 }

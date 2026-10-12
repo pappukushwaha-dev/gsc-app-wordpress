@@ -46,10 +46,23 @@ if (is_array($data) && !empty($data['sitemap_url'])) {
     }
 }
 
+// ensure the site has a sync secret for the instant-sync REST route
+$syncSecret = (string) ($site['sync_secret'] ?? '');
+if ($syncSecret === '') {
+    $syncSecret = bin2hex(random_bytes(16));
+    try {
+        $g = $pdo->prepare("UPDATE WpSite SET sync_secret = :s WHERE id = :id");
+        $g->execute([':s' => $syncSecret, ':id' => (int) $site['id']]);
+    } catch (Throwable $e) {
+        error_log('instance-meta sync_secret: ' . $e->getMessage());
+    }
+}
+
 gscwp_respond(true, [
     'instance_id'   => $site['instance_id'],
     'site_url'      => $site['site_url'],
     'verify_token'  => (string) ($site['verify_token'] ?? ''),
     'sitemap_url'   => (string) ($site['sitemap_url'] ?? ''),
     'is_verified'   => ($site['verify_token'] ?? '') !== '',
+    'sync_secret'   => $syncSecret,
 ]);

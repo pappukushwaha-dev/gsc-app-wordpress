@@ -43,7 +43,7 @@ function gscwp_resolve_instance(PDO $pdo): ?array
 
     $stmt = $pdo->prepare("
         SELECT id, instance_id, site_url, email, secret_hash,
-               verify_token, sitemap_url, is_active
+               sync_secret, verify_token, sitemap_url, is_active
         FROM WpSite
         WHERE instance_id = :iid
         LIMIT 1
