@@ -158,6 +158,20 @@ $metaToken = $domain['meta_token'] ?? '';
 
 $status    = $domain['verification_status'];
 
+// Keep the WordPress plugin's auto-injection in sync: the plugin pulls
+// WpSite.verify_token on its own schedule and adds the meta tag by
+// itself, so the user never has to paste anything by hand.
+try {
+    $vt = $pdo->prepare("
+        UPDATE WpSite
+        SET verify_token = :token
+        WHERE instance_id = :iid AND is_active = 1
+    ");
+    $vt->execute([':token' => $metaToken, ':iid' => $instanceId]);
+} catch (Throwable $e) {
+    error_log('step-two verify-token sync: ' . $e->getMessage());
+}
+
 // -----------------------------------------------------
 // 3. SERVER-SIDE CHECK via EXISTING API (page render se pehle)
 // check_property_status.php hi hit hogi — wahi property check
@@ -744,52 +758,14 @@ if (!empty($status) && $status == 'verified') {
 
         <div class="rounded-xl p-4 text-sm font-medium border block border-neutral-200 bg-neutral-50 text-neutral-700 mt-4">
             <h2 class="text-lg font-semibold text-neutral-800 dark:text-neutral-100 mb-2">
-                <?php if ($isInstantSite): ?>
-                    How to add this in Ecwid Instant Site
-                <?php else: ?>
-                    How to add the meta tag to your website
-                <?php endif; ?>
+                How the verification tag gets added to your WordPress site
             </h2>
 
-            <?php if ($isInstantSite): ?>
-                <ul class="space-y-2">
-                    <li class="flex gap-2"><span class="font-bold">1.</span> Open your <b>Ecwid Control Panel</b>.</li>
-                    <li class="flex gap-2"><span class="font-bold">2.</span> In the left sidebar, open <b>Website &rarr; SEO</b>.</li>
-                    <li class="flex gap-2"><span class="font-bold">3.</span> Scroll to <b>SEO settings &rarr; Header meta tags and site verification</b>.</li>
-                    <li class="flex gap-2"><span class="font-bold">4.</span> Click <b>Edit</b>.</li>
-                    <li class="flex gap-2"><span class="font-bold">5.</span> Paste the full meta tag (above) into the textarea, then <b>Save</b>.</li>
-                    <li class="flex gap-2"><span class="font-bold">6.</span> Return here and click <b>Verify Domain</b>.</li>
-                </ul>
-            <?php else: ?>
-                <div class="rounded-lg border border-blue-200 bg-blue-50 text-blue-900 p-3 mb-3 text-xs leading-relaxed">
-                    <p class="font-semibold mb-1">Heads up &mdash; steps depend on your website builder.</p>
-                    <p>
-                        Ecwid can be embedded in almost any platform (Wix, WordPress, Squarespace, Shopify, Webflow, custom HTML, etc.),
-                        so the exact place to edit your site&rsquo;s <code>&lt;head&gt;</code> isn&rsquo;t the same for everyone.
-                        If you&rsquo;re not sure which builder hosts your store, check Ecwid&rsquo;s guide:
-                        <a href="https://support.ecwid.com/hc/en-us/articles/115004678945"
-                           target="_blank" rel="noopener"
-                           class="underline font-medium">
-                            How to add Ecwid to your website
-                        </a>.
-                    </p>
-                </div>
-
-                <ul class="space-y-2">
-                    <li class="flex gap-2"><span class="font-bold">1.</span> Copy the <b>Verification Meta Tag</b> above.</li>
-                    <li class="flex gap-2"><span class="font-bold">2.</span> Open the editor for whichever platform hosts your website (Wix, WordPress, Squarespace, custom HTML, etc.).</li>
-                    <li class="flex gap-2"><span class="font-bold">3.</span> Find where you can edit the <b><code>&lt;head&gt;</code></b> section of every page. A few common examples (your platform may differ):
-                        <ul class="ml-4 mt-1 list-disc text-xs text-neutral-600 space-y-1">
-                            <li><b>Wix:</b> Settings &rarr; Custom Code &rarr; Add Custom Code &rarr; Head.</li>
-                            <li><b>WordPress:</b> use a Header/Footer plugin or your theme&rsquo;s <code>header.php</code>.</li>
-                            <li><b>Squarespace:</b> Settings &rarr; Advanced &rarr; Code Injection &rarr; Header.</li>
-                        </ul>
-                        If your platform isn&rsquo;t listed, check its own documentation for &ldquo;custom code in head&rdquo; or &ldquo;site verification&rdquo;.
-                    </li>
-                    <li class="flex gap-2"><span class="font-bold">4.</span> Paste the meta tag inside the <code>&lt;head&gt;</code> and save/publish.</li>
-                    <li class="flex gap-2"><span class="font-bold">5.</span> Return here and click <b>Verify Domain</b>.</li>
-                </ul>
-            <?php endif; ?>
+            <ul class="space-y-2">
+                <li class="flex gap-2"><span class="font-bold">1.</span> The GSC plugin on your WordPress site <b>adds this meta tag automatically</b> - it syncs within the hour, or open <b>Settings &rarr; GSC Plugin</b> on your site to sync instantly.</li>
+                <li class="flex gap-2"><span class="font-bold">2.</span> If the plugin is not active, add it manually: paste the <b>Verification Meta Tag</b> (above) into your site&rsquo;s <b>&lt;head&gt;</b> using a Header/Footer plugin (like WPCode) or your theme&rsquo;s <code>header.php</code>, then <b>Save</b>.</li>
+                <li class="flex gap-2"><span class="font-bold">3.</span> Return here and click <b>Verify Domain</b>.</li>
+            </ul>
         </div>
     </div>
 </div>
