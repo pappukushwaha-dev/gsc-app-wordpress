@@ -1,0 +1,11 @@
+# GSC WordPress platform - deny access to sensitive files
+# (.env carries database credentials; *.sql are schema migrations)
+
+<FilesMatch "\.(env|sql|lock)$">
+    Require all denied
+</FilesMatch>
+
+# wp-config style files if any ever land here
+<Files "wp-config.php">
+    Require all denied
+</Files>
