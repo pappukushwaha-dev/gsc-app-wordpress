@@ -14,8 +14,13 @@ require_once __DIR__ . '/includes/config.php';
 /* ==========================================================
    1. INSTANCE RESOLUTION (STANDARDIZED)
 ========================================================== */
-$instanceId = $_SESSION['instance_id'] ?? $_SESSION['instanceid']
-    ?? $_GET['instance_id'] ?? $_GET['instanceId'] ?? null;
+/* An explicit URL param is the instance being set up, so it beats the
+   session: every MakkPress panel on this domain shares one PHP session
+   cookie, and a session left over from another app (or an older test)
+   would otherwise point this wizard at the wrong instance. The session
+   stays as the fallback for in-app links (?step=2) that carry no id. */
+$instanceId = $_GET['instance_id'] ?? $_GET['instanceId']
+    ?? $_SESSION['instanceid'] ?? $_SESSION['instance_id'] ?? null;
 
 
 if (!$instanceId) {

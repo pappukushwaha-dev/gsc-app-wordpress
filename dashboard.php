@@ -25,10 +25,15 @@ $hasPremiumAccess = $planAccess['allowed'] ?? false;
 // inconsistently — auth/callback.php writes 'instance_id', pricing.php
 // writes 'instanceid' — and reading only one sends users to sign-in in the
 // middle of a working session.
-$instanceId = $_SESSION['instanceid']
-    ?? $_SESSION['instance_id']
-    ?? $_GET['instanceid']
+//
+// URL params come first: every MakkPress panel on this domain shares one
+// PHP session cookie, so a session left over from another app would
+// otherwise open this dashboard on the wrong instance. The correct id is
+// written back to the session below, healing it for in-app links.
+$instanceId = $_GET['instanceid']
     ?? $_GET['instance_id']
+    ?? $_SESSION['instanceid']
+    ?? $_SESSION['instance_id']
     ?? null;
 
 if (!$instanceId) {

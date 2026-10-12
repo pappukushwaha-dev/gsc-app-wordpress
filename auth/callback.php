@@ -117,7 +117,7 @@ if ($existing) {
 
     $_SESSION['instance_id'] = $store_id;
     $_SESSION['user_id']     = $existing['id'];
-    $_SESSION['app']         = 'ecwid';
+    $_SESSION['app']         = 'wordpress';
 
     header("Location: " . HOST_URL . "setup-wizard.php");
     exit;
@@ -230,7 +230,7 @@ $stmt2->execute([
 
 $_SESSION['instance_id'] = $store_id;
 $_SESSION['user_id']     = $user_id;
-$_SESSION['app']         = 'ecwid';
+$_SESSION['app']         = 'wordpress';
 
 header("Location: " . HOST_URL . "setup-wizard.php");
 exit;
