@@ -62,6 +62,31 @@ if ($syncSecret === '') {
     }
 }
 
+/* The site's plan: paid while an active Stripe subscription exists.
+   The 'limited' rows are the free-plan marker (billing.php writes
+   them when the user picks the free plan). */
+$isPaid = false;
+try {
+    $p = $pdo->prepare("
+        SELECT status, billing_period, expires_on
+        FROM app_subscriptions
+        WHERE instance_id = :iid
+        ORDER BY id DESC
+        LIMIT 1
+    ");
+    $p->execute([':iid' => $site['instance_id']]);
+    $sub = $p->fetch(PDO::FETCH_ASSOC);
+
+    if ($sub) {
+        $notExpired = empty($sub['expires_on']) || strtotime((string) $sub['expires_on']) > time();
+        $isPaid = strtolower((string) $sub['status']) === 'active'
+            && strtolower((string) $sub['billing_period']) !== 'limited'
+            && ($notExpired || empty($sub['expires_on']));
+    }
+} catch (Throwable $e) {
+    error_log('instance-meta plan: ' . $e->getMessage());
+}
+
 gscwp_respond(true, [
     'instance_id'   => $site['instance_id'],
     'site_url'      => $site['site_url'],
@@ -69,4 +94,5 @@ gscwp_respond(true, [
     'sitemap_url'   => (string) ($site['sitemap_url'] ?? ''),
     'is_verified'   => ($site['verify_token'] ?? '') !== '',
     'sync_secret'   => $syncSecret,
+    'is_paid'       => $isPaid,
 ]);
