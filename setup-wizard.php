@@ -40,35 +40,37 @@ $hasActiveSubscription = ($subscription && $subscription['status'] === 'active')
 /* ==========================================================
    3. STEP HANDLING
 ========================================================== */
-/* An explicit ?step= always wins. A bare wizard URL resumes where
-   the merchant left off: the first unfinished step, read from
-   setup_wizard_status - so nobody walks through finished steps
-   again on the way back in. */
+/* The saved progress drives two things: where a bare wizard URL
+   resumes (the first unfinished step), and which steps the progress
+   line shows as done. An explicit ?step= always wins over resuming. */
+$wizardFlags = ['step1' => 0, 'step2' => 0, 'step3' => 0];
+try {
+    $flagStmt = $pdo->prepare("
+        SELECT step1, step2, step3
+        FROM setup_wizard_status
+        WHERE instance_id = :iid
+        LIMIT 1
+    ");
+    $flagStmt->execute([':iid' => $instanceId]);
+    $flagRow = $flagStmt->fetch(PDO::FETCH_ASSOC);
+    if ($flagRow) {
+        $wizardFlags = array_map('intval', $flagRow);
+    }
+} catch (Throwable $e) {
+    error_log('setup-wizard flags: ' . $e->getMessage());
+}
+
 $step = in_array((string) ($_GET['step'] ?? ''), ['1', '2', '3'], true)
     ? (string) $_GET['step']
     : null;
 
 if ($step === null) {
-    try {
-        $resumeStmt = $pdo->prepare("
-            SELECT step1, step2, step3
-            FROM setup_wizard_status
-            WHERE instance_id = :iid
-            LIMIT 1
-        ");
-        $resumeStmt->execute([':iid' => $instanceId]);
-        $resume = $resumeStmt->fetch(PDO::FETCH_ASSOC);
-
-        if (!$resume || (int) $resume['step1'] !== 1) {
-            $step = '1';
-        } elseif ((int) $resume['step2'] !== 1) {
-            $step = '2';
-        } else {
-            $step = '3'; // everything done - step 3 renders its completed view
-        }
-    } catch (Throwable $e) {
-        error_log('setup-wizard resume: ' . $e->getMessage());
+    if ($wizardFlags['step1'] !== 1) {
         $step = '1';
+    } elseif ($wizardFlags['step2'] !== 1) {
+        $step = '2';
+    } else {
+        $step = '3'; // everything done - step 3 renders its completed view
     }
 }
 $steps = [
@@ -178,8 +180,12 @@ include __DIR__ . '/partials/ticket-submit-popup.php';
                     <?php
                     $i = 1;
                     foreach ($steps as $details):
-                        $completed = $currentStep > $i;
                         $active    = $currentStep === $i;
+                        // a step is done when the database says so, not just
+                        // because the user has walked past it - reconnect
+                        // journeys jump straight to a later step
+                        $completed = !$active
+                            && (($wizardFlags['step' . $i] ?? 0) === 1 || $currentStep > $i);
                     ?>
                         <div class="flex-1 text-center relative px-2">
                             <div class="flex flex-col items-center justify-center">
