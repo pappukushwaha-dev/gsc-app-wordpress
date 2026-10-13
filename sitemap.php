@@ -22,7 +22,15 @@ $subTitle = "SEO Tools";
 //  CONNECTION + PROPERTY
 // ---------------------------------------------------------------------
 $google      = getGoogleAccountByInstance($instanceId);
-$isConnected = ($google && !empty($google['access_token']));
+/* An access token expires; a refresh token is what actually means
+   "this account is connected". Testing only access_token told users
+   with a valid, refreshable connection to connect an account they
+   had already connected. */
+$isConnected = ($google && (
+    !empty($google['access_token'])
+    || !empty($google['access_token_json'])
+    || !empty($google['refresh_token'])
+));
 
 $stmt = $pdo->prepare("SELECT site_url FROM gsc_domain_verifications WHERE instance_id=? LIMIT 1");
 $stmt->execute([$instanceId]);
@@ -45,7 +53,7 @@ if (!empty($row['site_url'])) {
 }
 
 // Prefilled suggestion for the add form, not the only sitemap allowed
-$defaultSitemapUrl = $siteUrl ? $siteUrl . '/sitemap.xml' : '';
+$defaultSitemapUrl = $siteUrl ? $siteUrl . '/wp-sitemap.xml' : '';
 
 // ---------------------------------------------------------------------
 //  ALL SITEMAPS FOR THIS INSTANCE
@@ -1139,8 +1147,8 @@ include './partials/layouts/layoutTop.php';
                                 <?= htmlspecialchars($siteUrl) ?>/
                             </span>
                             <input type="text" id="sitemapPath" class="smx-combo-input"
-                                   value="sitemap.xml"
-                                   placeholder="sitemap.xml"
+                                   value="wp-sitemap.xml"
+                                   placeholder="wp-sitemap.xml"
                                    spellcheck="false" autocomplete="off">
                         </div>
                         <input type="hidden" id="sitemapUrl" value="<?= htmlspecialchars($defaultSitemapUrl) ?>">
@@ -1150,7 +1158,7 @@ include './partials/layouts/layoutTop.php';
                         <div class="smx-add-wrap">
                             <iconify-icon icon="solar:link-circle-outline"></iconify-icon>
                             <input type="text" id="sitemapUrl" class="smx-input"
-                                   value="" placeholder="https://example.com/sitemap.xml">
+                                   value="" placeholder="https://example.com/wp-sitemap.xml">
                         </div>
                     <?php endif; ?>
 
@@ -1165,7 +1173,7 @@ include './partials/layouts/layoutTop.php';
                 <?php if ($siteUrl): ?>
                     <div class="smx-chips">
                         <span class="smx-chips-lbl">Common paths</span>
-                        <?php foreach (['sitemap.xml', 'pages-sitemap.xml', 'blog-posts-sitemap.xml', 'store-products-sitemap.xml'] as $p): ?>
+                        <?php foreach (['wp-sitemap.xml', 'sitemap_index.xml', 'sitemap.xml'] as $p): ?>
                             <button type="button" class="smx-chip js-quick" data-path="<?= htmlspecialchars($p) ?>">
                                 <?= htmlspecialchars($p) ?>
                             </button>
@@ -1707,8 +1715,8 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!url) {
                 await gscAlert(
                     "No sitemap entered",
-                    pathInput ? "Enter a sitemap file name, for example sitemap.xml."
-                              : "Enter the full sitemap URL, for example https://example.com/sitemap.xml."
+                    pathInput ? "Enter a sitemap file name, for example wp-sitemap.xml."
+                              : "Enter the full sitemap URL, for example https://example.com/wp-sitemap.xml."
                 );
                 (pathInput || urlInput)?.focus();
                 return;
@@ -1719,7 +1727,7 @@ document.addEventListener("DOMContentLoaded", () => {
             if (!/^https?:\/\//i.test(url)) {
                 await gscAlert(
                     "That does not look like a URL",
-                    "A sitemap URL starts with http:// or https:// — for example https://example.com/sitemap.xml."
+                    "A sitemap URL starts with http:// or https:// — for example https://example.com/wp-sitemap.xml."
                 );
                 (pathInput || urlInput)?.focus();
                 return;

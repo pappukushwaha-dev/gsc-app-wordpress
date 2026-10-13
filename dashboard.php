@@ -452,6 +452,27 @@ if ($canShowData) {
     $curImpr   = 0;
     $curPosW   = 0.0;
 
+    /* ==========================================================
+       Chart across the WHOLE window, with the quiet days at zero.
+
+       Google returns only the days that had activity. A site with
+       five active days out of twenty-eight leaves a five-point
+       series, which sample_fallback then discards for being under
+       its minimum and replaces with an invented ramp - so a site
+       with 50 real clicks is shown 848 made-up ones. That happened
+       to a live merchant on the Shopify build.
+
+       Filling the gaps with zero is not padding: those days really
+       did have no clicks and no impressions, and the chart then
+       covers the range its own heading promises.
+
+       position is deliberately left out of the weighted average on
+       zero-impression days - there is no position when nothing was
+       shown, and feeding 0 in drags the line to a number that never
+       happened.
+     ========================================================== */
+    $byDate = [];
+
     if (!empty($chartJson['success']) && !empty($chartJson['rows'])) {
         foreach ($chartJson['rows'] as $row) {
             $date = $row['keys'][0] ?? null;
@@ -461,15 +482,26 @@ if ($canShowData) {
             $i = (int)($row['impressions'] ?? 0);
             $p = (float)($row['position'] ?? 0);
 
-            $chartData['dates'][]       = $date;
-            $chartData['clicks'][]      = $c;
-            $chartData['impressions'][] = $i;
-            $chartData['positions'][]   = $p;
+            $byDate[$date] = ['c' => $c, 'i' => $i, 'p' => $p];
 
             $curClicks += $c;
             $curImpr   += $i;
             $curPosW   += $p * $i;
         }
+    }
+
+    // The window the API actually answered for, so the two cannot drift.
+    $rangeStart = $chartJson['range'][0] ?? date('Y-m-d', strtotime('-29 days'));
+    $rangeEnd   = $chartJson['range'][1] ?? date('Y-m-d');
+
+    for ($ts = strtotime($rangeStart); $ts <= strtotime($rangeEnd); $ts = strtotime('+1 day', $ts)) {
+        $key = date('Y-m-d', $ts);
+        $day = $byDate[$key] ?? ['c' => 0, 'i' => 0, 'p' => 0.0];
+
+        $chartData['dates'][]       = $key;
+        $chartData['clicks'][]      = $day['c'];
+        $chartData['impressions'][] = $day['i'];
+        $chartData['positions'][]   = $day['p'];
     }
 
     $kpi['clicks']      = $curClicks;
@@ -938,7 +970,16 @@ $submissionStats30d = ['total' => 0, 'success' => 0, 'errors' => 0, 'last_at' =>
 $recentInspections  = [];
 if ($instanceId) {
     try {
-        $stmt = $pdo->prepare("SELECT company_name, business_name, category_name, business_type, language, address, email, phone, website_url, logo_url, created_at FROM WixSiteProfile WHERE instance_id = ? LIMIT 1");
+        /* This app's real profile table, carrying the same columns the
+           markup below reads - so the Site Profile card shows genuine
+           business details rather than degrading to the store name. */
+        $stmt = $pdo->prepare("
+            SELECT company_name, business_name, category_name, business_type,
+                   language, address, email, phone, website_url, logo_url, created_at
+            FROM EcwidSiteProfile
+            WHERE instance_id = ?
+            LIMIT 1
+        ");
         $stmt->execute([$instanceId]);
         $siteProfile = $stmt->fetch(PDO::FETCH_ASSOC) ?: [];
     } catch (Throwable $e) {
@@ -1282,19 +1323,6 @@ function gscRowState(array $s): array
     }
 </style>
 
-<?php
-/* The first-report strip, replacing gsc_sample_banner().
-
-   The old one said "up to 48 hours" on every load, whatever the date.
-   This partial counts from verification_verified_at, links to a page that
-   explains the wait, and renders nothing once real data arrives, because
-   it reads $gscSampleSections rather than deciding for itself. */
-$frPartial = __DIR__ . '/partials/first-report-banner.php';
-if (is_file($frPartial)) {
-    include $frPartial;
-}
-?>
-
 <div class="card border-0 border-gray-200 flex justify-between mb-3 bg-transparent">
     <nav class="flex overflow-x-auto gap-2 text-sm font-medium">
         <a href="https://makkpressapps.com/wordpress/googlesearchconsole/gsc-report.php?tab=keywords" class="tab-btn top-tab flex items-center gap-1 text-xs shrink-0">
@@ -1416,7 +1444,28 @@ if (is_file($frPartial)) {
 
 <!-- Sidebar Container - start -->
 <div id="gscSidebarBackdrop" class="fixed inset-0 bg-cstm-black-40 backdrop-blur-sm z-50 hidden opacity-0 transition-opacity duration-300"></div>
-<div id="gscSidebar" class="fixed top-0 right-0 h-full w-full max-w-sm max-w-[320px] bg-white dark:bg-neutral-900 z-50 transform translate-x-full transition-transform duration-300 ease-in-out overflow-y-auto flex flex-col justify-between p-6 pt-4">
+<!-- ==========================================================
+     Width, position and the slide are inline, not Tailwind classes.
+
+     A purged Tailwind build only ships the classes that were in the
+     markup when it was compiled. max-w-sm and max-w-[320px] are not
+     used elsewhere in this app, so neither exists in its stylesheet
+     - and a class that is absent does nothing, leaving w-full to
+     take the whole screen. That is what this panel was doing.
+
+     translate-x-full is inline for the same reason: the slide-in is
+     what keeps the panel off screen until it is opened, and if that
+     class is missing too the panel sits open over the page from the
+     moment it loads.
+
+     The JS toggles .translate-x-full, so the inline transform is
+     overridden the moment a class with higher precedence applies -
+     which is why the open state is also set inline below.
+========================================================== -->
+<div id="gscSidebar"
+    class="bg-white dark:bg-neutral-900 overflow-y-auto flex flex-col justify-between p-6 pt-4"
+    style="position:fixed;top:0;right:0;height:100%;width:100%;max-width:320px;z-index:50;
+            transform:translateX(100%);transition:transform .3s ease-in-out;">
 
     <div>
         <!-- Sidebar Header -->
@@ -2194,6 +2243,20 @@ if (is_file($frPartial)) {
         <?php include __DIR__ . '/partials/reports/rich_results_summary.php'; ?>
     <?php endif; ?>
 <?php endif; ?>
+
+<?php
+/* The first-report strip, replacing gsc_sample_banner().
+
+   The old one said "up to 48 hours" on every load, whatever the date.
+   This partial counts from verification_verified_at, links to a page that
+   explains the wait, and renders nothing once real data arrives, because
+   it reads $gscSampleSections rather than deciding for itself.
+   Sits after the KPI cards, where the bigcommerce build moved it. */
+$frPartial = __DIR__ . '/partials/first-report-banner.php';
+if (is_file($frPartial)) {
+    include $frPartial;
+}
+?>
 
 <?php if ($showTrialPopup && $trialExpiresOn && 3 == 4): ?>
     <!-- Free Trial upgrade POPUP (24hr trial) -->
@@ -4709,9 +4772,10 @@ $script .= '<script>
 </script>';
 
 if (!$gscChartIsSample) {
-    $script .= '<script src="assets/js/homeOneChart.js"></script>';
+    $script .= '<script src="' . APP_BASE . '/assets/js/homeOneChart.js"></script>';
 }
-$script .= '<script src="assets/js/gscSampleChart.js"></script>';
+
+$script .= '<script src="' . APP_BASE . '/assets/js/gscSampleChart.js"></script>';
 ?>
 <!-- =======================
    UPGRADE PLAN MODAL

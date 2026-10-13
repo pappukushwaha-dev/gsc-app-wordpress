@@ -61,7 +61,7 @@ $instanceId = $_SESSION['instance_id'] ?? $_SESSION['instanceid'] ?? ($_GET['ins
                                 <i class="fa-solid fa-star text-yellow-400 mr-1"></i>
                                 ${app.subtitle}
                             </div>` : ""}
-                <a href="${app.button_link}" target="_blank"
+                <a href="api/redirect-other-app.php?app_id=${app.id}" target="_blank"
                    class="inline-flex items-center text-cstm-primary drk-text-cstm-primary hover:underline font-medium text-sm">
                    ${app.button_text || "Learn More"} <span class="ml-1 drk-text-cstm-primary">→</span>
                 </a>

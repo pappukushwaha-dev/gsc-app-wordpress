@@ -612,15 +612,19 @@ include './partials/layouts/layoutTop.php';
     const appBase = "<?= APP_BASE ?>";
     let currentType = 'keywords';
     const INTENT_REGEX = {
-    intent_informational: '(who|what|where|when|why|how|can|is|are|do|does)',
-    intent_commercial: '(buy|purchase|order|checkout|shop|online|store|sale|discount|coupon|promo|code|clearance|deals?|cheap|affordable|price|cost|get)',
-    intent_transactional: '(buy|purchase|order|checkout|subscribe|sign up|signup|register|download|install|book|booking|trial|free trial)',
-    intent_navigational: '(login|sign in|signin|account|dashboard|portal|official|website|homepage|contact|support|helpdesk)',
-    ecommerce_ready_to_buy: '(buy|order|purchase|price|cheap|discount|deal|sale|coupon|shop|store)',
-    ecommerce_product_research: '(size|color|spec|specs|specification|model|material|dimension|weight)',
-    ecommerce_trust_comparison: '(review|reviews|rating|ratings|vs|versus|comparison|best|top)',
-    ecommerce_post_purchase: '(shipping|delivery|tracking|return|refund|warranty|cancel|exchange|support)'
-};
+        intent_informational: '(how|what|why|when|where|who|which|guide|tutorial|tips|example|' +
+            'meaning|definition|benefits|difference|compare|learn|explained|' +
+            'steps|process|faq|problem|solution|error|fix|help)',
+
+        intent_commercial: '(buy|price|pricing|cheap|cost|best|top|offer|discount|sale|' +
+            'comparison)',
+
+        intent_transactional: '(order|purchase|checkout|subscribe|download|' +
+            'install|book|booking|reserve|hire|free trial|demo)',
+
+        intent_navigational: '(login|signin|account|dashboard|portal|official|website|' +
+            'homepage|contact|support|helpdesk)'
+    };
 
     // Plan info from PHP
     const planAccess = window._planAccess || {

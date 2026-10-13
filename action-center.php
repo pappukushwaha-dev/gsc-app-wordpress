@@ -326,6 +326,8 @@ include './partials/layouts/layoutTop.php';
 }
 .dark .acp-hl { border-color: #3f3f3f; background: #2c2c2c; }
 @media (max-width: 860px) { .acp-hl { grid-template-columns: 1fr; } }
+/* standalone above the empty state, where there is no card around it */
+.acp-list > .acp-hl { margin: 0 0 14px; background: #fff; }
 .acp-hl-item {
     display: flex; align-items: flex-start; gap: 10px;
     padding: 11px 14px; min-width: 0; border-left: 1px solid #eef0f4;
@@ -389,6 +391,14 @@ include './partials/layouts/layoutTop.php';
 .acp-rec.is-broken { background: #fdf0ef; border-color: #f8d5d1; }
 .dark .acp-rec { background: #1e3328; border-color: #2f5540; }
 .dark .acp-rec.is-broken { background: #3a2320; border-color: #5c352f; }
+.acp-title { margin: 0; font-size: 15px; font-weight: 650; letter-spacing: -.01em; color: #1a1f2e; line-height: 1.3; }
+.dark .acp-title { color: #fff; }
+.acp-url {
+    font-size: 12px; color: #3b6ef5; display: inline-flex; align-items: center; gap: 4px;
+    text-decoration: none; word-break: break-all;
+}
+.acp-url a:hover { text-decoration: underline; }
+.acp-url iconify-icon { font-size: 12px; opacity: .7; flex: none; }
 .acp-rec-k {
     font-size: 9px; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
     color: #16a34a; margin-bottom: 3px;
@@ -1099,7 +1109,9 @@ include './partials/layouts/layoutTop.php';
         var timer = setTimeout(function () {
             if (done) { return; }
             done = true; SPEED_STATE = 'failed'; healthRepaint();
-        }, 45000);   // PSI is slow on a cold cache
+        }, 60000);   // outlive the 45s server-side PSI timeout, so a
+                     // failed run reports its real error instead of
+                     // being abandoned while still in flight
 
         fetch(ACP_BASE + '/api/run_speed_test.php?strategy=mobile', { credentials: 'same-origin' })
             .then(function (res) { return res.json(); })
@@ -1365,7 +1377,7 @@ include './partials/layouts/layoutTop.php';
             // An unfiltered empty feed and a filtered one mean different
             // things. Only the first is worth explaining.
             listEl.innerHTML = (filters.status === 'all' && filters.severity === 'all' && filters.type === 'all')
-                ? emptyStateHtml()
+                ? healthLine({}) + emptyStateHtml()
                 : stateBlock('solar:filter-outline', 'Nothing matches this filter',
                     'Try widening the status, severity, or type filter above.');
             return;
