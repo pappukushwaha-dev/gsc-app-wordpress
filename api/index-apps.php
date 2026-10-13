@@ -35,7 +35,7 @@ try {
        Validate instance exists
     ================================ */
     $siteStmt = $pdo->prepare("
-        SELECT shop_id
+        SELECT id
         FROM WpSite
         WHERE instance_id = :instance_id
         LIMIT 1
