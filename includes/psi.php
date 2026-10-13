@@ -107,16 +107,43 @@ function psi_get_api_key(PDO $pdo): string
     /* Preferred source: admin_settings, encrypted, same as the other apps.
        Every step is guarded because this app may have no admin_settings
        table, no decrypt() helper, or a plaintext value - in any of those
-       cases we fall through to config/env rather than fataling. */
+       cases we fall through to config/env rather than fataling.
+
+       The stored value is usually encrypted BY ANOTHER APP (the value is
+       copied between the family databases), so one decrypt pass is not
+       enough: credentials.php here derives ENCRYPTION_KEY by padding or
+       truncating the secret to 32 bytes, while the wix app - the usual
+       writer - uses the raw secret as-is. Try every derivation and accept
+       only a result that looks like a real key: PSI keys always start
+       with AIza, and a wrong-key decrypt yields base64 garbage that never
+       does. */
     try {
         $st = $pdo->prepare("SELECT value FROM admin_settings WHERE key_name = 'pagespeed_api_key' LIMIT 1");
         $st->execute();
         $enc = (string)($st->fetchColumn() ?: '');
         if ($enc !== '') {
-            if (function_exists('decrypt') && defined('ENCRYPTION_KEY')) {
-                $plain = (string)decrypt($enc, ENCRYPTION_KEY);
-                if ($plain !== '') {
-                    return $plain;
+            if (function_exists('decrypt')) {
+                $candidates = [];
+                if (defined('ENCRYPTION_KEY')) {
+                    $candidates[] = (string) ENCRYPTION_KEY;   // this app's derivation
+                }
+                $raw = $_ENV['ENCRYPTION_SECRET'] ?? getenv('ENCRYPTION_SECRET') ?: '';
+                if ($raw !== '') {
+                    // the wix-style derivation: raw secret, base64: prefix
+                    // decoded, no padding or truncation
+                    $candidates[] = str_starts_with($raw, 'base64:')
+                        ? (string) base64_decode(substr($raw, 7))
+                        : $raw;
+                }
+
+                foreach (array_unique($candidates, SORT_STRING) as $candidateKey) {
+                    if ($candidateKey === '' || $candidateKey === false) {
+                        continue;
+                    }
+                    $plain = (string) decrypt($enc, $candidateKey);
+                    if ($plain !== '' && strpos($plain, 'AIza') === 0) {
+                        return $plain;
+                    }
                 }
             }
             /* Stored in the clear: PSI keys start with AIza and never
