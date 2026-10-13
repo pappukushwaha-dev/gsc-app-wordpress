@@ -107,12 +107,42 @@ try {
     error_log('instance-meta google state: ' . $e->getMessage());
 }
 
+/* Fallback: some flows write the token only to gsc_domain_verifications
+   (the wizard's copy step runs on page render). When WpSite has no
+   token but a verification record does, serve that one and heal the
+   canonical column so every later pull is straight. */
+$verifyToken = (string) ($site['verify_token'] ?? '');
+if ($verifyToken === '') {
+    try {
+        $v = $pdo->prepare("
+            SELECT meta_token
+            FROM gsc_domain_verifications
+            WHERE instance_id = :iid AND meta_token IS NOT NULL
+            ORDER BY updated_at DESC
+            LIMIT 1
+        ");
+        $v->execute([':iid' => $site['instance_id']]);
+        $fallback = (string) $v->fetchColumn();
+        if ($fallback !== '') {
+            $verifyToken = $fallback;
+            $u = $pdo->prepare("
+                UPDATE WpSite
+                SET verify_token = :t
+                WHERE id = :id AND (verify_token IS NULL OR verify_token = '')
+            ");
+            $u->execute([':t' => $fallback, ':id' => (int) $site['id']]);
+        }
+    } catch (Throwable $e) {
+        error_log('instance-meta token fallback: ' . $e->getMessage());
+    }
+}
+
 gscwp_respond(true, [
     'instance_id'     => $site['instance_id'],
     'site_url'        => $site['site_url'],
-    'verify_token'    => (string) ($site['verify_token'] ?? ''),
+    'verify_token'    => $verifyToken,
     'sitemap_url'     => (string) ($site['sitemap_url'] ?? ''),
-    'is_verified'     => ($site['verify_token'] ?? '') !== '',
+    'is_verified'     => $verifyToken !== '',
     'sync_secret'     => $syncSecret,
     'is_paid'         => $isPaid,
     'google_connected'=> $googleConnected,

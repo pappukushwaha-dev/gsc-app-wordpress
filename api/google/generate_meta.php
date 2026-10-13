@@ -15,13 +15,17 @@ global $pdo;
 
 /* ==========================================================
    INPUT
+   The explicit instanceId from the request wins - every panel on
+   this domain shares one PHP session cookie, so a session left by
+   another app must not redirect someone's token to another site.
 ========================================================== */
 $input = json_decode(file_get_contents('php://input'), true) ?: [];
 
 $instanceId =
-    $_SESSION['instance_id']
+    ($input['instanceId'] ?? null)
+    ?? $_SESSION['instance_id']
     ?? $_SESSION['instanceid']
-    ?? ($input['instanceId'] ?? null);
+    ?? null;
 
 $domain = trim((string)($input['domain'] ?? ''));
 
@@ -31,6 +35,52 @@ if (!$instanceId || $domain === '') {
         'error'   => 'missing_parameters'
     ]);
     exit;
+}
+
+/**
+ * Copies the token onto the WpSite row the plugin reads, then nudges
+ * the site's sync REST route so the meta tag lands within seconds.
+ * Without this the token lived only in gsc_domain_verifications and
+ * the plugin kept reporting "waiting for the token".
+ */
+function gscwp_push_token_to_site(PDO $pdo, string $instanceId, string $token): void
+{
+    try {
+        $upd = $pdo->prepare("
+            UPDATE WpSite
+            SET verify_token = :token
+            WHERE instance_id = :iid AND is_active = 1
+        ");
+        $upd->execute([':token' => $token, ':iid' => $instanceId]);
+
+        $trig = $pdo->prepare("
+            SELECT site_url, sync_secret
+            FROM WpSite
+            WHERE instance_id = :iid AND is_active = 1
+            LIMIT 1
+        ");
+        $trig->execute([':iid' => $instanceId]);
+        $t = $trig->fetch(PDO::FETCH_ASSOC);
+
+        if ($t && !empty($t['sync_secret']) && !empty($t['site_url'])) {
+            $ch = curl_init(rtrim((string) $t['site_url'], '/') . '/?rest_route=/gscwp/v1/sync');
+            curl_setopt_array($ch, [
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_POST           => true,
+                CURLOPT_POSTFIELDS     => json_encode([
+                    'instance_id' => $instanceId,
+                    'sync_secret' => (string) $t['sync_secret'],
+                ]),
+                CURLOPT_HTTPHEADER     => ['Content-Type: application/json'],
+                CURLOPT_TIMEOUT        => 5,
+                CURLOPT_CONNECTTIMEOUT => 3,
+            ]);
+            curl_exec($ch);
+            curl_close($ch);
+        }
+    } catch (Throwable $e) {
+        error_log('generate_meta push to site: ' . $e->getMessage());
+    }
 }
 
 /* ==========================================================
@@ -47,6 +97,8 @@ $stmt->execute([$instanceId]);
 $existingToken = $stmt->fetchColumn();
 
 if (!empty($existingToken)) {
+    // self-heal older sites whose token never reached WpSite
+    gscwp_push_token_to_site($pdo, $instanceId, (string) $existingToken);
     echo json_encode([
         'success'   => true,
         'metaToken'=> $existingToken,
@@ -165,6 +217,9 @@ $stmt->execute([
     $siteUrl,
     $metaToken
 ]);
+
+// the plugin reads WpSite.verify_token - hand it over right now
+gscwp_push_token_to_site($pdo, $instanceId, $metaToken);
 
 /* ==========================================================
    RESPONSE
