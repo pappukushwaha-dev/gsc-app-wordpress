@@ -14,6 +14,12 @@
 --   documentation_categories  (replaced)
 --   admin_users               (merged - your own admins stay)
 --
+-- SCHEMA DRIFT: the sandbox tables have evolved separately, so for
+-- every table the copy inserts only the columns that exist on BOTH
+-- sides (read from information_schema at run time). A column the
+-- source does not have is simply not copied; the target's own
+-- default fills it.
+--
 -- DELIBERATELY NOT copied:
 --   google_settings     - this app's Google OAuth project is live;
 --                         overwriting it breaks Connect Google
@@ -49,6 +55,9 @@ PREPARE gate_stmt FROM @gate_sql;
 EXECUTE gate_stmt;
 DEALLOCATE PREPARE gate_stmt;
 
+-- ---------- helper block, repeated per table ----------
+-- @cols = the columns present on BOTH sides, in target order.
+
 -- ---------- 1. admin_settings: merge (source wins on shared keys) ----------
 
 UPDATE admin_settings t
@@ -69,61 +78,117 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 TRUNCATE TABLE other_apps;
 
-INSERT INTO other_apps
-    (id, app_name, is_index, app_price, title, tag_line, subtitle,
-     description, image_url, button_text, button_link, status, sort_order)
-SELECT id, app_name, is_index, app_price, title, tag_line, subtitle,
-       description, image_url, button_text, button_link, status, sort_order
-FROM `google_search_console_sanbox`.other_apps;
-
--- ---------- 3. faqs ----------
+SET @cols := (SELECT GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ',')
+  FROM information_schema.COLUMNS c
+  WHERE c.TABLE_SCHEMA = DATABASE() AND c.TABLE_NAME = 'other_apps'
+    AND EXISTS (SELECT 1 FROM information_schema.COLUMNS s
+                WHERE s.TABLE_SCHEMA = 'google_search_console_sanbox'
+                  AND s.TABLE_NAME = 'other_apps' AND s.COLUMN_NAME = c.COLUMN_NAME));
+SET @sql := IF(@cols IS NULL,
+    'SELECT ''other_apps: no common columns - skipped'' AS note',
+    CONCAT('INSERT INTO other_apps (', @cols, ') SELECT ', @cols,
+           ' FROM `google_search_console_sanbox`.other_apps'));
+PREPARE st FROM @sql; EXECUTE st; DEALLOCATE PREPARE st;
 
 TRUNCATE TABLE faqs;
 TRUNCATE TABLE faq_categories;
 
-INSERT INTO faq_categories (id, name, sort_order)
-SELECT id, name, sort_order
-FROM `google_search_console_sanbox`.faq_categories;
+SET @cols := (SELECT GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ',')
+  FROM information_schema.COLUMNS c
+  WHERE c.TABLE_SCHEMA = DATABASE() AND c.TABLE_NAME = 'faq_categories'
+    AND EXISTS (SELECT 1 FROM information_schema.COLUMNS s
+                WHERE s.TABLE_SCHEMA = 'google_search_console_sanbox'
+                  AND s.TABLE_NAME = 'faq_categories' AND s.COLUMN_NAME = c.COLUMN_NAME));
+SET @sql := IF(@cols IS NULL,
+    'SELECT ''faq_categories: no common columns - skipped'' AS note',
+    CONCAT('INSERT INTO faq_categories (', @cols, ') SELECT ', @cols,
+           ' FROM `google_search_console_sanbox`.faq_categories'));
+PREPARE st FROM @sql; EXECUTE st; DEALLOCATE PREPARE st;
 
-INSERT INTO faqs (id, category_id, question, answer, sort_order)
-SELECT id, category_id, question, answer, sort_order
-FROM `google_search_console_sanbox`.faqs;
-
--- ---------- 4. email templates ----------
+SET @cols := (SELECT GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ',')
+  FROM information_schema.COLUMNS c
+  WHERE c.TABLE_SCHEMA = DATABASE() AND c.TABLE_NAME = 'faqs'
+    AND EXISTS (SELECT 1 FROM information_schema.COLUMNS s
+                WHERE s.TABLE_SCHEMA = 'google_search_console_sanbox'
+                  AND s.TABLE_NAME = 'faqs' AND s.COLUMN_NAME = c.COLUMN_NAME));
+SET @sql := IF(@cols IS NULL,
+    'SELECT ''faqs: no common columns - skipped'' AS note',
+    CONCAT('INSERT INTO faqs (', @cols, ') SELECT ', @cols,
+           ' FROM `google_search_console_sanbox`.faqs'));
+PREPARE st FROM @sql; EXECUTE st; DEALLOCATE PREPARE st;
 
 TRUNCATE TABLE email_templates;
 TRUNCATE TABLE email_categories;
 
-INSERT INTO email_categories (id, name)
-SELECT id, name
-FROM `google_search_console_sanbox`.email_categories;
+SET @cols := (SELECT GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ',')
+  FROM information_schema.COLUMNS c
+  WHERE c.TABLE_SCHEMA = DATABASE() AND c.TABLE_NAME = 'email_categories'
+    AND EXISTS (SELECT 1 FROM information_schema.COLUMNS s
+                WHERE s.TABLE_SCHEMA = 'google_search_console_sanbox'
+                  AND s.TABLE_NAME = 'email_categories' AND s.COLUMN_NAME = c.COLUMN_NAME));
+SET @sql := IF(@cols IS NULL,
+    'SELECT ''email_categories: no common columns - skipped'' AS note',
+    CONCAT('INSERT INTO email_categories (', @cols, ') SELECT ', @cols,
+           ' FROM `google_search_console_sanbox`.email_categories'));
+PREPARE st FROM @sql; EXECUTE st; DEALLOCATE PREPARE st;
 
-INSERT INTO email_templates (id, name, category_id, subject, body)
-SELECT id, name, category_id, subject, body
-FROM `google_search_console_sanbox`.email_templates;
-
--- ---------- 5. documentation ----------
+SET @cols := (SELECT GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ',')
+  FROM information_schema.COLUMNS c
+  WHERE c.TABLE_SCHEMA = DATABASE() AND c.TABLE_NAME = 'email_templates'
+    AND EXISTS (SELECT 1 FROM information_schema.COLUMNS s
+                WHERE s.TABLE_SCHEMA = 'google_search_console_sanbox'
+                  AND s.TABLE_NAME = 'email_templates' AND s.COLUMN_NAME = c.COLUMN_NAME));
+SET @sql := IF(@cols IS NULL,
+    'SELECT ''email_templates: no common columns - skipped'' AS note',
+    CONCAT('INSERT INTO email_templates (', @cols, ') SELECT ', @cols,
+           ' FROM `google_search_console_sanbox`.email_templates'));
+PREPARE st FROM @sql; EXECUTE st; DEALLOCATE PREPARE st;
 
 TRUNCATE TABLE documentation;
 TRUNCATE TABLE documentation_categories;
 
-INSERT INTO documentation_categories (id, name, sort_order)
-SELECT id, name, sort_order
-FROM `google_search_console_sanbox`.documentation_categories;
+SET @cols := (SELECT GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ',')
+  FROM information_schema.COLUMNS c
+  WHERE c.TABLE_SCHEMA = DATABASE() AND c.TABLE_NAME = 'documentation_categories'
+    AND EXISTS (SELECT 1 FROM information_schema.COLUMNS s
+                WHERE s.TABLE_SCHEMA = 'google_search_console_sanbox'
+                  AND s.TABLE_NAME = 'documentation_categories' AND s.COLUMN_NAME = c.COLUMN_NAME));
+SET @sql := IF(@cols IS NULL,
+    'SELECT ''documentation_categories: no common columns - skipped'' AS note',
+    CONCAT('INSERT INTO documentation_categories (', @cols, ') SELECT ', @cols,
+           ' FROM `google_search_console_sanbox`.documentation_categories'));
+PREPARE st FROM @sql; EXECUTE st; DEALLOCATE PREPARE st;
 
-INSERT INTO documentation (id, category_id, slug, title, content, sort_order)
-SELECT id, category_id, slug, title, content, sort_order
-FROM `google_search_console_sanbox`.documentation;
+SET @cols := (SELECT GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ',')
+  FROM information_schema.COLUMNS c
+  WHERE c.TABLE_SCHEMA = DATABASE() AND c.TABLE_NAME = 'documentation'
+    AND EXISTS (SELECT 1 FROM information_schema.COLUMNS s
+                WHERE s.TABLE_SCHEMA = 'google_search_console_sanbox'
+                  AND s.TABLE_NAME = 'documentation' AND s.COLUMN_NAME = c.COLUMN_NAME));
+SET @sql := IF(@cols IS NULL,
+    'SELECT ''documentation: no common columns - skipped'' AS note',
+    CONCAT('INSERT INTO documentation (', @cols, ') SELECT ', @cols,
+           ' FROM `google_search_console_sanbox`.documentation'));
+PREPARE st FROM @sql; EXECUTE st; DEALLOCATE PREPARE st;
 
 SET FOREIGN_KEY_CHECKS = 1;
 
--- ---------- 6. admin_users: merge, keep this app's own logins ----------
+-- ---------- 3. admin_users: merge, keep this app's own logins ----------
 
-INSERT IGNORE INTO admin_users (id, username, email, password, role, status)
-SELECT id, username, email, password, role, status
-FROM `google_search_console_sanbox`.admin_users;
+SET @cols := (SELECT GROUP_CONCAT(c.COLUMN_NAME ORDER BY c.ORDINAL_POSITION SEPARATOR ',')
+  FROM information_schema.COLUMNS c
+  WHERE c.TABLE_SCHEMA = DATABASE() AND c.TABLE_NAME = 'admin_users'
+    AND c.COLUMN_NAME IN ('id', 'username', 'email', 'password', 'role', 'status')
+    AND EXISTS (SELECT 1 FROM information_schema.COLUMNS s
+                WHERE s.TABLE_SCHEMA = 'google_search_console_sanbox'
+                  AND s.TABLE_NAME = 'admin_users' AND s.COLUMN_NAME = c.COLUMN_NAME));
+SET @sql := IF(@cols IS NULL,
+    'SELECT ''admin_users: no common columns - skipped'' AS note',
+    CONCAT('INSERT IGNORE INTO admin_users (', @cols, ') SELECT ', @cols,
+           ' FROM `google_search_console_sanbox`.admin_users'));
+PREPARE st FROM @sql; EXECUTE st; DEALLOCATE PREPARE st;
 
--- ---------- 7. bump auto-increment past the copied ids ----------
+-- ---------- 4. bump auto-increment past the copied ids ----------
 
 SET @mx := (SELECT COALESCE(MAX(id), 0) + 1 FROM other_apps);
 SET @s := CONCAT('ALTER TABLE other_apps AUTO_INCREMENT = ', @mx);
@@ -153,7 +218,7 @@ SET @mx := (SELECT COALESCE(MAX(id), 0) + 1 FROM documentation_categories);
 SET @s := CONCAT('ALTER TABLE documentation_categories AUTO_INCREMENT = ', @mx);
 PREPARE st FROM @s; EXECUTE st; DEALLOCATE PREPARE st;
 
--- ---------- 8. verify ----------
+-- ---------- 5. verify ----------
 
 SELECT 'admin_settings' AS what, COUNT(*) AS rows_now FROM admin_settings
 UNION ALL SELECT 'other_apps',      COUNT(*) FROM other_apps
