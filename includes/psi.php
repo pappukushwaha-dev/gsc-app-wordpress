@@ -185,7 +185,8 @@ function psi_run_and_store(PDO $pdo, string $instanceId, string $url, string $st
     $ch = curl_init(PSI_ENDPOINT . '?' . $qs);
     curl_setopt_array($ch, [
         CURLOPT_RETURNTRANSFER => true,
-        CURLOPT_TIMEOUT        => 45,   // must expire before the caller's cap
+        CURLOPT_TIMEOUT        => 90,   // cold-cache mobile runs regularly cross 45s;
+                                        // the caller's watchdog (120s) still caps it
         CURLOPT_CONNECTTIMEOUT => 10,
     ]);
     $body = curl_exec($ch);

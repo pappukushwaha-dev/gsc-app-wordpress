@@ -1109,7 +1109,9 @@ include './partials/layouts/layoutTop.php';
         var timer = setTimeout(function () {
             if (done) { return; }
             done = true; SPEED_STATE = 'failed'; healthRepaint();
-        }, 60000);   // outlive the 45s server-side PSI timeout, so a
+        }, 120000);  // outlive the 90s server-side PSI cap (cold-cache runs
+                     // regularly cross 45s), so a slow run reports its real
+                     // result instead of the watchdog giving up mid-flight
                      // failed run reports its real error instead of
                      // being abandoned while still in flight
 
