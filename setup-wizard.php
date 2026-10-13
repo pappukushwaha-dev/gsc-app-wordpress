@@ -40,9 +40,36 @@ $hasActiveSubscription = ($subscription && $subscription['status'] === 'active')
 /* ==========================================================
    3. STEP HANDLING
 ========================================================== */
-$step = $_GET['step'] ?? '1';
-if (!in_array($step, ['1', '2', '3'], true)) {
-    $step = '1';
+/* An explicit ?step= always wins. A bare wizard URL resumes where
+   the merchant left off: the first unfinished step, read from
+   setup_wizard_status - so nobody walks through finished steps
+   again on the way back in. */
+$step = in_array((string) ($_GET['step'] ?? ''), ['1', '2', '3'], true)
+    ? (string) $_GET['step']
+    : null;
+
+if ($step === null) {
+    try {
+        $resumeStmt = $pdo->prepare("
+            SELECT step1, step2, step3
+            FROM setup_wizard_status
+            WHERE instance_id = :iid
+            LIMIT 1
+        ");
+        $resumeStmt->execute([':iid' => $instanceId]);
+        $resume = $resumeStmt->fetch(PDO::FETCH_ASSOC);
+
+        if (!$resume || (int) $resume['step1'] !== 1) {
+            $step = '1';
+        } elseif ((int) $resume['step2'] !== 1) {
+            $step = '2';
+        } else {
+            $step = '3'; // everything done - step 3 renders its completed view
+        }
+    } catch (Throwable $e) {
+        error_log('setup-wizard resume: ' . $e->getMessage());
+        $step = '1';
+    }
 }
 $steps = [
     '1' => ['label' => 'Step 1', 'title' => 'Connect Your Domain'],

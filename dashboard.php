@@ -62,7 +62,11 @@ if ($instanceId) {
             && (int)$gate['step2'] === 1;
 
         if (!$setupDone) {
-            header('Location: setup-wizard.php?instance_id=' . urlencode($instanceId));
+            // Send them to the first unfinished step, not back to step 1.
+            $pending = (!$gate || (int) $gate['step1'] !== 1)
+                ? 1
+                : ((int) $gate['step2'] !== 1 ? 2 : 3);
+            header('Location: setup-wizard.php?instance_id=' . urlencode($instanceId) . '&step=' . $pending);
             exit;
         }
     } catch (Throwable $e) {
