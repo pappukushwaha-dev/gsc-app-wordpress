@@ -87,12 +87,33 @@ try {
     error_log('instance-meta plan: ' . $e->getMessage());
 }
 
+/* Google connection state: the dashboard has its own disconnect
+   action, and the plugin should reflect it rather than claiming a
+   live Google link that no longer exists. */
+$googleConnected = false;
+try {
+    $g = $pdo->prepare("
+        SELECT connected, access_token, refresh_token
+        FROM google_accounts
+        WHERE instance_id = :iid
+        LIMIT 1
+    ");
+    $g->execute([':iid' => $site['instance_id']]);
+    $ga = $g->fetch(PDO::FETCH_ASSOC);
+    $googleConnected = $ga
+        && (int) $ga['connected'] === 1
+        && (!empty($ga['access_token']) || !empty($ga['refresh_token']));
+} catch (Throwable $e) {
+    error_log('instance-meta google state: ' . $e->getMessage());
+}
+
 gscwp_respond(true, [
-    'instance_id'   => $site['instance_id'],
-    'site_url'      => $site['site_url'],
-    'verify_token'  => (string) ($site['verify_token'] ?? ''),
-    'sitemap_url'   => (string) ($site['sitemap_url'] ?? ''),
-    'is_verified'   => ($site['verify_token'] ?? '') !== '',
-    'sync_secret'   => $syncSecret,
-    'is_paid'       => $isPaid,
+    'instance_id'     => $site['instance_id'],
+    'site_url'        => $site['site_url'],
+    'verify_token'    => (string) ($site['verify_token'] ?? ''),
+    'sitemap_url'     => (string) ($site['sitemap_url'] ?? ''),
+    'is_verified'     => ($site['verify_token'] ?? '') !== '',
+    'sync_secret'     => $syncSecret,
+    'is_paid'         => $isPaid,
+    'google_connected'=> $googleConnected,
 ]);
