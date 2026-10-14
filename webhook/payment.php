@@ -3,6 +3,11 @@ declare(strict_types=1);
 
 require __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/../includes/credentials.php';
+// Stripe SDK - Webhook::constructEvent needs it, same as billing.php.
+// vendor/ is gitignored, so this file must exist on the deployment
+// (composer require stripe/stripe-php) or every delivery fails with
+// "Class Stripe\Webhook not found".
+require_once __DIR__ . '/../vendor/autoload.php';
 $pdo->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 use Stripe\Webhook;
