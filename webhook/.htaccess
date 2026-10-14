@@ -1,0 +1,6 @@
+# Webhook directory - only payment.php should be reachable.
+# Log/debug artifacts must never be served.
+
+<FilesMatch "\.(txt|log|json)$">
+    Require all denied
+</FilesMatch>

@@ -19,6 +19,17 @@ if (!$endpointSecret) {
 
 function logToFile(string $label, $data): void
 {
+    /* Disabled by default. This wrote full webhook payloads - customer
+       emails, subscription ids - into a web-readable .txt file beside
+       the endpoint, which is both a data leak and, on this deployment,
+       a directory the web user cannot write to anyway. Every stage is
+       already recorded in the webhook_test_logs table. To re-enable
+       file logging deliberately, define STRIPE_WEBHOOK_DEBUG as true
+       and make the directory writable to the PHP user only. */
+    if (!defined('STRIPE_WEBHOOK_DEBUG') || !STRIPE_WEBHOOK_DEBUG) {
+        return;
+    }
+
     $logFile = __DIR__ . '/stripe_webhook_debug.txt';
 
     $entry = "============================\n";
