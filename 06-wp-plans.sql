@@ -44,7 +44,7 @@ WHERE NOT EXISTS (SELECT 1 FROM pricing_plans WHERE code = 'grow' AND billingPer
 INSERT INTO pricing_plans
     (name, code, price, isRecurring, billingPeriod, planProductId, showInMarket, price_id)
 SELECT * FROM (
-    SELECT 'Grow' AS name, 'grow' AS code, 200 AS price, 1 AS isRecurring,
+    SELECT 'Grow' AS name, 'grow' AS code, 168 AS price, 1 AS isRecurring,
            'yearly' AS billingPeriod, '' AS planProductId, 1 AS showInMarket, NULL AS price_id
 ) AS src
 WHERE NOT EXISTS (SELECT 1 FROM pricing_plans WHERE code = 'grow' AND billingPeriod = 'yearly');
