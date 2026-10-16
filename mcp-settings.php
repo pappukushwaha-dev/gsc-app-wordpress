@@ -31,7 +31,8 @@ if (empty($instanceId)) {
 $googleConnected = false;
 $googleEmail = '';
 try {
-    require_once __DIR__ . '/includes/db.php';
+    require_once __DIR__ . '/includes/config.php'; // loads app .env (Dotenv)
+        require_once __DIR__ . '/includes/db.php'; // provides $pdo
     $stmt = $pdo->prepare('SELECT email, connected FROM google_accounts WHERE `' . MCP_GA_COLUMN . '` = :iid ORDER BY id DESC LIMIT 1');
     $stmt->execute([':iid' => $instanceId]);
     $ga = $stmt->fetch(PDO::FETCH_ASSOC);
