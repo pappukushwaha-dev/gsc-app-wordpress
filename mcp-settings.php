@@ -15,7 +15,9 @@ if (!function_exists('h')) {
 }
 
 require_once __DIR__ . '/mcp-config.php';
-$brandSvg = require_once __DIR__ . '/includes/brand_svgs.php';
+$brandSvg = is_file(__DIR__ . '/includes/brand_svgs.php')
+        ? require_once __DIR__ . '/includes/brand_svgs.php'
+        : []; // page works even without brand icons
 
 $instanceId = $_SESSION['instanceid'] ?? $_SESSION['instance_id'] ?? ($_GET['instance_id'] ?? ($_GET['instanceId'] ?? null));
 $instanceId = is_string($instanceId) ? trim($instanceId) : null;
