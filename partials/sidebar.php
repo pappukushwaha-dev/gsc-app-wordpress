@@ -230,6 +230,12 @@ $faviconPath = $adminData['favicon_path'] ?? 'assets/images/logo-icon.png';
   <div class="sidebar-menu-area flex flex-col justify-start">
     <ul class="sidebar-menu cstm-sidebar-menu" id="sidebar-menu">
       <li>
+        <a href="mcp-settings.php?instance_id=<?= urlencode($instanceIdForApi) ?>">
+          <iconify-icon icon="solar:cpu-bolt-outline" class="menu-icon"></iconify-icon>
+          <span>AI Assistant</span>
+        </a>
+      </li>
+      <li>
         <a href="dashboard.php?instance_id=<?= urlencode($instanceIdForApi) ?>">
           <iconify-icon icon="solar:widget-4-outline" class="menu-icon"></iconify-icon>
           <span>Dashboard</span>
