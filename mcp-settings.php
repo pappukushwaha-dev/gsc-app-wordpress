@@ -19,7 +19,12 @@ $brandSvg = is_file(__DIR__ . '/includes/brand_svgs.php')
     ? require_once __DIR__ . '/includes/brand_svgs.php'
     : [];
 
-$instanceId = $_SESSION['instanceid'] ?? $_SESSION['instance_id'] ?? ($_GET['instance_id'] ?? ($_GET['instanceId'] ?? null));
+$instanceId = $_GET['instance_id'] ?? ($_GET['instanceId'] ?? null)
+    ?? $_SESSION['instanceid'] ?? $_SESSION['instance_id'] ?? null;
+// note: null-coalesce chain above evaluates left to right; keep explicit:
+if (!isset($instanceId) || !is_string($instanceId) || trim($instanceId) === '') {
+    $instanceId = $_SESSION['instanceid'] ?? $_SESSION['instance_id'] ?? null;
+}
 $instanceId = is_string($instanceId) ? trim($instanceId) : null;
 
 if (empty($instanceId)) {
@@ -231,8 +236,8 @@ include './partials/layouts/layoutTop.php';
   <?php if (!$googleConnected): ?>
     <div class="mcp-card" style="border-color:#fca5a5;background:#fef2f2;">
       <h2 style="margin:0 0 4px;font-size:16px;">Connect Google first</h2>
-      <p style="margin:0;font-size:13px;color:#64748b;">Your Google Search Console account is not linked yet.
-        Open the <a href="setup-wizard.php?step=1" style="text-decoration:underline;">setup wizard (step 1)</a>, connect Google, then come back here.</p>
+      <p style="margin:0;font-size:13px;color:#64748b;">Checked store: <code><?= h((string)$instanceId) ?></code> — Your Google Search Console account is not linked for this store yet.
+        Open the <a href="setup-wizard.php?step=1" style="text-decoration:underline;">setup wizard (step 1)</a>, connect Google for this store, then come back here.</p>
     </div>
   <?php else: ?>
 
