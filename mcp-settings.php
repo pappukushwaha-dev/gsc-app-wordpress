@@ -44,28 +44,25 @@ try {
     $googleConnected = false;
 }
 
-// ---- Internal MCP API helper (Cloudflare-loop safe: falls back to origin) ----
+// ---- Internal MCP API helper (Cloudflare-loop safe: falls back to origin via DNS pin) ----
 function mcpCurlPost(string $path, string $payload): array
 {
-    $attempts = [['url' => MCP_SERVER_URL . $path, 'verify' => true, 'host' => null]];
+    $host = (string) (parse_url(MCP_SERVER_URL, PHP_URL_HOST) ?: '');
+    $attempts = [['url' => MCP_SERVER_URL . $path, 'resolve' => null]];
+
+    // Second attempt: same URL (SNI/Host/cert all correct) but DNS pinned to
+    // the origin IP — bypasses Cloudflare entirely when it misdirects (421).
     if (defined('MCP_INTERNAL_FALLBACK_URL') && MCP_INTERNAL_FALLBACK_URL !== '') {
-        $attempts[] = [
-            'url'    => MCP_INTERNAL_FALLBACK_URL . $path,
-            'verify' => false,
-            'host'   => (string) (parse_url(MCP_SERVER_URL, PHP_URL_HOST) ?: ''),
-        ];
+        $fbHost = (string) (parse_url(MCP_INTERNAL_FALLBACK_URL, PHP_URL_HOST) ?: '');
+        if ($fbHost !== '') {
+            $port = parse_url(MCP_SERVER_URL, PHP_URL_PORT) ?: 443;
+            $attempts[] = ['url' => MCP_SERVER_URL . $path, 'resolve' => [$host . ':' . $port . ':' . $fbHost]];
+        }
     }
 
     $lastHttp = 0;
     $lastErr = '';
     foreach ($attempts as $a) {
-        $headers = [
-            'Content-Type: application/json',
-            'X-Mcp-Internal-Secret: ' . MCP_INTERNAL_SECRET,
-        ];
-        if ($a['host'] !== null && $a['host'] !== '') {
-            $headers[] = 'Host: ' . $a['host'];
-        }
         $ch = curl_init($a['url']);
         $opts = [
             CURLOPT_POST           => true,
@@ -75,11 +72,13 @@ function mcpCurlPost(string $path, string $payload): array
             CURLOPT_FOLLOWLOCATION => true,
             CURLOPT_USERAGENT      => 'Makkpress-Server/1.0 (+https://makkpressapps.com)',
             CURLOPT_IPRESOLVE      => CURL_IPRESOLVE_V4,
-            CURLOPT_HTTPHEADER     => $headers,
+            CURLOPT_HTTPHEADER     => [
+                'Content-Type: application/json',
+                'X-Mcp-Internal-Secret: ' . MCP_INTERNAL_SECRET,
+            ],
         ];
-        if (!$a['verify']) {
-            $opts[CURLOPT_SSL_VERIFYPEER] = false;
-            $opts[CURLOPT_SSL_VERIFYHOST] = 0;
+        if ($a['resolve'] !== null) {
+            $opts[CURLOPT_RESOLVE] = $a['resolve'];
         }
         curl_setopt_array($ch, $opts);
         $response = curl_exec($ch);
