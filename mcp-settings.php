@@ -87,7 +87,7 @@ function mcpCurlPost(string $path, string $payload): array
         $curlErr = curl_error($ch);
         curl_close($ch);
 
-        if ($response === false || $response === '' || $httpCode === 0 || $httpCode === 403) {
+        if ($response === false || $response === '' || $httpCode === 0 || $httpCode === 403 || $httpCode === 421 || $httpCode >= 500) {
             $lastHttp = $httpCode;
             $lastErr = $curlErr;
             continue;
@@ -176,7 +176,7 @@ if ($googleConnected) {
         $assistants = $status['assistants'] ?? [];
         $apiKeys = $status['api_keys'] ?? [];
     } else {
-        $errorMsg = 'Action Center status fetch failed (HTTP ' . $statusHttp . '). Manage MCP settings ke saath issue report karein.';
+        $errorMsg = 'Action Center status fetch failed (HTTP ' . $statusHttp . '). If this persists, please report this issue.';
     }
 }
 
