@@ -238,60 +238,6 @@ include './partials/layouts/layoutTop.php';
       <div style="max-width:none;margin-bottom:1rem;border-radius:10px;border:0.5px solid #fecaca;background:#fef2f2;color:#b91c1c;padding:10px 14px;font-size:13px;"><?= h($errorMsg) ?></div>
     <?php endif; ?>
 
-    <?php if ($notice !== null): ?>
-      <div class="mcp-card">
-        <p style="margin:0 0 6px;font-size:14px;font-weight:600;"><?= h($noticeTitle) ?></p>
-        <p style="margin:0 0 8px;font-size:12px;color:#64748b;">Copy it now — it will not be shown again.</p>
-        <div class="mcp-code-row"><span class="code" style="font-size:14px;letter-spacing:1px;"><?= h($notice) ?></span></div>
-
-        <p style="margin:16px 0 8px;font-size:13px;font-weight:600;">Connect via CLI / config</p>
-        <p style="margin:0 0 8px;font-size:12px;color:#64748b;">Paste this key in any MCP client that supports header authentication:</p>
-
-        <details style="margin-bottom:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
-          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">Claude Code (terminal)</summary>
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
-            <code style="font-size:12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;">claude mcp add --transport http orgalytics-gsc https://mcp.orgalytics.ai/mcp --header "Authorization: Bearer <?= h($notice) ?>"</code>
-            <button type="button" class="cp" data-copy-text='claude mcp add --transport http orgalytics-gsc https://mcp.orgalytics.ai/mcp --header "Authorization: Bearer <?= h($notice) ?>"' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
-          </div>
-        </details>
-
-        <details style="margin-bottom:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
-          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">Cursor</summary>
-          <p style="margin:6px 0;font-size:12px;color:#64748b;">Add to <code>.cursor/mcp.json</code>:</p>
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
-            <code style="font-size:12px;white-space:pre-wrap;word-break:break-all;">{ "mcpServers": { "orgalytics-gsc": { "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }</code>
-            <button type="button" class="cp" data-copy-text='{ "mcpServers": { "orgalytics-gsc": { "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
-          </div>
-        </details>
-
-        <details style="border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
-          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">VS Code</summary>
-          <p style="margin:6px 0;font-size:12px;color:#64748b;">Add to <code>.vscode/mcp.json</code>:</p>
-          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
-            <code style="font-size:12px;white-space:pre-wrap;word-break:break-all;">{ "servers": { "orgalytics-gsc": { "type": "http", "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }</code>
-            <button type="button" class="cp" data-copy-text='{ "servers": { "orgalytics-gsc": { "type": "http", "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
-          </div>
-        </details>
-
-        <p style="margin:10px 0 0;font-size:12px;color:#64748b;display:flex;align-items:center;gap:4px;">
-          <iconify-icon icon="solar:shield-check-bold" width="13" style="color:#16a34a;"></iconify-icon>
-          Deleting this key from the list above cuts access for everyone using it.
-        </p>
-      </div>
-
-      <script>
-        document.querySelectorAll('[data-copy-text]').forEach(function (b) {
-          b.addEventListener('click', function () {
-            navigator.clipboard.writeText(b.dataset.copyText).then(function () {
-              var i = b.querySelector('iconify-icon');
-              if (i) { i.setAttribute('icon', 'solar:check-circle-bold'); i.style.color = '#16a34a'; }
-              setTimeout(function () { if (i) { i.setAttribute('icon', 'solar:copy-outline'); i.style.color = ''; } }, 1500);
-            });
-          });
-        });
-      </script>
-    <?php endif; ?>
-
     <!-- Hero banner -->
     <div class="mcp-hero-banner">
       <iconify-icon icon="solar:sparkles-bold" width="22" style="color:#2563eb;margin-top:2px;"></iconify-icon>
@@ -360,6 +306,62 @@ include './partials/layouts/layoutTop.php';
         </div>
         <p style="margin:0 0 12px;font-size:13px;color:#64748b;">Use an API key for assistants that don't support one-click connection.</p>
 
+    <?php if ($notice !== null): ?>
+      <div class="mcp-card" id="api-key-notice">
+        <p style="margin:0 0 6px;font-size:14px;font-weight:600;"><?= h($noticeTitle) ?></p>
+        <p style="margin:0 0 8px;font-size:12px;color:#64748b;">Copy it now — it will not be shown again.</p>
+        <div class="mcp-code-row"><span class="code" style="font-size:14px;letter-spacing:1px;"><?= h($notice) ?></span></div>
+
+        <p style="margin:16px 0 8px;font-size:13px;font-weight:600;">Connect via CLI / config</p>
+        <p style="margin:0 0 8px;font-size:12px;color:#64748b;">Paste this key in any MCP client that supports header authentication:</p>
+
+        <details style="margin-bottom:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
+          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">Claude Code (terminal)</summary>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
+            <code style="font-size:12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;">claude mcp add --transport http orgalytics-gsc https://mcp.orgalytics.ai/mcp --header "Authorization: Bearer <?= h($notice) ?>"</code>
+            <button type="button" class="cp" data-copy-text='claude mcp add --transport http orgalytics-gsc https://mcp.orgalytics.ai/mcp --header "Authorization: Bearer <?= h($notice) ?>"' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
+          </div>
+        </details>
+
+        <details style="margin-bottom:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
+          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">Cursor</summary>
+          <p style="margin:6px 0;font-size:12px;color:#64748b;">Add to <code>.cursor/mcp.json</code>:</p>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
+            <code style="font-size:12px;white-space:pre-wrap;word-break:break-all;">{ "mcpServers": { "orgalytics-gsc": { "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }</code>
+            <button type="button" class="cp" data-copy-text='{ "mcpServers": { "orgalytics-gsc": { "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
+          </div>
+        </details>
+
+        <details style="border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
+          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">VS Code</summary>
+          <p style="margin:6px 0;font-size:12px;color:#64748b;">Add to <code>.vscode/mcp.json</code>:</p>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
+            <code style="font-size:12px;white-space:pre-wrap;word-break:break-all;">{ "servers": { "orgalytics-gsc": { "type": "http", "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }</code>
+            <button type="button" class="cp" data-copy-text='{ "servers": { "orgalytics-gsc": { "type": "http", "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
+          </div>
+        </details>
+
+        <p style="margin:10px 0 0;font-size:12px;color:#64748b;display:flex;align-items:center;gap:4px;">
+          <iconify-icon icon="solar:shield-check-bold" width="13" style="color:#16a34a;"></iconify-icon>
+          Deleting this key from the list above cuts access for everyone using it.
+        </p>
+      </div>
+
+      <script>
+        document.querySelectorAll('[data-copy-text]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            navigator.clipboard.writeText(b.dataset.copyText).then(function () {
+              var i = b.querySelector('iconify-icon');
+              if (i) { i.setAttribute('icon', 'solar:check-circle-bold'); i.style.color = '#16a34a'; }
+              setTimeout(function () { if (i) { i.setAttribute('icon', 'solar:copy-outline'); i.style.color = ''; } }, 1500);
+            });
+          });
+        });
+      </script>
+    <?php endif; ?>
+
+
+
         <?php if ($apiKeys === []): ?>
           <div class="mcp-empty">
             <p>No API keys yet</p>
@@ -405,17 +407,27 @@ include './partials/layouts/layoutTop.php';
   <?php endif; ?>
 </div>
 
+<?php if (isset($notice) && $notice !== null): ?>
+<script>
+  var nEl = document.getElementById("api-key-notice");
+  if (nEl) { nEl.scrollIntoView({ behavior: "smooth", block: "center" }); }
+</script>
+<?php endif; ?>
+
 <script>
 (function () {
   var btn = document.getElementById('mcp-connect-btn');
   if (!btn) return;
   var slot = document.getElementById('mcp-panel-slot');
   var mcpUrl = <?= json_encode(MCP_SERVER_URL . '/mcp') ?>;
+  var brandSvg = <?= json_encode($brandSvg) ?>;
 
   var clients = {
     claude: {
       name: 'Claude',
       logo: brandSvg.claude || '',
+      bg: '#fdece4',
+      fg: '#d97757',
       sub: 'Follow these steps in Claude. It takes about a minute.',
       steps: ['In Claude, go to Settings › Connectors and click Add custom connector.',
               'Name it Search Console, paste the server URL below, and click Add.',
@@ -425,6 +437,8 @@ include './partials/layouts/layoutTop.php';
     chatgpt: {
       name: 'ChatGPT',
       logo: brandSvg.chatgpt || '',
+      bg: '#eef2f6',
+      fg: '#111111',
       sub: 'Follow these steps in ChatGPT. Developer mode needs to be turned on.',
       steps: ['In ChatGPT, go to Settings › Connectors and turn on Developer mode.',
               'Add a new connector, name it Search Console, and paste the server URL below.',
@@ -478,6 +492,7 @@ include './partials/layouts/layoutTop.php';
     var el = document.getElementById('mcp-countdown');
     var codeEl = document.getElementById('mcp-code');
     var noteEl = document.getElementById('mcp-exp-note');
+    selectClient('claude');
     var timer = setInterval(function () {
       left--;
       if (left <= 0) {
