@@ -2,7 +2,7 @@
 declare(strict_types=1);
 
 $title = 'MCP Settings';
-$subTitle = 'Connect your AI assistant with your Search Console data';
+$subTitle = 'AI assistant connections';
 
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -15,7 +15,9 @@ if (!function_exists('h')) {
 }
 
 require_once __DIR__ . '/mcp-config.php';
-$brandSvg = require_once __DIR__ . '/includes/brand_svgs.php';
+$brandSvg = is_file(__DIR__ . '/includes/brand_svgs.php')
+    ? require_once __DIR__ . '/includes/brand_svgs.php'
+    : [];
 
 $instanceId = $_SESSION['instanceid'] ?? $_SESSION['instance_id'] ?? ($_GET['instance_id'] ?? ($_GET['instanceId'] ?? null));
 $instanceId = is_string($instanceId) ? trim($instanceId) : null;
@@ -29,8 +31,8 @@ if (empty($instanceId)) {
 $googleConnected = false;
 $googleEmail = '';
 try {
-    require_once __DIR__ . '/includes/config.php'; // loads app .env (Dotenv)
-        require_once __DIR__ . '/includes/db.php'; // provides $pdo
+    require_once __DIR__ . '/includes/config.php';
+    require_once __DIR__ . '/includes/db.php';
     $stmt = $pdo->prepare('SELECT email, connected FROM google_accounts WHERE `' . MCP_GA_COLUMN . '` = :iid ORDER BY id DESC LIMIT 1');
     $stmt->execute([':iid' => $instanceId]);
     $ga = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -42,9 +44,7 @@ try {
     $googleConnected = false;
 }
 
-// ---- Internal MCP API helper ----
-// Posts to the MCP server; retries once via the origin URL when the public
-// (Cloudflare-fronted) route blocks or fails.
+// ---- Internal MCP API helper (Cloudflare-loop safe: falls back to origin) ----
 function mcpCurlPost(string $path, string $payload): array
 {
     $attempts = [['url' => MCP_SERVER_URL . $path, 'verify' => true, 'host' => null]];
@@ -90,7 +90,7 @@ function mcpCurlPost(string $path, string $payload): array
         if ($response === false || $response === '' || $httpCode === 0 || $httpCode === 403) {
             $lastHttp = $httpCode;
             $lastErr = $curlErr;
-            continue; // blocked/failed -> try next route
+            continue;
         }
         $decoded = is_string($response) ? json_decode($response, true) : null;
         return is_array($decoded) ? ($decoded + ['_http' => $httpCode]) : ['_http' => $httpCode];
@@ -135,11 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_generate'])) {
         }
     }
 
-    // The app's includes can emit notices/warnings - never let them pollute the JSON.
     $json = json_encode($response);
-    while (ob_get_level() > 0) {
-        ob_end_clean();
-    }
+    while (ob_get_level() > 0) { ob_end_clean(); }
     header('Content-Type: application/json');
     echo $json;
     exit;
@@ -147,7 +144,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajax_generate'])) {
 
 // ---- Non-AJAX actions ----
 $errorMsg = null;
-$notice = null;      // one-time panel content (e.g., new API key)
+$notice = null;
 $noticeTitle = '';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['create_key'])) {
@@ -184,107 +181,162 @@ include './partials/layouts/layoutTop.php';
 ?>
 
 <style>
-  .mcp-hero { background: linear-gradient(100deg, #eff6ff 0%, #dbeafe 55%, #e0e7ff 100%); }
-  .mcp-btn-primary { background:#2563eb; }
-  .mcp-btn-primary:hover { background:#1d4ed8; }
-  .mcp-icon-box { background:#2563eb1a; color:#2563eb; }
+  .mcp-page { max-width: 46rem; }
+  .mcp-hero { display:flex; align-items:center; gap:12px; margin-bottom:1.25rem; }
+  .mcp-hero .ic { width:40px; height:40px; border-radius:10px; background:var(--mcp-accent-soft,#e7f1fb); color:#2563eb; display:flex; align-items:center; justify-content:center; }
+  .mcp-hero h1 { margin:0; font-size:22px; font-weight:700; display:flex; align-items:center; gap:8px; }
+  .mcp-hero .mcp-badge { font-size:11px; padding:2px 8px; border-radius:6px; background:#f1f5f9; color:#64748b; border:0.5px solid #e2e8f0; }
+  .mcp-hero p { margin:0; font-size:13px; color:#64748b; }
+  .mcp-card { background:#fff; border:0.5px solid #e2e8f0; border-radius:12px; padding:1rem 1.25rem; margin-bottom:1rem; }
+  .mcp-hero-banner { background:#e7f1fb; border:0.5px solid #bfdbfe; border-radius:12px; padding:1rem 1.25rem; margin-bottom:1rem; display:flex; gap:12px; }
+  .mcp-hero-banner h2 { margin:0 0 4px; font-size:16px; }
+  .mcp-hero-banner p { margin:0 0 12px; font-size:13px; line-height:1.6; color:#64748b; }
+  .mcp-btn { display:inline-flex; align-items:center; gap:6px; background:#2563eb; color:#fff; border:none; border-radius:8px; padding:8px 14px; font-size:13px; font-weight:600; cursor:pointer; }
+  .mcp-btn:hover { background:#1d4ed8; }
+  .mcp-btn[disabled] { opacity:.6; cursor:wait; }
+  .mcp-code-row { display:flex; align-items:center; justify-content:space-between; gap:8px; background:#f8fafc; border-radius:10px; padding:12px 16px; }
+  .mcp-code-row .code { font-family:ui-monospace,monospace; font-size:26px; font-weight:500; letter-spacing:4px; color:#2563eb; }
+  .mcp-code-row .cp { background:none; border:none; cursor:pointer; color:#64748b; font-size:16px; padding:4px; }
+  .mcp-code-row .cp:hover { color:#2563eb; }
+  .mcp-tab { font-size:13px; padding:6px 14px; border-radius:999px; cursor:pointer; background:#fff; border:0.5px solid #e2e8f0; color:#64748b; }
+  .mcp-tab.on { border:1px solid #2563eb; color:#2563eb; background:#e7f1fb; }
+  .mcp-step { display:flex; gap:10px; align-items:flex-start; margin:0 0 10px; font-size:13px; line-height:1.6; }
+  .mcp-step .num { flex:none; width:22px; height:22px; border-radius:50%; background:#2563eb; color:#fff; font-size:12px; display:flex; align-items:center; justify-content:center; margin-top:1px; }
+  .mcp-url { display:flex; align-items:center; justify-content:space-between; gap:8px; margin-top:6px; border:0.5px solid #e2e8f0; border-radius:10px; padding:6px 6px 6px 12px; }
+  .mcp-url code { font-family:ui-monospace,monospace; font-size:12px; overflow-x:auto; }
+  .mcp-url button { background:none; border:none; cursor:pointer; color:#64748b; font-size:15px; padding:2px; }
+  .mcp-url button:hover { color:#2563eb; }
+  .mcp-empty { border:0.5px dashed #94a3b8; border-radius:10px; padding:1.25rem; text-align:center; }
+  .mcp-empty p { margin:0; font-size:14px; font-weight:500; }
+  .mcp-empty p + p { margin:4px 0 0; font-size:12px; color:#64748b; font-weight:400; }
+  .mcp-badge-connected { display:inline-block; font-size:11px; font-weight:600; padding:1px 8px; border-radius:999px; background:#dcfce7; color:#16a34a; }
+  .mcp-badge-created { display:inline-block; font-size:11px; font-weight:600; padding:1px 8px; border-radius:999px; background:#dbeafe; color:#2563eb; }
+  .mcp-badge-deleted { display:inline-block; font-size:11px; font-weight:600; padding:1px 8px; border-radius:999px; background:#f1f5f9; color:#94a3b8; }
+  .mcp-del { font-size:13px; font-weight:500; color:#dc2626; background:#fff; border:0.5px solid #fecaca; border-radius:8px; padding:5px 12px; cursor:pointer; }
+  .mcp-del:hover { background:#fef2f2; }
 </style>
 
-<div class="p-4 md:p-6">
-  <!-- Page heading -->
-  <div class="flex items-center gap-3 mb-5">
-    <div class="w-11 h-11 rounded-xl mcp-icon-box flex items-center justify-center text-xl">
-      <iconify-icon icon="solar:link-circle-bold"></iconify-icon>
-    </div>
+<div class="mcp-page">
+  <!-- Page header -->
+  <div class="mcp-hero">
+    <div class="ic"><iconify-icon icon="solar:link-circle-bold" width="22"></iconify-icon></div>
     <div>
-      <h1 class="text-xl font-bold text-gray-900 leading-tight">MCP Settings</h1>
-      <p class="text-sm text-gray-500">Connect your AI assistant with your Search Console data</p>
+      <h1>AI assistant connections <span class="mcp-badge">MCP</span></h1>
+      <p>Let AI assistants like Claude and ChatGPT read your Search Console data.</p>
     </div>
   </div>
 
   <?php if (!$googleConnected): ?>
-    <div class="rounded-xl border border-amber-200 bg-amber-50 p-5 text-amber-800 max-w-3xl">
-      <p class="font-semibold mb-1">Connect Google first</p>
-      <p class="text-sm">Your Google Search Console account is not linked yet.
-        Open the <a class="underline font-medium" href="setup-wizard.php?step=1">setup wizard (step 1)</a>,
-        connect Google, then come back here.</p>
+    <div class="mcp-card" style="border-color:#fca5a5;background:#fef2f2;">
+      <h2 style="margin:0 0 4px;font-size:16px;">Connect Google first</h2>
+      <p style="margin:0;font-size:13px;color:#64748b;">Your Google Search Console account is not linked yet.
+        Open the <a href="setup-wizard.php?step=1" style="text-decoration:underline;">setup wizard (step 1)</a>, connect Google, then come back here.</p>
     </div>
   <?php else: ?>
 
     <?php if ($errorMsg !== null): ?>
-      <div class="max-w-5xl mb-4 rounded-lg border border-red-200 bg-red-50 text-red-700 px-4 py-3 text-sm"><?= h($errorMsg) ?></div>
+      <div style="max-width:none;margin-bottom:1rem;border-radius:10px;border:0.5px solid #fecaca;background:#fef2f2;color:#b91c1c;padding:10px 14px;font-size:13px;"><?= h($errorMsg) ?></div>
+    <?php endif; ?>
+
+    <?php if ($notice !== null): ?>
+      <div class="mcp-card">
+        <p style="margin:0 0 6px;font-size:14px;font-weight:600;"><?= h($noticeTitle) ?></p>
+        <p style="margin:0 0 8px;font-size:12px;color:#64748b;">Copy it now — it will not be shown again.</p>
+        <div class="mcp-code-row"><span class="code" style="font-size:14px;letter-spacing:1px;"><?= h($notice) ?></span></div>
+
+        <p style="margin:16px 0 8px;font-size:13px;font-weight:600;">Connect via CLI / config</p>
+        <p style="margin:0 0 8px;font-size:12px;color:#64748b;">Paste this key in any MCP client that supports header authentication:</p>
+
+        <details style="margin-bottom:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
+          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">Claude Code (terminal)</summary>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
+            <code style="font-size:12px;overflow-x:auto;white-space:pre-wrap;word-break:break-all;">claude mcp add --transport http orgalytics-gsc https://mcp.orgalytics.ai/mcp --header "Authorization: Bearer <?= h($notice) ?>"</code>
+            <button type="button" class="cp" data-copy-text='claude mcp add --transport http orgalytics-gsc https://mcp.orgalytics.ai/mcp --header "Authorization: Bearer <?= h($notice) ?>"' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
+          </div>
+        </details>
+
+        <details style="margin-bottom:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
+          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">Cursor</summary>
+          <p style="margin:6px 0;font-size:12px;color:#64748b;">Add to <code>.cursor/mcp.json</code>:</p>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
+            <code style="font-size:12px;white-space:pre-wrap;word-break:break-all;">{ "mcpServers": { "orgalytics-gsc": { "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }</code>
+            <button type="button" class="cp" data-copy-text='{ "mcpServers": { "orgalytics-gsc": { "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
+          </div>
+        </details>
+
+        <details style="border:0.5px solid #e2e8f0;border-radius:10px;padding:0 12px;">
+          <summary style="cursor:pointer;padding:10px 0;font-weight:500;font-size:13px;">VS Code</summary>
+          <p style="margin:6px 0;font-size:12px;color:#64748b;">Add to <code>.vscode/mcp.json</code>:</p>
+          <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:8px;background:#f8fafc;border-radius:8px;padding:10px;">
+            <code style="font-size:12px;white-space:pre-wrap;word-break:break-all;">{ "servers": { "orgalytics-gsc": { "type": "http", "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }</code>
+            <button type="button" class="cp" data-copy-text='{ "servers": { "orgalytics-gsc": { "type": "http", "url": "https://mcp.orgalytics.ai/mcp", "headers": { "Authorization": "Bearer <?= h($notice) ?>" } } } }' aria-label="Copy" style="background:none;border:none;cursor:pointer;color:#64748b;font-size:15px;flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>
+          </div>
+        </details>
+
+        <p style="margin:10px 0 0;font-size:12px;color:#64748b;display:flex;align-items:center;gap:4px;">
+          <iconify-icon icon="solar:shield-check-bold" width="13" style="color:#16a34a;"></iconify-icon>
+          Deleting this key from the list above cuts access for everyone using it.
+        </p>
+      </div>
+
+      <script>
+        document.querySelectorAll('[data-copy-text]').forEach(function (b) {
+          b.addEventListener('click', function () {
+            navigator.clipboard.writeText(b.dataset.copyText).then(function () {
+              var i = b.querySelector('iconify-icon');
+              if (i) { i.setAttribute('icon', 'solar:check-circle-bold'); i.style.color = '#16a34a'; }
+              setTimeout(function () { if (i) { i.setAttribute('icon', 'solar:copy-outline'); i.style.color = ''; } }, 1500);
+            });
+          });
+        });
+      </script>
     <?php endif; ?>
 
     <!-- Hero banner -->
-    <div class="max-w-5xl mcp-hero rounded-2xl border border-blue-100 p-6 md:p-7 mb-6 relative overflow-hidden">
-      <div class="flex items-start justify-between gap-6">
-        <div class="flex items-start gap-4">
-          <div class="w-12 h-12 rounded-xl bg-white/80 shadow-sm flex items-center justify-center text-2xl">✨</div>
-          <div>
-            <h2 class="text-lg font-bold text-gray-900">AI assistant access</h2>
-            <p class="text-sm text-gray-600 mt-1 max-w-xl">Let Claude, ChatGPT or another AI assistant read your Search Console reports. Assistants can read only. They cannot change your store.</p>
-            <div class="mt-4">
-              <button type="button" id="mcp-connect-btn" class="mcp-btn-primary inline-flex items-center gap-2 text-white rounded-lg px-5 py-2.5 text-sm font-semibold shadow-sm">
-                <iconify-icon icon="solar:link-bold"></iconify-icon>
-                Connect AI assistant
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="hidden md:flex w-24 h-24 rounded-2xl bg-white shadow-sm items-center justify-center text-5xl relative">
-          🤖
-          <span class="absolute -top-1 -right-1 text-base">✨</span>
-          <span class="absolute -bottom-1 -left-1 text-xs">✨</span>
-        </div>
+    <div class="mcp-hero-banner">
+      <iconify-icon icon="solar:sparkles-bold" width="22" style="color:#2563eb;margin-top:2px;"></iconify-icon>
+      <div style="flex:1;">
+        <h2>Connect an AI assistant</h2>
+        <p>Give Claude or ChatGPT read-only access to your Search Console reports. Assistants can view your data but can't make any changes.</p>
+        <button type="button" id="mcp-connect-btn" class="mcp-btn">
+          <iconify-icon icon="solar:link-bold" width="16"></iconify-icon>
+          Connect an assistant
+        </button>
       </div>
     </div>
 
-    <!-- Pairing panel (injected via AJAX, no page reload) -->
-    <div id="mcp-panel-slot" class="max-w-5xl mb-5"></div>
+    <!-- Pairing panel (injected here via AJAX) -->
+    <div id="mcp-panel-slot" style="margin-bottom:1rem;"></div>
 
-    <?php if ($notice !== null): ?>
-      <div class="max-w-5xl mb-5 rounded-xl border border-blue-200 bg-white p-5 shadow-sm">
-        <p class="text-sm font-semibold text-gray-800 mb-2"><?= h($noticeTitle) ?></p>
-        <p class="text-sm text-gray-500 mb-2">Copy it now — it will not be shown again.</p>
-        <div class="bg-slate-900 text-blue-100 rounded-xl py-3 px-4 font-mono text-sm break-all select-all"><?= h($notice) ?></div>
-      </div>
-    <?php endif; ?>
-
-    <!-- Two cards -->
-    <div class="max-w-5xl grid md:grid-cols-2 gap-5">
-
+    <!-- Connected assistants + API keys -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:12px;">
       <!-- Connected assistants -->
-      <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-        <div class="flex items-start gap-3 mb-4">
-          <div class="w-9 h-9 rounded-lg mcp-icon-box flex items-center justify-center">
-            <iconify-icon icon="solar:users-group-rounded-bold"></iconify-icon>
-          </div>
-          <div>
-            <h3 class="font-semibold text-gray-900">Connected assistants</h3>
-            <p class="text-xs text-gray-500">Assistants that can read your Search Console reports.</p>
-          </div>
+      <div class="mcp-card">
+        <div style="display:flex;align-items:center;gap:8px;">
+          <iconify-icon icon="solar:users-group-rounded-bold" width="18" style="color:#2563eb;"></iconify-icon>
+          <h3 style="margin:0;font-size:16px;">Connected assistants</h3>
         </div>
+        <p style="margin:2px 0 12px;font-size:13px;color:#64748b;">These assistants have read-only access to your reports.</p>
 
         <?php if ($assistants === []): ?>
-          <div class="rounded-xl border border-dashed border-gray-300 py-8 text-center">
-            <p class="text-sm font-medium text-gray-500">No assistants connected yet.</p>
-            <p class="text-xs text-gray-400 mt-1">Click <b>Connect AI assistant</b> above to link Claude.</p>
+          <div class="mcp-empty">
+            <p>Waiting for connection&hellip;</p>
+            <p>Finish the steps above and your assistant will show up here.</p>
           </div>
         <?php else: ?>
-          <ul class="space-y-3">
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;">
             <?php foreach ($assistants as $a): ?>
-              <li class="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50/60 px-4 py-3">
-                <div class="flex items-center gap-3">
-                  <div class="w-8 h-8 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center">💬</div>
-                  <div>
-                    <p class="text-sm font-semibold text-gray-800"><?= h(ucfirst($a['client_name'] !== '' ? $a['client_name'] : 'Assistant')) ?></p>
-                    <p class="text-xs text-gray-400">Added <?= h(substr((string)$a['created_at'], 0, 10)) ?>
-                      <?= $a['last_used_at'] !== null ? ' · Last used ' . h(str_replace(' ', ' ', substr((string)$a['last_used_at'], 0, 16))) : '' ?></p>
-                  </div>
+              <li style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:10px 12px;">
+                <div>
+                  <p style="margin:0;font-size:14px;font-weight:500;"><?= h(ucfirst($a['client_name'] !== '' ? $a['client_name'] : 'Assistant')) ?></p>
+                  <p style="margin:2px 0 0;font-size:12px;color:#64748b;">
+                    Added <?= h(substr((string)$a['created_at'], 0, 10)) ?>
+                    <?= $a['last_used_at'] !== null ? ' · Last used ' . h(substr((string)$a['last_used_at'], 0, 16)) : '' ?>
+                  </p>
                 </div>
-                <form method="post" onsubmit="return confirm('Disconnect this assistant?')">
+                <form method="post" onsubmit="return confirm('Disconnect this assistant? It will lose access immediately.');">
                   <input type="hidden" name="disconnect_id" value="<?= (int)$a['id'] ?>">
-                  <button type="submit" class="text-sm font-medium text-red-600 border border-red-200 rounded-lg px-3 py-1.5 hover:bg-red-50">Disconnect</button>
+                  <button type="submit" class="mcp-del">Disconnect</button>
                 </form>
               </li>
             <?php endforeach; ?>
@@ -293,46 +345,50 @@ include './partials/layouts/layoutTop.php';
       </div>
 
       <!-- API keys -->
-      <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
-        <div class="flex items-start justify-between mb-4">
-          <div class="flex items-start gap-3">
-            <div class="w-9 h-9 rounded-lg mcp-icon-box flex items-center justify-center">
-              <iconify-icon icon="solar:key-square-2-bold"></iconify-icon>
-            </div>
-            <div>
-              <h3 class="font-semibold text-gray-900">API keys</h3>
-              <p class="text-xs text-gray-500">Manage your API keys for AI assistants.</p>
-            </div>
+      <div class="mcp-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;">
+          <div style="display:flex;align-items:center;gap:8px;">
+            <iconify-icon icon="solar:key-square-2-bold" width="18" style="color:#2563eb;"></iconify-icon>
+            <h3 style="margin:0;font-size:16px;">API keys</h3>
           </div>
-          <form method="post">
-            <button type="submit" name="create_key" value="1" class="mcp-btn-primary text-white rounded-lg px-4 py-2 text-sm font-semibold">＋ Create API key</button>
+          <form method="post" style="margin:0;">
+            <button type="submit" name="create_key" value="1" class="mcp-btn" style="padding:5px 10px;font-size:12px;">
+              <iconify-icon icon="solar:add-circle-bold" width="14"></iconify-icon>
+              Create API key
+            </button>
           </form>
         </div>
+        <p style="margin:0 0 12px;font-size:13px;color:#64748b;">Use an API key for assistants that don't support one-click connection.</p>
 
         <?php if ($apiKeys === []): ?>
-          <div class="rounded-xl border border-dashed border-gray-300 py-8 text-center px-4">
-            <div class="text-2xl mb-1">🔑</div>
-            <p class="text-sm font-medium text-gray-500">No API keys yet.</p>
-            <p class="text-xs text-gray-400 mt-1">Create an API key to let an AI assistant read your Search Console reports.</p>
+          <div class="mcp-empty">
+            <p>No API keys yet</p>
+            <p>Create a key to give an assistant read-only access. Keep it private, like a password.</p>
           </div>
         <?php else: ?>
-          <ul class="space-y-3">
-            <?php foreach ($apiKeys as $k): ?>
-              <li class="flex items-center justify-between rounded-xl border border-gray-100 bg-gray-50/60 px-4 py-3">
+          <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;">
+            <?php foreach ($apiKeys as $k):
+              $active = ($k['status'] ?? '') === 'active';
+              $used = (int)($k['total_calls'] ?? 0) > 0;
+              if (!$active) { $badge = ['Deleted', 'mcp-badge-deleted']; }
+              elseif ($used) { $badge = ['Connected', 'mcp-badge-connected']; }
+              else { $badge = ['Created', 'mcp-badge-created']; }
+            ?>
+              <li style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:10px 12px;">
                 <div>
-                  <p class="text-sm font-semibold text-gray-800">Key ····<?= h($k['key_hint']) ?>
-                    <?php if (($k['status'] ?? '') !== 'active'): ?>
-                      <span class="ml-1 text-xs text-gray-400">(disabled)</span>
-                    <?php endif; ?>
+                  <p style="margin:0;font-size:14px;font-weight:500;">Key ····<?= h($k['key_hint']) ?>
+                    <span class="<?= $badge[1] ?>"><?= $badge[0] ?></span>
                   </p>
-                  <p class="text-xs text-gray-400">Created <?= h(substr((string)$k['created_at'], 0, 10)) ?>
-                    <?= $k['last_used_at'] !== null ? ' · Last used ' . h(substr((string)$k['last_used_at'], 0, 16)) : ' · Never used' ?></p>
-                  <p class="text-xs text-gray-400"><?= (int)($k['total_calls'] ?? 0) ?> API calls<?= isset($k['last_call_at']) && $k['last_call_at'] ? ' · Last call ' . h(substr((string)$k['last_call_at'], 0, 16)) : '' ?></p>
+                  <p style="margin:2px 0 0;font-size:12px;color:#64748b;">
+                    Created <?= h(substr((string)$k['created_at'], 0, 10)) ?>
+                    <?= $k['last_used_at'] !== null ? ' · Last used ' . h(substr((string)$k['last_used_at'], 0, 16)) : ' · Never used' ?>
+                    · <?= (int)($k['total_calls'] ?? 0) ?> calls
+                  </p>
                 </div>
-                <?php if (($k['status'] ?? '') === 'active'): ?>
+                <?php if ($active): ?>
                   <form method="post" onsubmit="return confirm('Delete this API key? Anyone using it will lose MCP access immediately.');">
                     <input type="hidden" name="revoke_key_id" value="<?= (int)$k['id'] ?>">
-                    <button type="submit" class="text-sm font-medium text-red-600 border border-red-200 rounded-lg px-3 py-1.5 hover:bg-red-50">Delete</button>
+                    <button type="submit" class="mcp-del">Delete</button>
                   </form>
                 <?php endif; ?>
               </li>
@@ -342,8 +398,11 @@ include './partials/layouts/layoutTop.php';
       </div>
     </div>
 
-    <p class="max-w-5xl text-xs text-gray-400 mt-4">Read-only access · Encrypted OAuth · Disconnect anytime</p>
-<?php endif; ?>
+    <p style="margin:1rem 0 0;font-size:12px;color:#94a3b8;display:flex;align-items:center;gap:4px;">
+      <iconify-icon icon="solar:lock-bold" width="13"></iconify-icon>
+      Read-only access · Secure connection · Revoke access anytime
+    </p>
+  <?php endif; ?>
 </div>
 
 <script>
@@ -352,83 +411,166 @@ include './partials/layouts/layoutTop.php';
   if (!btn) return;
   var slot = document.getElementById('mcp-panel-slot');
   var mcpUrl = <?= json_encode(MCP_SERVER_URL . '/mcp') ?>;
-  var brandSvg = <?= json_encode($brandSvg) ?>;
 
   var clients = {
     claude: {
-      name: 'Claude', svg: brandSvg.claude, bg: '#fdece4', fg: '#d97757',
-      steps: ['In Claude, open Settings, then Connectors, then Add custom connector.',
-              'Paste ' + mcpUrl + ' and continue.',
-              'When Claude asks, enter the pairing code above and click Allow.']
+      name: 'Claude',
+      logo: brandSvg.claude || '',
+      sub: 'Follow these steps in Claude. It takes about a minute.',
+      steps: ['In Claude, go to Settings › Connectors and click Add custom connector.',
+              'Name it Search Console, paste the server URL below, and click Add.',
+              'Click Connect, enter your pairing code, and click Allow.'],
+      done: 'Once connected, Claude will appear under Connected assistants below.'
     },
     chatgpt: {
-      name: 'ChatGPT', svg: brandSvg.chatgpt, bg: '#eef2f6', fg: '#111111',
-      steps: ['Open ChatGPT → Settings → Connectors (developer mode).',
-              'Add connector URL: ' + mcpUrl + '.',
-              'Authenticate with the pairing code above.']
+      name: 'ChatGPT',
+      logo: brandSvg.chatgpt || '',
+      sub: 'Follow these steps in ChatGPT. Developer mode needs to be turned on.',
+      steps: ['In ChatGPT, go to Settings › Connectors and turn on Developer mode.',
+              'Add a new connector, name it Search Console, and paste the server URL below.',
+              'When asked to sign in, enter your pairing code and approve access.'],
+      done: 'Once connected, ChatGPT will appear under Connected assistants below.'
     }
   };
 
   function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
 
+  function selectClient(key) {
+    var c = clients[key];
+    document.querySelectorAll('#mcp-tabs .mcp-tab').forEach(function (t) {
+      var on = t.dataset.c === key;
+      t.classList.toggle('on', on);
+    });
+    var logo = document.getElementById('mcp-step-logo');
+    logo.style.background = c.bg;
+    logo.innerHTML = c.logo ? c.logo.replace('<svg ', '<svg width="20" height="20" fill="' + c.fg + '" ') : esc(c.name.charAt(0));
+    document.getElementById('mcp-step-name').textContent = 'Connect ' + c.name;
+    document.getElementById('mcp-step-sub').textContent = c.sub;
+    var steps = '';
+    c.steps.forEach(function (s, i) {
+      steps += '<div class="mcp-step"><span class="num">' + (i + 1) + '</span><span>' + esc(s) + '</span></div>';
+      if (i === 1) {
+        steps += '<div class="mcp-step"><span class="num" style="visibility:hidden">2</span><div style="flex:1;min-width:0;">' +
+          '<div class="mcp-url"><code>' + esc(mcpUrl) + '</code>' +
+          '<button type="button" data-copy-text="' + esc(mcpUrl) + '" aria-label="Copy URL"><iconify-icon icon="solar:copy-outline"></iconify-icon></button></div></div></div>';
+      }
+    });
+    document.getElementById('mcp-steps').innerHTML = steps;
+    var doneEl = document.getElementById('mcp-done-note');
+    if (doneEl) doneEl.textContent = c.done;
+  }
+
+  function wirePanel() {
+    document.querySelectorAll('#mcp-tabs .mcp-tab').forEach(function (t) {
+      t.addEventListener('click', function () { selectClient(t.dataset.c); });
+    });
+    document.querySelectorAll('[data-copy-text]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var icon = b.querySelector('i, iconify-icon');
+        navigator.clipboard.writeText(b.dataset.copyText).then(function () {
+          if (icon) { icon.setAttribute('icon', 'solar:check-circle-bold'); icon.style.color = '#16a34a'; }
+          setTimeout(function () { if (icon) { icon.setAttribute('icon', 'solar:copy-outline'); icon.style.color = ''; } }, 1500);
+        });
+      });
+    });
+
+    var left = parseInt((document.getElementById('mcp-countdown') || {}).dataset ? (document.getElementById('mcp-countdown').dataset.left || '600') : '600', 10);
+    var el = document.getElementById('mcp-countdown');
+    var codeEl = document.getElementById('mcp-code');
+    var noteEl = document.getElementById('mcp-exp-note');
+    var timer = setInterval(function () {
+      left--;
+      if (left <= 0) {
+        clearInterval(timer);
+        if (el) el.textContent = '0:00';
+        if (codeEl) codeEl.style.opacity = '0.35';
+        if (noteEl) noteEl.textContent = 'This code expired. Generate a new one to continue.';
+        return;
+      }
+      if (el) el.textContent = Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0');
+    }, 1000);
+  }
+
   function buildPanel(code, expiresIn) {
     slot.innerHTML =
-      '<div class="rounded-2xl border border-gray-200 bg-white p-5 md:p-6 shadow-sm">' +
-        '<p class="flex items-center gap-2 text-sm font-medium text-gray-700 mb-4">' +
-          '<span class="w-5 h-5 rounded-full bg-green-500 text-white flex items-center justify-center text-[11px]">✓</span>' +
-          'Your pairing code. It works once and expires in ' +
-          '<span id="mcp-countdown" class="font-bold text-blue-600">10:00</span>.' +
-        '</p>' +
-        '<div class="flex items-center justify-between gap-4 rounded-2xl bg-blue-50 border border-blue-100 px-5 md:px-8 py-6 mb-5">' +
-          '<span id="mcp-code" class="text-3xl md:text-4xl font-extrabold tracking-[0.3em] text-blue-600 select-all">' + esc(code) + '</span>' +
-          '<button type="button" data-copy="mcp-code" title="Copy code" class="shrink-0 w-10 h-10 rounded-xl bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-blue-600 hover:border-blue-300 flex items-center justify-center">' +
-            '<iconify-icon icon="solar:copy-outline" class="text-lg"></iconify-icon>' +
-          '</button>' +
+      '<div class="mcp-card">' +
+        '<div style="display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:8px;">' +
+          '<h2 style="margin:0;font-size:16px;">Your pairing code</h2>' +
+          '<span style="font-size:12px;color:#64748b;"><iconify-icon icon="solar:clock-circle-outline" width="14" style="vertical-align:-2px;"></iconify-icon> Expires in <span id="mcp-countdown" data-left="' + (expiresIn || 600) + '" style="color:#2563eb;font-weight:500;">10:00</span></span>' +
         '</div>' +
-        '<div class="flex flex-wrap gap-2 mb-4" id="mcp-tabs">' +
-          Object.keys(clients).map(function (k) {
-            var c = clients[k];
-            return '<button type="button" data-c="' + k + '" class="mcp-tab px-4 py-2 rounded-full border text-sm font-medium flex items-center gap-2 bg-white border-gray-300 text-gray-600">' +
-              '<span class="inline-flex" style="color:' + c.fg + '">' + (c.svg ? c.svg.replace('<svg ', '<svg fill="' + c.fg + '" ') : '') + '</span> ' + c.name + '</button>';
-          }).join('') +
+        '<div class="mcp-code-row">' +
+          '<span id="mcp-code" class="code">' + esc(code) + '</span>' +
+          '<button type="button" id="mcp-copy-code" aria-label="Copy code" class="cp"><iconify-icon icon="solar:copy-outline"></iconify-icon></button>' +
         '</div>' +
-        '<div class="rounded-2xl border border-gray-100 bg-white shadow-sm p-5">' +
-          '<div class="flex items-center gap-3 mb-4">' +
-            '<div id="mcp-step-logo" class="w-10 h-10 rounded-full flex items-center justify-center font-black text-sm"></div>' +
-            '<div><p id="mcp-step-name" class="font-bold text-gray-900"></p>' +
-            '<p class="text-xs text-gray-400">Keep this code handy. Generate it first, like you just did.</p></div>' +
+        '<p id="mcp-exp-note" style="margin:6px 0 16px;font-size:12px;color:#94a3b8;">Single use. Generate a new code if it expires.</p>' +
+        '<p style="margin:0 0 8px;font-size:13px;font-weight:500;">Choose your assistant</p>' +
+        '<div style="display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;" id="mcp-tabs">' +
+          '<button type="button" class="mcp-tab on" data-c="claude">Claude</button>' +
+          '<button type="button" class="mcp-tab" data-c="chatgpt">ChatGPT</button>' +
+        '</div>' +
+        '<div style="border:0.5px solid #e2e8f0;border-radius:10px;padding:1rem;">' +
+          '<div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">' +
+            '<div id="mcp-step-logo" class="w-9 h-9 rounded-full flex items-center justify-center" style="background:#fdece4;width:36px;height:36px;"></div>' +
+            '<div><p id="mcp-step-name" style="margin:0;font-size:14px;font-weight:500;">Connect Claude</p>' +
+            '<p id="mcp-step-sub" style="margin:0;font-size:12px;color:#64748b;">Follow these steps in Claude. It takes about a minute.</p></div>' +
           '</div>' +
-          '<ol id="mcp-steps" class="space-y-3 text-sm text-gray-600"></ol>' +
-          '<div class="mt-4 flex items-center justify-between gap-3 rounded-xl bg-blue-50 border border-blue-100 px-4 py-3">' +
-            '<code id="mcp-url" class="text-blue-700 text-sm select-all">' + esc(mcpUrl) + '</code>' +
-            '<button type="button" data-copy="mcp-url" title="Copy URL" class="shrink-0 w-9 h-9 rounded-lg bg-white border border-gray-200 shadow-sm text-gray-500 hover:text-blue-600 hover:border-blue-300 flex items-center justify-center">' +
-              '<iconify-icon icon="solar:copy-outline"></iconify-icon>' +
-            '</button>' +
-          '</div>' +
+          '<div id="mcp-steps"></div>' +
+          '<p style="margin:12px 0 0;padding-top:10px;border-top:0.5px solid #e2e8f0;font-size:12px;color:#64748b;">' +
+            '<iconify-icon icon="solar:check-circle-bold" width="14" style="color:#16a34a;vertical-align:-2px;margin-right:4px;"></iconify-icon>' +
+            '<span id="mcp-done-note">Once connected, Claude will appear under Connected assistants below.</span></p>' +
         '</div>' +
       '</div>';
 
+    // merge the static clients (from earlier script scope) — rebuild simple steps
+    var panelClients = {
+      claude: {
+        name: 'Claude', logoBg: '#fdece4', logoFg: '#d97757', logoText: 'A\\',
+        steps: ['In Claude, go to Settings › Connectors and click Add custom connector.',
+                'Name it Search Console, paste the server URL below, and click Add.',
+                'Click Connect, enter your pairing code, and click Allow.'],
+        done: 'Once connected, Claude will appear under Connected assistants below.'
+      },
+      chatgpt: {
+        name: 'ChatGPT', logoBg: '#eef2f6', logoFg: '#111111', logoText: 'G',
+        steps: ['In ChatGPT, go to Settings › Connectors and turn on Developer mode.',
+                'Add a new connector, name it Search Console, and paste the server URL below.',
+                'When asked to sign in, enter your pairing code and approve access.'],
+        done: 'Once connected, ChatGPT will appear under Connected assistants below.'
+      }
+    };
+    var mcpUrl = mcpUrl;
+
+    function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
     function selectClient(key) {
-      var c = clients[key] || { name: key, svg: '', bg: '#eef2f6', fg: '#334155', steps: [] };
+      var c = panelClients[key];
       document.querySelectorAll('#mcp-tabs .mcp-tab').forEach(function (t) {
-        var on = t.dataset.c === key;
-        t.classList.toggle('border-blue-600', on);
-        t.classList.toggle('text-blue-600', on);
-        t.classList.toggle('bg-blue-50', on);
-        t.classList.toggle('border-gray-300', !on);
-        t.classList.toggle('text-gray-600', !on);
+        t.classList.toggle('on', t.dataset.c === key);
       });
       var logo = document.getElementById('mcp-step-logo');
-      logo.style.background = c.bg;
-      logo.innerHTML = c.svg ? c.svg.replace('<svg ', '<svg width="20" height="20" fill="' + c.fg + '" ') : esc(c.name.charAt(0));
+      logo.textContent = c.logoText;
+      logo.style.background = c.logoBg;
+      logo.style.color = c.logoFg;
       document.getElementById('mcp-step-name').textContent = c.name;
-      document.getElementById('mcp-steps').innerHTML = c.steps.map(function (s, i) {
-        return '<li class="flex items-start gap-3">' +
-          '<span class="shrink-0 w-6 h-6 rounded-full bg-blue-600 text-white text-xs font-bold flex items-center justify-center">' + (i + 1) + '</span>' +
-          '<span class="pt-0.5">' + esc(s) + '</span></li>';
-      }).join('');
+      document.getElementById('mcp-step-sub').textContent = c.sub;
+      var stepsHtml = '';
+      c.steps.forEach(function (s, i) {
+        stepsHtml += '<div class="mcp-step"><span class="num">' + (i + 1) + '</span><span>' + esc(s) + '</span></div>';
+        if (i === 1) {
+          stepsHtml += '<div class="mcp-step"><span class="num" style="visibility:hidden">' + (i + 1) + '</span>' +
+            '<div style="flex:1;min-width:0;"><div class="mcp-url"><code>' + esc(mcpUrl) + '</code>' +
+            '<button type="button" data-copy-url="1" aria-label="Copy URL"><iconify-icon icon="solar:copy-outline"></iconify-icon></button></div></div></div>';
+        }
+      });
+      document.getElementById('mcp-steps').innerHTML = stepsHtml;
+      document.querySelectorAll('#mcp-steps [data-copy-url]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          navigator.clipboard.writeText(mcpUrl).then(function () {
+            b.querySelector('iconify-icon').setAttribute('icon', 'solar:check-circle-bold');
+            setTimeout(function () { b.querySelector('iconify-icon').setAttribute('icon', 'solar:copy-outline'); }, 1500);
+          });
+        });
+      });
     }
-
     document.querySelectorAll('#mcp-tabs .mcp-tab').forEach(function (t) {
       t.addEventListener('click', function () { selectClient(t.dataset.c); });
     });
@@ -436,23 +578,30 @@ include './partials/layouts/layoutTop.php';
 
     var left = expiresIn || 600;
     var el = document.getElementById('mcp-countdown');
+    var codeEl = document.getElementById('mcp-code');
+    var noteEl = document.getElementById('mcp-exp-note');
     var timer = setInterval(function () {
       left--;
-      if (left <= 0) { clearInterval(timer); el.textContent = 'expired'; return; }
-      var m = Math.floor(left / 60), s = left % 60;
-      el.textContent = m + ':' + (s < 10 ? '0' : '') + s;
+      if (left <= 0) {
+        clearInterval(timer);
+        if (el) el.textContent = '0:00';
+        if (codeEl) codeEl.style.opacity = '0.35';
+        if (noteEl) noteEl.textContent = 'This code expired. Generate a new one to continue.';
+        return;
+      }
+      if (el) el.textContent = Math.floor(left / 60) + ':' + String(left % 60).padStart(2, '0');
     }, 1000);
 
-    document.querySelectorAll('[data-copy]').forEach(function (b) {
-      b.addEventListener('click', function () {
-        var text = document.getElementById(b.dataset.copy).textContent.trim();
-        navigator.clipboard.writeText(text).then(function () {
-          var old = b.innerHTML;
-          b.innerHTML = '<iconify-icon icon="solar:check-circle-bold" class="text-lg text-green-500"></iconify-icon>';
-          setTimeout(function () { b.innerHTML = old; }, 1500);
+    var copyBtn = document.getElementById('mcp-copy-code');
+    if (copyBtn) {
+      copyBtn.addEventListener('click', function () {
+        navigator.clipboard.writeText(code).then(function () {
+          var i = copyBtn.querySelector('iconify-icon');
+          i.setAttribute('icon', 'solar:check-circle-bold');
+          setTimeout(function () { i.setAttribute('icon', 'solar:copy-outline'); }, 1500);
         });
       });
-    });
+    }
 
     slot.scrollIntoView({ behavior: 'smooth', block: 'center' });
   }
@@ -461,13 +610,12 @@ include './partials/layouts/layoutTop.php';
     if (btn.dataset.loading === '1') return;
     btn.dataset.loading = '1';
     var old = btn.innerHTML;
-    btn.innerHTML = 'Generating code...';
+    btn.innerHTML = 'Generating code…';
     fetch(window.location.pathname + window.location.search, {
       method: 'POST',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body: 'ajax_generate=1'
     }).then(function (r) { return r.text(); }).then(function (t) {
-      // Tolerant parse: app includes may print warnings around the JSON.
       var d = null;
       try { d = JSON.parse(t); } catch (e) {
         var m = t.match(/\{[\s\S]*"ok"[\s\S]*\}/);
@@ -475,17 +623,12 @@ include './partials/layouts/layoutTop.php';
       }
       btn.dataset.loading = '';
       btn.innerHTML = old;
-      if (!d) { alert('PARSE FAIL. Response start: ' + t.substring(0, 200)); return; }
-      if (!d.ok) { alert((d.error) ? d.error : 'Server said not ok.'); return; }
-      try {
-        buildPanel(d.code, d.expires_in_seconds);
-      } catch (e) {
-        alert('PANEL ERROR: ' + e.message);
-      }
-    }).catch(function (err) {
+      if (!d || !d.ok) { alert((d && d.error) ? d.error : 'Could not create a pairing code right now.'); return; }
+      buildPanel(d.code, d.expires_in_seconds);
+    }).catch(function () {
       btn.dataset.loading = '';
       btn.innerHTML = old;
-      alert('FETCH FAIL: ' + err.message);
+      alert('Could not create a pairing code right now.');
     });
   });
 })();
