@@ -15,9 +15,7 @@ if (!function_exists('h')) {
 }
 
 require_once __DIR__ . '/mcp-config.php';
-$brandSvg = is_file(__DIR__ . '/includes/brand_svgs.php')
-        ? require_once __DIR__ . '/includes/brand_svgs.php'
-        : []; // page works even without brand icons
+$brandSvg = require_once __DIR__ . '/includes/brand_svgs.php';
 
 $instanceId = $_SESSION['instanceid'] ?? $_SESSION['instance_id'] ?? ($_GET['instance_id'] ?? ($_GET['instanceId'] ?? null));
 $instanceId = is_string($instanceId) ? trim($instanceId) : null;
@@ -329,11 +327,12 @@ include './partials/layouts/layoutTop.php';
                   </p>
                   <p class="text-xs text-gray-400">Created <?= h(substr((string)$k['created_at'], 0, 10)) ?>
                     <?= $k['last_used_at'] !== null ? ' · Last used ' . h(substr((string)$k['last_used_at'], 0, 16)) : ' · Never used' ?></p>
+                  <p class="text-xs text-gray-400"><?= (int)($k['total_calls'] ?? 0) ?> API calls<?= isset($k['last_call_at']) && $k['last_call_at'] ? ' · Last call ' . h(substr((string)$k['last_call_at'], 0, 16)) : '' ?></p>
                 </div>
                 <?php if (($k['status'] ?? '') === 'active'): ?>
-                  <form method="post" onsubmit="return confirm('Revoke this API key?')">
+                  <form method="post" onsubmit="return confirm('Delete this API key? Anyone using it will lose MCP access immediately.');">
                     <input type="hidden" name="revoke_key_id" value="<?= (int)$k['id'] ?>">
-                    <button type="submit" class="text-sm font-medium text-red-600 border border-red-200 rounded-lg px-3 py-1.5 hover:bg-red-50">Revoke</button>
+                    <button type="submit" class="text-sm font-medium text-red-600 border border-red-200 rounded-lg px-3 py-1.5 hover:bg-red-50">Delete</button>
                   </form>
                 <?php endif; ?>
               </li>
@@ -366,18 +365,6 @@ include './partials/layouts/layoutTop.php';
       name: 'ChatGPT', svg: brandSvg.chatgpt, bg: '#eef2f6', fg: '#111111',
       steps: ['Open ChatGPT → Settings → Connectors (developer mode).',
               'Add connector URL: ' + mcpUrl + '.',
-              'Authenticate with the pairing code above.']
-    },
-    gemini: {
-      name: 'Gemini', svg: brandSvg.gemini, bg: '#e8f0fe', fg: '#1a73e8',
-      steps: ['Open your Gemini MCP client settings.',
-              'Add MCP server: ' + mcpUrl + '.',
-              'Complete OAuth with the pairing code above.']
-    },
-    perplexity: {
-      name: 'Perplexity', svg: brandSvg.perplexity, bg: '#e6f7f4', fg: '#20808d',
-      steps: ['Open Perplexity → Settings → MCP connectors.',
-              'Add server URL: ' + mcpUrl + '.',
               'Authenticate with the pairing code above.']
     }
   };
