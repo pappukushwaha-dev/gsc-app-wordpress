@@ -181,7 +181,7 @@ include './partials/layouts/layoutTop.php';
 ?>
 
 <style>
-  .mcp-page { max-width: 46rem; }
+  .mcp-page { max-width: none; }
   .mcp-hero { display:flex; align-items:center; gap:12px; margin-bottom:1.25rem; }
   .mcp-hero .ic { width:40px; height:40px; border-radius:10px; background:var(--mcp-accent-soft,#e7f1fb); color:#2563eb; display:flex; align-items:center; justify-content:center; }
   .mcp-hero h1 { margin:0; font-size:22px; font-weight:700; display:flex; align-items:center; gap:8px; }
@@ -310,7 +310,7 @@ include './partials/layouts/layoutTop.php';
       <div class="mcp-card" id="api-key-notice">
         <p style="margin:0 0 6px;font-size:14px;font-weight:600;"><?= h($noticeTitle) ?></p>
         <p style="margin:0 0 8px;font-size:12px;color:#64748b;">Copy it now — it will not be shown again.</p>
-        <div class="mcp-code-row"><span class="code" style="font-size:14px;letter-spacing:1px;"><?= h($notice) ?></span></div>
+        <div class="mcp-code-row" style="min-width:0;"><span class="code" style="font-size:13px;letter-spacing:1px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0;flex:1;" title="<?= h($notice) ?>"><?= h(substr($notice, 0, 24)) ?>&hellip;</span><button type="button" class="cp" data-copy-text="<?= h($notice) ?>" aria-label="Copy key" title="Copy key" style="flex:none;"><iconify-icon icon="solar:copy-outline"></iconify-icon></button></div>
 
         <p style="margin:16px 0 8px;font-size:13px;font-weight:600;">Connect via CLI / config</p>
         <p style="margin:0 0 8px;font-size:12px;color:#64748b;">Paste this key in any MCP client that supports header authentication:</p>
