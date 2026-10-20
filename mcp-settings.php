@@ -171,9 +171,12 @@ $assistants = [];
 $apiKeys = [];
 if ($googleConnected) {
     $status = mcpApiCall('status');
-    if ($status !== null && ($status['_http'] ?? 0) === 200) {
+    $statusHttp = (int)($status['_http'] ?? 0);
+    if ($status !== null && $statusHttp === 200) {
         $assistants = $status['assistants'] ?? [];
         $apiKeys = $status['api_keys'] ?? [];
+    } else {
+        $errorMsg = 'Action Center status fetch failed (HTTP ' . $statusHttp . '). Manage MCP settings ke saath issue report karein.';
     }
 }
 
