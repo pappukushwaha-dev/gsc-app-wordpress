@@ -400,8 +400,9 @@ try {
     // ==========================================
     // 8. PROCESS DATA (BASE TABLE)
     // ==========================================
-    $rowsOutput = [];
-    $totals     = ['clicks' => 0, 'impressions' => 0, 'ctr' => 0, 'position' => 0];
+    $rowsOutput  = [];
+    $totals      = ['clicks' => 0, 'impressions' => 0, 'ctr' => 0, 'position' => 0];
+    $weightedPos = 0.0;
     $brandStats = [
         'branded' => ['clicks' => 0, 'impressions' => 0, 'count' => 0],
         'non_branded' => ['clicks' => 0, 'impressions' => 0, 'count' => 0],
@@ -515,11 +516,16 @@ try {
             $totals['impressions'] += $rImpr;
             $totals['ctr']         += $rCtr;
             $totals['position']    += $rPos;
+            $weightedPos           += ($row['position'] ?? 0) * $rImpr;
             $count++;
         }
     }
-    $avgCtr = $count > 0 ? round($totals['ctr'] / $count, 2) : 0.0;
-    $avgPos = $count > 0 ? round($totals['position'] / $count, 1) : 0.0;
+    /* GSC UI parity: CTR = clicks/impressions and avg position is
+       impression-weighted. The old per-row simple means gave a
+       1-impression query the same weight as one with 86 impressions,
+       which skewed avg position far off the dashboard/MCP numbers. */
+    $avgCtr = $totals['impressions'] > 0 ? round(($totals['clicks'] / $totals['impressions']) * 100, 2) : 0.0;
+    $avgPos = $totals['impressions'] > 0 ? round($weightedPos / $totals['impressions'], 1) : 0.0;
 
     // ==========================================
     // 9. Cannibalization post-processing (qp type)
