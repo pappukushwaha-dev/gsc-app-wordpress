@@ -196,7 +196,9 @@ try {
             $end   = date('Y-m-d', strtotime('-1 day'));
             break;
         case '7days':
-            $start = date('Y-m-d', strtotime('-7 days'));
+            // 7 finalized days ending at the -3 mark (Google UI + dashboard
+            // chart-filter semantics) - the naive [-7, -3] span is only 5 days.
+            $start = date('Y-m-d', strtotime('-9 days'));
             break;
         case '30days':
             $start = date('Y-m-d', strtotime('-30 days'));
