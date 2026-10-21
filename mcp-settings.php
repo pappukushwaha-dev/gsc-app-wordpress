@@ -284,6 +284,7 @@ include './partials/layouts/layoutTop.php';
                   <p style="margin:0;font-size:14px;font-weight:500;"><?= h(ucfirst($a['client_name'] !== '' ? $a['client_name'] : 'Assistant')) ?></p>
                   <p style="margin:2px 0 0;font-size:12px;color:#64748b;">
                     Added <?= h(substr((string)$a['created_at'], 0, 10)) ?>
+                    · <?= (int)($a['total_calls'] ?? 0) ?> calls
                     <?= $a['last_used_at'] !== null ? ' · Last used ' . h(substr((string)$a['last_used_at'], 0, 16)) : '' ?>
                   </p>
                 </div>
@@ -369,19 +370,17 @@ include './partials/layouts/layoutTop.php';
 
 
 
-        <?php if ($apiKeys === []): ?>
+        <?php $activeKeys = array_values(array_filter($apiKeys, static fn($k) => ($k['status'] ?? '') === 'active')); ?>
+        <?php if ($activeKeys === []): ?>
           <div class="mcp-empty">
             <p>No API keys yet</p>
             <p>Create a key to give an assistant read-only access. Keep it private, like a password.</p>
           </div>
         <?php else: ?>
           <ul style="list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:8px;">
-            <?php foreach ($apiKeys as $k):
-              $active = ($k['status'] ?? '') === 'active';
+            <?php foreach ($activeKeys as $k):
               $used = (int)($k['total_calls'] ?? 0) > 0;
-              if (!$active) { $badge = ['Deleted', 'mcp-badge-deleted']; }
-              elseif ($used) { $badge = ['Connected', 'mcp-badge-connected']; }
-              else { $badge = ['Created', 'mcp-badge-created']; }
+              $badge = $used ? ['Connected', 'mcp-badge-connected'] : ['Created', 'mcp-badge-created'];
             ?>
               <li style="display:flex;align-items:center;justify-content:space-between;gap:8px;border:0.5px solid #e2e8f0;border-radius:10px;padding:10px 12px;">
                 <div>
@@ -394,16 +393,15 @@ include './partials/layouts/layoutTop.php';
                     · <?= (int)($k['total_calls'] ?? 0) ?> calls
                   </p>
                 </div>
-                <?php if ($active): ?>
-                  <form method="post" onsubmit="return confirm('Delete this API key? Anyone using it will lose MCP access immediately.');">
-                    <input type="hidden" name="revoke_key_id" value="<?= (int)$k['id'] ?>">
-                    <button type="submit" class="mcp-del">Delete</button>
-                  </form>
-                <?php endif; ?>
+                <form method="post" onsubmit="return confirm('Delete this API key? Anyone using it will lose MCP access immediately.');">
+                  <input type="hidden" name="revoke_key_id" value="<?= (int)$k['id'] ?>">
+                  <button type="submit" class="mcp-del">Delete</button>
+                </form>
               </li>
             <?php endforeach; ?>
           </ul>
         <?php endif; ?>
+
       </div>
     </div>
 
@@ -547,6 +545,7 @@ include './partials/layouts/layoutTop.php';
     var panelClients = {
       claude: {
         name: 'Claude', logoBg: '#fdece4', logoFg: '#d97757', logoText: 'A\\',
+        sub: 'Follow these steps in Claude. It takes about a minute.',
         steps: ['In Claude, go to Settings › Connectors and click Add custom connector.',
                 'Name it Search Console, paste the server URL below, and click Add.',
                 'Click Connect, enter your pairing code, and click Allow.'],
@@ -554,13 +553,13 @@ include './partials/layouts/layoutTop.php';
       },
       chatgpt: {
         name: 'ChatGPT', logoBg: '#eef2f6', logoFg: '#111111', logoText: 'G',
+        sub: 'Follow these steps in ChatGPT. Developer mode needs to be turned on.',
         steps: ['In ChatGPT, go to Settings › Connectors and turn on Developer mode.',
                 'Add a new connector, name it Search Console, and paste the server URL below.',
                 'When asked to sign in, enter your pairing code and approve access.'],
         done: 'Once connected, ChatGPT will appear under Connected assistants below.'
       }
     };
-    var mcpUrl = mcpUrl;
 
     function esc(s) { return String(s).replace(/&/g, '&amp;').replace(/</g, '&lt;'); }
     function selectClient(key) {
