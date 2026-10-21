@@ -14,4 +14,4 @@ define('MCP_INTERNAL_FALLBACK_URL', 'https://127.0.0.1');
 define('MCP_PLATFORM', 'wordpress');
 define('MCP_GA_COLUMN', 'instance_id');   // google_accounts store column
 
-define('MCP_INTERNAL_SECRET', 'CHANGE_ME_PASTE_SECRET_HERE');
+define('MCP_INTERNAL_SECRET', 'd42a609a6bc435b03fa2d20dc9296a870df7f914e72ff53433643c786bc4e058');
