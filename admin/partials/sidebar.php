@@ -71,6 +71,12 @@ $darkLogoPath = 'assets/images/logo-light.png';
                 </a>
             </li>
             <li>
+                <a href="activity-logs.php">
+                    <iconify-icon icon="mdi:account-search-outline" class="menu-icon"></iconify-icon>
+                    <span>Activity Logs</span>
+                </a>
+            </li>
+            <li>
                 <a href="email-templates.php">
                     <iconify-icon icon="tabler:mail-cog" class="menu-icon"></iconify-icon>
                     <span>Email Templates</span>

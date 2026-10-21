@@ -50,6 +50,10 @@ if (!$instanceId) {
 }
 
 $_SESSION['shop'] = $shop;
+
+// User activity tracking (login + page views) -> admin/activity-logs.php.
+require_once __DIR__ . '/../../includes/activity-logger.php';
+track_page_activity();
 ?>
 
 <body class="dark:bg-neutral-800 bg-neutral-100 dark:text-white">

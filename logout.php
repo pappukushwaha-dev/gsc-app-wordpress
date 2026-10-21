@@ -10,6 +10,10 @@ if (session_status() === PHP_SESSION_NONE) {
 
 // Load config early so .env is available
 include('/wordpress/googlesearchconsole/includes/config.php');
+
+// Track the logout while the session data is still intact.
+require_once __DIR__ . '/includes/activity-logger.php';
+log_activity('logout');
 $BASE_URL = rtrim(getenv('BASE_URL') ?: ($_ENV['BASE_URL'] ?? ''), '/');
 
 // Small helper to safely join URLs

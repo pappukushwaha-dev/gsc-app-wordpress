@@ -6,6 +6,10 @@ session_start();
 
 require_once __DIR__ . '/../config.php';
 
+// Track the disconnect action (activity-logs).
+require_once __DIR__ . '/../activity-logger.php';
+log_activity('disconnect');
+
 header('Content-Type: application/json');
 
 // ✅ SINGLE SOURCE OF TRUTH
