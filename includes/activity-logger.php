@@ -41,6 +41,13 @@ if (!function_exists('log_activity')) {
 
             $pageUrl = substr($pageUrl, 0, 500);
 
+/* Static assets are never page views (missing ones are rewritten to
+   the front controller - do not log them). */
+if (preg_match('/\.(css|js|png|jpe?g|gif|webp|svg|ico|woff2?|ttf|otf|map|mp4|webm|json)$/i',
+    (string) (parse_url($pageUrl, PHP_URL_PATH) ?? ''))) {
+    return;
+}
+
             /* Same page + refresh -> skip. A real visit after the window
                logs again, so repeated distinct visits are still tracked. */
             if ($actionType === 'page_view' && $pageUrl !== '') {
