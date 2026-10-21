@@ -121,6 +121,50 @@
     // Sort ascending by Date
     points.sort(function(a,b){ return a.x - b.x; });
 
+    // Quick lookup used by syncKpiCards for the weighted-position math.
+    var pointByX = {};
+    points.forEach(function (p) { pointByX[p.x] = p; });
+
+    // Mirror of the PHP gscShortNum(): 12400 -> 12.4K, 1240000 -> 1.2M
+    function gscShortNumJs(n) {
+        var v = Math.abs(n);
+        if (v >= 1000000) return parseFloat((n / 1000000).toFixed(1)) + 'M';
+        if (v >= 1000) return parseFloat((n / 1000).toFixed(1)) + 'K';
+        return n.toLocaleString();
+    }
+
+    // Keep the four KPI cards (Total Clicks / Impressions / CTR / Position) in
+    // step with the chart's range filter. PHP renders them for the default
+    // 30-day window; this recomputes them from exactly the points the chart
+    // shows, using the same GSC-style formulas as the server side (CTR =
+    // clicks / impressions, average position = impression-weighted).
+    function syncKpiCards(clickSeriesArr, imprSeriesArr) {
+        var totalClicks = 0, totalImpr = 0, wPos = 0;
+        clickSeriesArr.forEach(function (p) { totalClicks += (p[1] || 0); });
+        imprSeriesArr.forEach(function (p) {
+            var v = p[1] || 0;
+            totalImpr += v;
+            var pt = pointByX[p[0]];
+            if (pt && pt.position > 0) wPos += pt.position * v;
+        });
+
+        var clicksEl = document.getElementById('kpi-clicks');
+        var imprEl = document.getElementById('kpi-impressions');
+        var ctrEl = document.getElementById('kpi-ctr');
+        var posEl = document.getElementById('kpi-position');
+
+        if (clicksEl) {
+            clicksEl.textContent = gscShortNumJs(totalClicks);
+            clicksEl.title = totalClicks.toLocaleString() + ' clicks';
+        }
+        if (imprEl) {
+            imprEl.textContent = gscShortNumJs(totalImpr);
+            imprEl.title = totalImpr.toLocaleString() + ' impressions';
+        }
+        if (ctrEl) ctrEl.textContent = (totalImpr > 0 ? ((totalClicks / totalImpr) * 100).toFixed(2) : '0.00') + '%';
+        if (posEl) posEl.textContent = totalImpr > 0 ? (wPos / totalImpr).toFixed(1) : 'N/A';
+    }
+
     var fullClicksSeriesArr = points.map(function(p){ return [p.x, p.clicks]; });
     var fullImprSeriesArr   = points.map(function(p){ return [p.x, p.impressions]; });
 
@@ -216,6 +260,12 @@
              if(span) span.textContent = customStartMs ? "Custom" : "Last " + days + " days";
         }
 
+        // The KPI cards' period subtext follows the chart's range label.
+        var kpiLabelText = customStartMs ? 'Custom Range' : 'Last ' + days + ' days';
+        document.querySelectorAll('.kpi-range-label').forEach(function (el) {
+            el.textContent = kpiLabelText;
+        });
+
         // Check if empty
         var isEmpty = (filteredClicks.length === 0 && filteredImpr.length === 0) || 
                       (filteredClicks.every(p => p[1] === 0) && filteredImpr.every(p => p[1] === 0));
@@ -225,11 +275,13 @@
              chartElement.innerHTML = '<div class="flex items-center justify-center text-gray-400 bg-gray-50 dark:bg-neutral-900/50 rounded-lg border border-dashed border-gray-300 dark:border-neutral-600">No data available for this range.</div>';
              if (kpiCtrEl) kpiCtrEl.textContent = "N/A";
              if (kpiPosEl) kpiPosEl.textContent = "N/A";
+             syncKpiCards([], []);
              return;
         }
 
         renderChart(filteredClicks, filteredImpr);
         updateKPIs(filteredClicks, filteredImpr);
+        syncKpiCards(filteredClicks, filteredImpr);
     }
 
     // Handle Dropdown Clicks
