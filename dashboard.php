@@ -1694,9 +1694,9 @@ function gscRowState(array $s): array
 
                     <!-- Metric & Percentage Change -->
                     <div class="flex items-baseline gap-2 mb-1">
-                        <h3 id="kpi-ctr" class="text-
-                            <?= number_format((float)$kpi['ctr'], 2) ?>% font-semibold text-slate-800 tracking-tight">
-                        </h3>
+                        <h3 id="kpi-ctr" class="text-lg font-semibold text-slate-800 tracking-tight">
+                            <?= number_format((float)$kpi['ctr'], 2) ?>%
+                            </h3>
                         <?= gsc_sample_badge(gsc_is_sample('kpi')) ?>
                         <?php
                         // CTR is itself a percentage, so the change is shown in
@@ -1741,9 +1741,9 @@ function gscRowState(array $s): array
 
                     <!-- Metric & Percentage Change -->
                     <div class="flex items-baseline gap-2 mb-1">
-                        <h3 id="kpi-position" class="text-
-                            <?= number_format((float)$kpi['position'], 1) ?> font-semibold text-slate-800 tracking-tight">
-                        </h3>
+                        <h3 id="kpi-position" class="text-lg font-semibold text-slate-800 tracking-tight">
+                            <?= number_format((float)$kpi['position'], 1) ?>
+                            </h3>
                         <?= gsc_sample_badge(gsc_is_sample('kpi')) ?>
                         <?php
                         // A falling position number is an improvement, so this badge
