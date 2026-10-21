@@ -183,8 +183,25 @@
     }
 
     function filterDataAndRender(days, customStartMs, customEndMs) {
-        var endMs = customEndMs || Date.now();
-        var startMs = customStartMs || (Date.now() - (days * 24 * 60 * 60 * 1000));
+        /* Day-granularity UTC bounds. Data points are UTC midnights and the
+           dataset is already truncated server-side to the dashboard's finalized
+           window. The old filter compared against Date.now() with its local
+           time-of-day, which chopped the first day off the preset ranges for
+           users ahead of UTC (IST afternoons showed 297 impressions in the
+           chart while the KPI cards showed 305). Preset ranges now count back
+           from the LAST DATA POINT - matching the KPI cards exactly - and
+           custom ranges get inclusive UTC day bounds. */
+        var DAY = 24 * 60 * 60 * 1000;
+        var utcMidnight = function (ms) { return Math.floor(ms / DAY) * DAY; };
+        var lastPointMs = points.length ? points[points.length - 1].x : Date.now();
+        var endMs, startMs;
+        if (customStartMs != null || customEndMs != null) {
+            endMs = (customEndMs != null ? utcMidnight(customEndMs) : utcMidnight(Date.now())) + DAY - 1;
+            startMs = customStartMs != null ? utcMidnight(customStartMs) : 0;
+        } else {
+            endMs = utcMidnight(lastPointMs) + DAY - 1;
+            startMs = utcMidnight(lastPointMs) - (((days || 30) - 1) * DAY);
+        }
         
         var filteredClicks = fullClicksSeriesArr.filter(pt => pt[0] >= startMs && pt[0] <= endMs);
         var filteredImpr = fullImprSeriesArr.filter(pt => pt[0] >= startMs && pt[0] <= endMs);
