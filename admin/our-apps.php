@@ -3,7 +3,7 @@ $title = 'Our Other Apps';
 $subTitle = 'Manage Other Apps';
 
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('log_errors', 1);
 
 require_once __DIR__ . '/../includes/config.php';

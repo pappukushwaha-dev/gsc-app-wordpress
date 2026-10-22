@@ -5,7 +5,7 @@ declare(strict_types=1);
 // ---- Session cookie must be iframe-safe (Wix embeds) ----
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 ini_set('session.cookie_samesite', 'None'); // allow cookies in iframes
 ini_set('session.cookie_secure', '1');      // required with SameSite=None (serve over HTTPS)

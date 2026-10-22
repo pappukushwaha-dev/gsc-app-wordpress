@@ -6,7 +6,7 @@ $title    = 'App Clicks';
 $subTitle = 'Which users open which of our other apps from this one.';
 
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/core/SessionManager.php';

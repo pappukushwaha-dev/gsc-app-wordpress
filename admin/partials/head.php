@@ -1,6 +1,6 @@
 <?php
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 require_once __DIR__ . '/../core/HeaderData.php'; // Include HeaderData.php to get the logo path
 // Fetch the logo path dynamically from admin settings

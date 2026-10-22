@@ -6,7 +6,7 @@ $title    = 'Activity Logs';
 $subTitle = 'When users log in and which pages they open.';
 
 ini_set('display_errors', 1);
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 require_once __DIR__ . '/../includes/config.php';
 require_once __DIR__ . '/core/SessionManager.php';

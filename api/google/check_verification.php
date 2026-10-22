@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 // Error handling
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 0); // Don't display errors, return JSON instead
 
 header('Content-Type: application/json; charset=utf-8');

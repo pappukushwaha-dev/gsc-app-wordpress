@@ -2,7 +2,7 @@
 // includes/config.php  (WordPress platform)
 declare(strict_types=1);
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', '0');   // errors go to the log, never to the client
 ini_set('log_errors', '1');
 

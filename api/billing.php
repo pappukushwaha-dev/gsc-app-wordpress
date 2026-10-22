@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 ini_set('display_errors', '1');
 ini_set('display_startup_errors', '1');
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 
 register_shutdown_function(function () {
     $e = error_get_last();

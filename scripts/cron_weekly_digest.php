@@ -47,7 +47,7 @@ declare(strict_types=1);
  */
 
 ini_set('display_errors', '1');
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('memory_limit', '512M');
 
 $ENCHARGE_WRITE_KEY = 'n4ZJTpZktcyj32fQLBW555m4N';

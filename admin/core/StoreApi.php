@@ -2,7 +2,7 @@
 // File: /admin/core/StoreApi.php
 header('Content-Type: application/json');
 
-error_reporting(E_ALL);
+error_reporting(E_ALL & ~E_DEPRECATED);
 ini_set('display_errors', 1);
 
 require_once __DIR__ . '/../../includes/config.php';
