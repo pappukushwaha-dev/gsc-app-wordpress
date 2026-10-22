@@ -1755,7 +1755,14 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 if (json.success) {
                     btn.innerHTML = "✔ Submitted";
-                    setTimeout(() => location.reload(), 700);
+                    if (json.show_review && window.openReviewModal) {
+                        /* First successful submit: pause the reload so
+                           the popup is visible; reload after it closes. */
+                        window.openReviewModal();
+                        setTimeout(() => location.reload(), 12000);
+                    } else {
+                        setTimeout(() => location.reload(), 700);
+                    }
                 } else {
                     await gscAlert(
                         "Could not submit the sitemap",

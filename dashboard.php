@@ -5463,4 +5463,23 @@ document.querySelectorAll('.top-tab').forEach(btn => {
     </script>
     <?php unset($_SESSION['show_review_modal']); ?>
 <?php endif; ?>
+<?php if (!empty($reviewStatsEligible)): ?>
+<script>
+/* Review trigger: stats improved. The endpoint consumes the trigger once
+   (server-side dedupe) and the popup partial comes in via the sidebar. */
+setTimeout(function () {
+    fetch('api/review-trigger.php', {
+        method: 'POST',
+        credentials: 'same-origin',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ trigger: 'stats_improved' })
+    })
+    .then(function (r) { return r.json(); })
+    .then(function (d) {
+        if (d.eligible && window.openReviewModal) window.openReviewModal();
+    })
+    .catch(function () {});
+}, 4000);
+</script>
+<?php endif; ?>
 <?php include './partials/layouts/layoutBottom.php' ?>

@@ -1609,4 +1609,32 @@ include './partials/layouts/layoutTop.php';
 
 
 
+<script>
+/* Review trigger: first successful report with data. The server dedupes
+   (once per store), the popup partial comes in via the sidebar. */
+(function () {
+    if (sessionStorage.getItem('rt_first_report_done')) return;
+    var tries = 0;
+    var t = setInterval(function () {
+        tries++;
+        if (window.__gscReportHasData) {
+            clearInterval(t);
+            sessionStorage.setItem('rt_first_report_done', '1');
+            fetch('api/review-trigger.php', {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ trigger: 'first_report' })
+            })
+            .then(function (r) { return r.json(); })
+            .then(function (d) {
+                if (d.eligible && window.openReviewModal) window.openReviewModal();
+            })
+            .catch(function () {});
+        } else if (tries > 25) {
+            clearInterval(t);
+        }
+    }, 600);
+})();
+</script>
 <?php include './partials/layouts/layoutBottom.php'; ?>

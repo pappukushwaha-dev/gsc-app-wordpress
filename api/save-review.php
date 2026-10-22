@@ -276,6 +276,10 @@ try {
             $userAgent
     ]);
 
+// Any submission silences the review popup permanently.
+try { $pdo->prepare("UPDATE app_reviews SET submitted = 1 WHERE instance_id = ?")
+    ->execute([$instanceId]); } catch (Throwable $e) { /* silent */ }
+
     echo json_encode([
 
         'success' => true,

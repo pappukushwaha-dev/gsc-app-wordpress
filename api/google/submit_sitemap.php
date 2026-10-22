@@ -249,8 +249,16 @@ if ($http >= 200 && $http < 300) {
         error_log('submit_sitemap sitemaps upsert failed: ' . $e->getMessage());
     }
 
+    // First successful sitemap submit -> review trigger (marked once).
+    $showReview = false;
+    try {
+        require_once __DIR__ . '/../../includes/review-triggers.php';
+        $showReview = review_mark_trigger($pdo, (string) $instanceId, 'sitemap_submitted');
+    } catch (Throwable $e) { /* silent */ }
+
     echo json_encode([
         'success' => true,
+        'show_review' => $showReview,
         'message' => 'Sitemap submitted successfully. Google may take time to process it.'
     ]);
     exit;

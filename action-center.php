@@ -1424,6 +1424,20 @@ include './partials/layouts/layoutTop.php';
             .then(function (d) {
                 allRows = (d && d.success && d.rows) ? d.rows : [];
                 drawSparks();
+                /* Review trigger: first time the Action Center has data. */
+                if (allRows.length > 0 && !sessionStorage.getItem('rt_action_center_done')) {
+                    sessionStorage.setItem('rt_action_center_done', '1');
+                    fetch('api/review-trigger.php', {
+                        method: 'POST', credentials: 'same-origin',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ trigger: 'action_center' })
+                    })
+                    .then(function (r) { return r.json(); })
+                    .then(function (d2) {
+                        if (d2.eligible && window.openReviewModal) window.openReviewModal();
+                    })
+                    .catch(function () {});
+                }
             })
             .catch(function () { allRows = []; });
     }

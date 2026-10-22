@@ -61,7 +61,7 @@ $subTitle = 'Thank You';
                 const btn = document.getElementById('continueBtn');
                 if (btn) btn.href = redirectUrl;
 
-                setTimeout(() => {
+                window.autoRedirectTimer = setTimeout(() => {
                     window.location.href = redirectUrl;
                 }, 5000);
             }
@@ -69,4 +69,37 @@ $subTitle = 'Thank You';
         .catch(err => {
             console.error('Redirect check failed', err);
         });
+</script>
+
+
+<?php
+/* Review popup partial + plan-purchased trigger (1s after load). The
+   auto-redirect stays paused while the popup is open. */
+$appId = isset($appId) ? $appId : '';
+$instanceId = isset($instanceId) ? $instanceId : ($_SESSION['shop_id'] ?? ($_SESSION['instanceid'] ?? ($_SESSION['instance_id'] ?? null)));
+$shopId = isset($shopId) ? $shopId : $instanceId;
+include __DIR__ . '/partials/review-popup.php';
+?>
+
+<script>
+(function () {
+    var reviewShown = false;
+    setTimeout(function () {
+        if (reviewShown || !document.getElementById('reviewModal')) return;
+        fetch('api/review-trigger.php', {
+            method: 'POST',
+            credentials: 'same-origin',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ trigger: 'plan_purchased' })
+        })
+        .then(function (r) { return r.json(); })
+        .then(function (d) {
+            if (!d || !d.eligible) return;
+            reviewShown = true;
+            if (window.autoRedirectTimer) clearTimeout(window.autoRedirectTimer);
+            if (window.openReviewModal) window.openReviewModal();
+        })
+        .catch(function () {});
+    }, 1000);
+})();
 </script>
