@@ -608,6 +608,12 @@ include './partials/layouts/layoutTop.php';
 <script src="<?= APP_BASE ?>/assets/js/AnalyticsChart.js"></script>
 
 <script>
+    /* Wrapped in an IIFE: the sidebar already publishes a top-level
+       `const instanceId`; re-declaring it here at global scope throws
+       "Identifier has already been declared" and kills this whole
+       script. Everything below stays inside this closure. */
+    (function () {
+
     const instanceId = "<?= $instanceId ?>";
     const appBase = "<?= APP_BASE ?>";
     let currentType = 'keywords';
@@ -1564,6 +1570,7 @@ include './partials/layouts/layoutTop.php';
             setTimeout(render, 50);
         });
     }
+    })();
 </script>
 
 <script>
