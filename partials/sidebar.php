@@ -232,7 +232,7 @@ $faviconPath = $adminData['favicon_path'] ?? 'assets/images/logo-icon.png';
       <li>
         <a href="mcp-settings.php?instance_id=<?= urlencode($instanceIdForApi) ?>">
           <iconify-icon icon="solar:cpu-bolt-outline" class="menu-icon"></iconify-icon>
-          <span>MCP Settings</span>
+          <span>AI Assistant</span>
         </a>
       </li>
       <li>
