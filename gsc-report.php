@@ -65,18 +65,28 @@ include './partials/layouts/layoutTop.php';
             <div class="flex items-center gap-4">
                 <div class="flex items-center space-x-2">
                     <span class="text-sm text-neutral-500 dark:text-gray-400">Range:</span>
-                    <select id="date-range-filter" class="form-select rounded-lg leading-normal">
-                        <option value="today">Today</option>
-                        <option value="yesterday">Yesterday</option>
-                        <option value="7days">Last 7 Days</option>
-                        <option value="30days" selected>Last 30 Days</option>
-                        <option value="lastmonth">Last Month</option>
-                        <option value="90days">Last 90 Days</option>
-                        <option value="12months">Last 12 Months</option>
-                        <option value="365days">Last 365 Days</option>
-                        <option value="lastyear">Last Year</option>
+                <div class="flex items-center gap-2">
+                    <span class="text-sm text-neutral-500 dark:text-gray-400">Range:</span>
+                    <select id="date-range-filter" class="form-select rounded-lg border border-neutral-300 bg-white dark:bg-dark-2 dark:border-neutral-600 px-3 py-2 text-sm font-medium leading-normal shadow-sm">
+                        <option value="24hours">Last 24 hours</option>
+                        <option value="7days">Last 7 days</option>
+                        <option value="28days">Last 28 days</option>
+                        <option value="30days" selected>Last 30 days</option>
+                        <option value="3months">Last 3 months</option>
+                        <option value="6months">Last 6 months</option>
+                        <option value="12months">Last 12 months</option>
+                        <option value="16months">Last 16 months</option>
                         <option value="custom">Custom</option>
                     </select>
+                </div>
+
+                <div id="custom-date-fields" class="hidden flex items-center gap-2">
+                    <input type="date" id="start_date" class="form-input form-control border border-neutral-300 rounded-lg px-3 py-2 text-sm bg-white dark:bg-dark-2 dark:border-neutral-600">
+                    <span class="text-neutral-400">-</span>
+                    <input type="date" id="end_date" class="form-input form-control border border-neutral-300 rounded-lg px-3 py-2 text-sm bg-white dark:bg-dark-2 dark:border-neutral-600">
+                    <button id="applyCustomBtn" class="btn btn-cstm-secondary">Apply</button>
+                </div>
+
                 </div>
 
                 <div id="custom-date-fields" class="hidden flex items-center gap-2">

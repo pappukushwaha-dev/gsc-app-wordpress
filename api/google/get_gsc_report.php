@@ -186,35 +186,50 @@ try {
     // ==========================================
     // 3. Date Logic
     // ==========================================
-    $end = date('Y-m-d', strtotime('-3 days')); // Default End is Today
+        // ==========================================
+    // 3. Date Logic — GSC-style windows (all END at today, fresh
+    //    partial days included, exactly like the Google UI)
+    // ==========================================
+    $end = date('Y-m-d');
     switch ($range) {
+        case '24hours':
         case 'today':
-            $start = date('Y-m-d');
+            $start = $end;
             break;
         case 'yesterday':
             $start = date('Y-m-d', strtotime('-1 day'));
-            $end   = date('Y-m-d', strtotime('-1 day'));
+            $end   = $start;
             break;
         case '7days':
-            // 7 finalized days ending at the -3 mark (Google UI + dashboard
-            // chart-filter semantics) - the naive [-7, -3] span is only 5 days.
-            $start = date('Y-m-d', strtotime('-9 days'));
+            $start = date('Y-m-d', strtotime('-6 days'));
             break;
-        case '30days':
-            $start = date('Y-m-d', strtotime('-30 days'));
+        case '28days':
+            $start = date('Y-m-d', strtotime('-27 days'));
+            break;
+        case '30days':   // legacy alias - true last 30 days
+            $start = date('Y-m-d', strtotime('-29 days'));
+            break;
+        case '3months':
+            $start = date('Y-m-d', strtotime('-3 months'));
             break;
         case 'lastmonth':
             $start = date('Y-m-d', strtotime('first day of last month'));
             $end   = date('Y-m-d', strtotime('last day of last month'));
             break;
-        case '90days':
-            $start = date('Y-m-d', strtotime('-90 days'));
+        case '6months':
+            $start = date('Y-m-d', strtotime('-6 months'));
+            break;
+        case '90days':   // legacy alias - true last 90 days
+            $start = date('Y-m-d', strtotime('-89 days'));
             break;
         case '12months':
             $start = date('Y-m-d', strtotime('-12 months'));
             break;
-        case '365days':
-            $start = date('Y-m-d', strtotime('-365 days'));
+        case '16months':
+            $start = date('Y-m-d', strtotime('-16 months'));
+            break;
+        case '365days':  // legacy alias - true last 365 days
+            $start = date('Y-m-d', strtotime('-364 days'));
             break;
         case 'lastyear':
             $start = date('Y-01-01', strtotime('last year'));
@@ -225,15 +240,14 @@ try {
                 throw new Exception('Missing custom date range');
             }
             $start = $startDate;
-            $end   = date('Y-m-d', strtotime($endDate . ' -3 days'));
+            $end   = $endDate;   // GSC custom uses the picked dates as-is
             break;
         default:
-            $start = date('Y-m-d', strtotime('-30 days'));
+            $start = date('Y-m-d', strtotime('-29 days'));
             break;
     }
 
-    // ==========================================
-    // 4. Dimensions Setup
+// 4. Dimensions Setup// 4. Dimensions Setup
     // ==========================================
     $dimensions = ['query'];
     switch ($type) {
