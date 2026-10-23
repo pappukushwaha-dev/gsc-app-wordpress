@@ -184,56 +184,62 @@ try {
     }
 
     // ==========================================
-    // 3. Date Logic
     // ==========================================
-        // ==========================================
-    // 3. Date Logic — GSC-style windows (all END at today, fresh
-    //    partial days included, exactly like the Google UI)
+    // 3. Date Logic — GSC-style windows (all END at YESTERDAY Pacific —
+    //    the last COMPLETE day, exactly like the GSC UI's presets;
+    //    today's partial fresh data is only used by the 24-hour view).
+    //    GSC's API + UI work in Pacific Time (America/Los_Angeles)
+    //    regardless of the server timezone - aligning the day
+    //    boundaries removes the off-by-a-few impression diffs vs
+    //    the GSC UI.
     // ==========================================
-    $end = date('Y-m-d');
+    $gscTz      = new DateTimeZone('America/Los_Angeles');
+    $gscNow     = new DateTimeImmutable('now', $gscTz);
+    $gscYesterday = $gscNow->modify('-1 day');
+    $end    = $gscYesterday->format('Y-m-d');
     switch ($range) {
-        case '24hours':
+        case '24hours':   // GSC's 24-hour view = today (fresh partial)
         case 'today':
-            $start = $end;
-            break;
-        case 'yesterday':
-            $start = date('Y-m-d', strtotime('-1 day'));
+            $start = $gscNow->format('Y-m-d');
             $end   = $start;
             break;
+        case 'yesterday':
+            $start = $end;
+            break;
         case '7days':
-            $start = date('Y-m-d', strtotime('-6 days'));
+            $start = $gscYesterday->modify('-6 days')->format('Y-m-d');
             break;
         case '28days':
-            $start = date('Y-m-d', strtotime('-27 days'));
+            $start = $gscYesterday->modify('-27 days')->format('Y-m-d');
             break;
-        case '30days':   // legacy alias - true last 30 days
-            $start = date('Y-m-d', strtotime('-29 days'));
+        case '30days':   // legacy alias - true last 30 completed days
+            $start = $gscYesterday->modify('-29 days')->format('Y-m-d');
             break;
         case '3months':
-            $start = date('Y-m-d', strtotime('-3 months'));
+            $start = $gscYesterday->modify('-3 months')->format('Y-m-d');
             break;
         case 'lastmonth':
-            $start = date('Y-m-d', strtotime('first day of last month'));
-            $end   = date('Y-m-d', strtotime('last day of last month'));
+            $start = $gscYesterday->modify('first day of last month')->format('Y-m-d');
+            $end   = $gscYesterday->modify('last day of last month')->format('Y-m-d');
             break;
         case '6months':
-            $start = date('Y-m-d', strtotime('-6 months'));
+            $start = $gscYesterday->modify('-6 months')->format('Y-m-d');
             break;
-        case '90days':   // legacy alias - true last 90 days
-            $start = date('Y-m-d', strtotime('-89 days'));
+        case '90days':   // legacy alias - true last 90 completed days
+            $start = $gscYesterday->modify('-89 days')->format('Y-m-d');
             break;
         case '12months':
-            $start = date('Y-m-d', strtotime('-12 months'));
+            $start = $gscYesterday->modify('-12 months')->format('Y-m-d');
             break;
         case '16months':
-            $start = date('Y-m-d', strtotime('-16 months'));
+            $start = $gscYesterday->modify('-16 months')->format('Y-m-d');
             break;
-        case '365days':  // legacy alias - true last 365 days
-            $start = date('Y-m-d', strtotime('-364 days'));
+        case '365days':  // legacy alias - true last 365 completed days
+            $start = $gscYesterday->modify('-364 days')->format('Y-m-d');
             break;
         case 'lastyear':
-            $start = date('Y-01-01', strtotime('last year'));
-            $end   = date('Y-12-31', strtotime('last year'));
+            $start = $gscYesterday->modify('first day of january last year')->format('Y-m-d');
+            $end   = $gscYesterday->modify('last day of december last year')->format('Y-m-d');
             break;
         case 'custom':
             if (!$startDate || !$endDate) {
@@ -243,7 +249,7 @@ try {
             $end   = $endDate;   // GSC custom uses the picked dates as-is
             break;
         default:
-            $start = date('Y-m-d', strtotime('-29 days'));
+            $start = $gscYesterday->modify('-29 days')->format('Y-m-d');
             break;
     }
 
