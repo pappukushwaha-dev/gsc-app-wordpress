@@ -195,10 +195,10 @@ try {
     // ==========================================
     $gscTz      = new DateTimeZone('America/Los_Angeles');
     $gscNow     = new DateTimeImmutable('now', $gscTz);
-    /* GSC UI presets end 3 days back (the data latency window) —
-       verified by manual custom-date tests: custom 10/14–10/20 matched
-       GSC's "Last 7 days" 100%. */
-    $endObj = $gscNow->modify('-3 days');
+    /* Anchor: the most recently completed day in Pacific Time (T-2,
+       the GSC aggregation latency window). GSC's API has no hourly
+       granularity, so '24hours' also queries this single day. */
+    $endObj = $gscNow->modify('-2 days');
     $end    = $endObj->format('Y-m-d');
     switch ($range) {
         case '24hours':   // GSC UI "Last 24 hours" = the single most
@@ -224,7 +224,7 @@ try {
         case '3months':
         case '90days':
         case '90':
-            $start = $endObj->modify('-3 months')->format('Y-m-d');
+            $start = $endObj->modify('+1 day')->modify('-3 months')->format('Y-m-d');
             break;
         case 'lastmonth':
             $start = $endObj->modify('first day of last month')->format('Y-m-d');
@@ -232,16 +232,16 @@ try {
             break;
         case '6months':
         case '180':
-            $start = $endObj->modify('-6 months')->format('Y-m-d');
+            $start = $endObj->modify('+1 day')->modify('-6 months')->format('Y-m-d');
             break;
         case '12months':
         case '365':
         case '365days':
-            $start = $endObj->modify('-12 months')->format('Y-m-d');
+            $start = $endObj->modify('+1 day')->modify('-12 months')->format('Y-m-d');
             break;
         case '16months':
         case '486':
-            $start = $endObj->modify('-16 months')->format('Y-m-d');
+            $start = $endObj->modify('+1 day')->modify('-16 months')->format('Y-m-d');
             break;
         case 'lastyear':
             $start = $endObj->modify('first day of january last year')->format('Y-m-d');
@@ -255,7 +255,7 @@ try {
             $end   = $endDate;   // GSC custom uses the picked dates as-is
             break;
         default:
-            $start = $endObj->modify('-29 days')->format('Y-m-d');
+            $start = $endObj->modify('-27 days')->format('Y-m-d');
             break;
     }
 
