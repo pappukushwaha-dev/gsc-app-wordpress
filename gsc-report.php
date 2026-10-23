@@ -381,6 +381,11 @@ include './partials/layouts/layoutTop.php';
                 <div class="px-6 py-4 border-b border-gray-100 dark:border-neutral-600 flex justify-between items-center bg-gray-50 dark:bg-neutral-900">
                     <h6 class="font-bold text-gray-800 dark:text-white" id="tableTitle">Detailed Report</h6>
                     <div class="flex items-center gap-2">
+                        <div class="flex items-center gap-1.5 px-2.5 py-1.5 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-neutral-800 focus-within:ring-2 focus-within:ring-cstm-primary/40">
+                            <iconify-icon icon="solar:magnifer-linear" class="text-gray-400 text-base shrink-0"></iconify-icon>
+                            <input id="table-search" type="text" placeholder="Search..."
+                                class="bg-transparent border-0 p-0 text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-0 w-36">
+                        </div>
                         <button id="downloadCsvBtn" title="Download this report as CSV" class="inline-flex items-center gap-1.5 px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-neutral-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 transition-colors">
                             <iconify-icon icon="solar:download-minimalistic-bold" class="text-base"></iconify-icon>
                             Download CSV
@@ -394,10 +399,10 @@ include './partials/layouts/layoutTop.php';
                         <thead class="bg-gray-50 dark:bg-neutral-800">
                             <tr>
                                 <th class="px-6 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider" id="col-key">Metric</th>
-                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Clicks</th>
-                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Impr.</th>
-                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">CTR</th>
-                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Pos</th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:text-cstm-primary transition-colors sortable-th" data-sort="clicks">Clicks <span class="sort-arrow"></span></th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:text-cstm-primary transition-colors sortable-th" data-sort="impressions">Impr. <span class="sort-arrow"></span></th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:text-cstm-primary transition-colors sortable-th" data-sort="ctr">CTR <span class="sort-arrow"></span></th>
+                                <th class="px-6 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider cursor-pointer select-none hover:text-cstm-primary transition-colors sortable-th" data-sort="position">Pos <span class="sort-arrow"></span></th>
                             </tr>
                         </thead>
                         <tbody id="table-body" class="table-body-section bg-white dark:bg-neutral-800 divide-y divide-gray-200 dark:divide-neutral-700">
@@ -408,6 +413,15 @@ include './partials/layouts/layoutTop.php';
                 <div class="px-6 py-4 border-t border-gray-200 dark:border-neutral-600 flex items-center justify-between bg-gray-50 dark:bg-neutral-900">
                     <span class="text-sm text-gray-500 dark:text-gray-400" id="pagination-info">Showing 0 to 0 of 0 entries</span>
                     <div class="flex gap-2">
+                        <label class="text-xs text-gray-400 hidden sm:inline">Rows</label>
+                        <select id="pageSizeSelect" class="text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-neutral-800 text-gray-700 dark:text-gray-300 px-2 py-1.5 cursor-pointer" title="Rows per page">
+                            <option value="5">5</option>
+                            <option value="10">10</option>
+                            <option value="15">15</option>
+                            <option value="20">20</option>
+                            <option value="50">50</option>
+                        </select>
+                        <div class="flex gap-1 items-center ml-1" id="page-numbers"></div>
                         <button id="prevPageBtn" class="px-3 py-1.5 text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-neutral-800 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
                             Previous
                         </button>
@@ -858,7 +872,10 @@ include './partials/layouts/layoutTop.php';
     // Pagination State
     let allRows = [];
     let currentPage = 1;
-    const rowsPerPage = 10;
+    let rowsPerPage = 10;
+    let sortKey = null;
+    let sortDir = 'desc';
+    let searchText = '';
 
     function applyPlanLockUI() {
         const dashboard = document.getElementById('dashboardContent');
@@ -914,7 +931,64 @@ include './partials/layouts/layoutTop.php';
         });
 
         applyCustomBtn.addEventListener('click', () => fetchData());
-        refreshBtn.addEventListener('click', () => fetchData());
+                refreshBtn.addEventListener('click', () => fetchData());
+
+        // ----- GSC_TABLE_UX: search / page-size / sort -----
+        const searchInput = document.getElementById('table-search');
+        if (searchInput) {
+            searchInput.addEventListener('input', () => {
+                searchText = searchInput.value.trim();
+                currentPage = 1;
+                renderTable();
+            });
+        }
+
+        const pageSizeSelect = document.getElementById('pageSizeSelect');
+        if (pageSizeSelect) {
+            pageSizeSelect.addEventListener('change', () => {
+                rowsPerPage = parseInt(pageSizeSelect.value, 10) || 5;
+                currentPage = 1;
+                renderTable();
+            });
+        }
+
+        document.addEventListener('click', (e) => {
+            const th = e.target.closest('th.sortable-th');
+            if (!th) return;
+            const table = th.closest('table');
+            if (!table) return;
+            const tbody = table.querySelector('tbody');
+            const key = th.dataset.sortKey || th.dataset.sort || 'clicks';
+            const ths = Array.from(table.querySelectorAll('th'));
+            const idx = ths.indexOf(th);
+            const arrow = th.querySelector('.sort-arrow');
+            const isMain = !!(tbody && tbody.id === 'table-body');
+            let dir;
+            if (isMain) {
+                if (sortKey === key) { sortDir = sortDir === 'desc' ? 'asc' : 'desc'; } else { sortKey = key; sortDir = 'desc'; }
+                dir = sortDir === 'desc' ? -1 : 1;
+            } else {
+                th.dataset.__dir = th.dataset.__dir === 'desc' ? 'asc' : 'desc';
+                dir = th.dataset.__dir === 'desc' ? -1 : 1;
+            }
+            table.querySelectorAll('th .sort-arrow').forEach(a => { a.textContent = ''; });
+            if (arrow) arrow.textContent = dir === -1 ? ' ▼' : ' ▲';
+            if (isMain) {
+                currentPage = 1;
+                renderTable();
+                return;
+            }
+            const srows = Array.from(tbody.querySelectorAll('tr'));
+            srows.sort((a, b) => {
+                const av = parseFloat(((a.children[idx] ? a.children[idx].textContent : '') || '').replace(/[^0-9.\-]/g, '')) || 0;
+                const bv = parseFloat(((b.children[idx] ? b.children[idx].textContent : '') || '').replace(/[^0-9.\-]/g, '')) || 0;
+                return (av > bv ? 1 : av < bv ? -1 : 0) * dir;
+            });
+            srows.forEach(r => tbody.appendChild(r));
+            const host = tbody.closest('div[id]');
+            const bar = host ? host.querySelector('.common-pagination') : null;
+            if (bar && bar.__renderPager) bar.__renderPager();
+        });
 
         // --- Tab Switching ---
         tabs.forEach(tab => {
@@ -1269,6 +1343,54 @@ include './partials/layouts/layoutTop.php';
     });
 
 // --- downloadCsv END ---
+    /* GSC_TABLE_UX: search + sort helpers for the main table */
+    function visibleRows() {
+        let rows = allRows;
+        if (searchText) {
+            const q = searchText.toLowerCase();
+            rows = rows.filter(r => String(r.keys[0]).toLowerCase().includes(q));
+        }
+        if (sortKey) {
+            const dir = sortDir === 'asc' ? 1 : -1;
+            rows = rows.slice().sort((a, b) => {
+                const av = parseFloat(a[sortKey]) || 0;
+                const bv = parseFloat(b[sortKey]) || 0;
+                return (av > bv ? 1 : av < bv ? -1 : 0) * dir;
+            });
+        }
+        return rows;
+    }
+
+    function pageList(totalPages, current) {
+        const tp = totalPages;
+        if (tp <= 7) return Array.from({ length: tp }, (_, i) => i + 1);
+        if (current <= 3) return [1, 2, 3, 4, '…', tp];
+        if (current >= tp - 2) return [1, '…', tp - 3, tp - 2, tp - 1, tp];
+        return [1, '…', current - 1, current, current + 1, '…', tp];
+    }
+
+    function renderPageNumbers(container, totalPages, current, onGo) {
+        if (!container) return;
+        container.innerHTML = '';
+        if (totalPages <= 1) return;
+        const base = 'min-w-[1.75rem] px-1.5 py-1 text-sm rounded-md border transition-colors';
+        pageList(totalPages, current).forEach(pg => {
+            if (pg === '…') {
+                const sp = document.createElement('span');
+                sp.className = 'px-1.5 py-1 text-sm text-gray-400 select-none';
+                sp.textContent = '…';
+                container.appendChild(sp);
+                return;
+            }
+            const b = document.createElement('button');
+            b.textContent = pg;
+            b.className = base + (pg === current
+                ? ' bg-cstm-primary text-white border-cstm-primary'
+                : ' bg-white dark:bg-neutral-800 border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-neutral-700');
+            b.addEventListener('click', () => onGo(pg));
+            container.appendChild(b);
+        });
+    }
     function renderTable() {
         const tbody = document.getElementById('table-body');
         tbody.innerHTML = "";
@@ -1292,8 +1414,9 @@ include './partials/layouts/layoutTop.php';
         // Pagination logic
         const start = (currentPage - 1) * rowsPerPage;
         const end = start + rowsPerPage;
-        const pageRows = allRows.slice(start, end);
-        const totalRows = allRows.length;
+        const __vis = visibleRows();
+        const pageRows = __vis.slice(start, end);
+        const totalRows = __vis.length;
 
         // Update Info Text
         document.getElementById('pagination-info').innerText = `Showing ${totalRows === 0 ? 0 : start + 1} to ${Math.min(end, totalRows)} of ${totalRows} entries`;
@@ -1301,6 +1424,12 @@ include './partials/layouts/layoutTop.php';
         // Update Buttons
         document.getElementById('prevPageBtn').disabled = currentPage === 1;
         document.getElementById('nextPageBtn').disabled = end >= totalRows;
+        renderPageNumbers(
+            document.getElementById('page-numbers'),
+            Math.max(1, Math.ceil(totalRows / rowsPerPage)),
+            currentPage,
+            (pg) => { currentPage = pg; renderTable(); }
+        );
 
         pageRows.forEach(row => {
             const tr = document.createElement('tr');
@@ -1535,48 +1664,76 @@ include './partials/layouts/layoutTop.php';
         setupPaginationForAllTables();
     }
 
-    // Universal pagination for all tables
+        // Universal pagination + page-size + numbers + sortable headers for
+    // every secondary table (hidden-row pager, per-section state).
     function setupPaginationForAllTables() {
         document.querySelectorAll(".common-pagination").forEach(section => {
             const prevBtn = section.querySelector(".prevPageBtn");
             const nextBtn = section.querySelector(".nextPageBtn");
             const info = section.querySelector(".pagination-info");
             const tbody = section.parentElement.querySelector("tbody");
-
-            let page = 1;
-            const perPage = 10;
-
+            if (!tbody || tbody.id === 'table-body') return;   // main table has its own pager
+            if (section.dataset.pagerWired) { if (section.__renderPager) section.__renderPager(); return; }
+            section.dataset.pagerWired = '1';
+            const st = { page: 1, perPage: 5 };
             function getRows() {
                 return Array.from(tbody.querySelectorAll("tr"));
             }
-
             function render() {
                 const rows = getRows();
                 const total = rows.length;
+                const maxPage = Math.max(1, Math.ceil(total / st.perPage));
+                if (st.page > maxPage) st.page = maxPage;
                 rows.forEach(r => r.classList.add("hidden"));
-                const start = (page - 1) * perPage;
-                const end = start + perPage;
+                const start = (st.page - 1) * st.perPage;
+                const end = start + st.perPage;
                 rows.slice(start, end).forEach(r => r.classList.remove("hidden"));
-                info.textContent = `Showing ${total === 0 ? 0 : start + 1} to ${Math.min(end, total)} of ${total} entries`;
-                prevBtn.disabled = page === 1;
-                nextBtn.disabled = end >= total;
+                if (info) info.textContent = `Showing ${total === 0 ? 0 : start + 1} to ${Math.min(end, total)} of ${total} entries`;
+                if (prevBtn) prevBtn.disabled = st.page === 1;
+                if (nextBtn) nextBtn.disabled = end >= total;
+                renderPageNumbers(section.querySelector('.page-numbers'), maxPage, st.page, (pg) => { st.page = pg; render(); });
             }
-            prevBtn.onclick = () => {
-                if (page > 1) {
-                    page--;
-                    render();
-                }
-            };
+            section.__renderPager = render;
+            if (prevBtn) prevBtn.onclick = () => { if (st.page > 1) { st.page--; render(); } };
+            if (nextBtn) nextBtn.onclick = () => { const total = getRows().length; if (st.page * st.perPage < total) { st.page++; render(); } };
 
-            nextBtn.onclick = () => {
-                const total = getRows().length;
-                if (page * perPage < total) {
-                    page++;
-                    render();
-                }
-            };
-            // Initial render
-            setTimeout(render, 50);
+            // page-size select + page-number container + sortable headers
+            const right = section.querySelector('div');
+            if (right && !right.querySelector('.section-page-size')) {
+                const sel = document.createElement('select');
+                sel.className = 'section-page-size text-sm border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-neutral-800 text-gray-700 dark:text-gray-300 px-2 py-1.5 cursor-pointer';
+                sel.title = 'Rows per page';
+                [5, 10, 15, 20, 50].forEach(n => {
+                    const o = document.createElement('option');
+                    o.value = n; o.textContent = n;
+                    if (n === 5) o.selected = true;
+                    sel.appendChild(o);
+                });
+                sel.addEventListener('change', () => { st.perPage = parseInt(sel.value, 10) || 5; st.page = 1; render(); });
+                if (prevBtn) right.insertBefore(sel, prevBtn); else right.appendChild(sel);
+                const nums = document.createElement('div');
+                nums.className = 'flex gap-1 items-center page-numbers ml-1';
+                if (nextBtn) right.insertBefore(nums, nextBtn); else right.appendChild(nums);
+            }
+            const tbl = tbody.closest('table') || tbody.parentElement;
+            if (tbl && !tbl.dataset.sortMarked) {
+                tbl.dataset.sortMarked = '1';
+                tbl.querySelectorAll('th').forEach(th => {
+                    const label = th.textContent.trim().toUpperCase();
+                    let key = null;
+                    if (label.includes('CLICK')) key = 'clicks';
+                    else if (label.includes('IMPR')) key = 'impressions';
+                    else if (label.includes('CTR')) key = 'ctr';
+                    else if (label.includes('POS')) key = 'position';
+                    if (!key) return;
+                    th.classList.add('cursor-pointer', 'select-none', 'hover:text-cstm-primary', 'transition-colors', 'sortable-th');
+                    th.dataset.sortKey = key;
+                    const arrow = document.createElement('span');
+                    arrow.className = 'sort-arrow';
+                    th.appendChild(arrow);
+                });
+            }
+            render();
         });
     }
     })();
