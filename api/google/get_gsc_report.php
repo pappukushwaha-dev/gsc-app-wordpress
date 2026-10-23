@@ -337,6 +337,68 @@ try {
     $variants[] = 'sc-domain:' . $clean;
     
     $siteVariants = array_unique($variants);
+
+    /* ==========================================================
+       6b. EXACT PROPERTY MATCH — sites.list (same resolution as
+           index.php's property selector): query ONLY the exact
+           verified property instead of guessing through variants,
+           so the numbers match the property the user sees in the
+           GSC UI. Fallback: the variant order above.
+    ========================================================== */
+    $ch = curl_init('https://www.googleapis.com/webmasters/v3/sites');
+    curl_setopt_array($ch, [
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_HTTPHEADER     => [
+            'Authorization: Bearer ' . $token,
+            'Accept: application/json',
+        ],
+        CURLOPT_TIMEOUT        => 8,
+        CURLOPT_CONNECTTIMEOUT => 4,
+    ]);
+    $sitesResp = curl_exec($ch);
+    $sitesCode = (int) curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    curl_close($ch);
+
+    $entries = ($sitesCode >= 200 && $sitesCode < 300)
+        ? (json_decode((string) $sitesResp, true)['siteEntry'] ?? [])
+        : [];
+
+    if ($entries) {
+        $normKey = static function (string $url): string {
+            $url   = preg_replace('#^https?://#i', '', trim($url));
+            $parts = explode('/', (string) $url, 2);
+            $host  = preg_replace('#^www\.#i', '', strtolower($parts[0]));
+            $path  = isset($parts[1]) ? rtrim('/' . $parts[1], '/') : '';
+            return $host . $path;
+        };
+
+        $want     = $normKey(rtrim((string) $rawSite, '/'));
+        $wantHost = explode('/', $want, 2)[0];
+        $match    = null;
+
+        // 1) URL-prefix property matching on host + path
+        foreach ($entries as $e) {
+            $sv = (string) ($e['siteUrl'] ?? '');
+            if ($sv === '' || stripos($sv, 'sc-domain:') === 0) continue;
+            if ($normKey($sv) === $want) { $match = $e; break; }
+        }
+
+        // 2) domain property covering this host
+        if (!$match) {
+            foreach ($entries as $e) {
+                $sv = (string) ($e['siteUrl'] ?? '');
+                if (stripos($sv, 'sc-domain:') !== 0) continue;
+                if (preg_replace('#^www\.#i', '', strtolower(substr($sv, 10))) === $wantHost) { $match = $e; break; }
+            }
+        }
+
+        // 3) only one property on the account - it must be this one
+        if (!$match && count($entries) === 1) { $match = $entries[0]; }
+
+        if ($match) {
+            $siteVariants = [(string) ($match['siteUrl'] ?? '')];   // query ONLY the exact property
+        }
+    }
     // ==========================================
     // 7. API CALL FUNCTION
     // ==========================================

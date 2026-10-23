@@ -1206,6 +1206,7 @@ function gscRowState(array $s): array
 
 <script>
     window.gscChartData = <?= json_encode($chartData); ?>;
+    window.GSC_INSTANCE_ID = <?= json_encode((string)$instanceId); ?>;
 </script>
 <script>
     window.topPagesData = <?= json_encode($pagesReportAll ?? []); ?>;

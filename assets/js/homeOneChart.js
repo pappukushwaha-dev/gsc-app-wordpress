@@ -168,6 +168,46 @@
     var fullClicksSeriesArr = points.map(function(p){ return [p.x, p.clicks]; });
     var fullImprSeriesArr   = points.map(function(p){ return [p.x, p.impressions]; });
 
+    /* The prefetched dataset (ends at the GSC latency boundary, today-2)
+       drives the preset ranges. A custom range may extend past it, so the
+       custom handler swaps in a dataset fetched from the API for the exact
+       picked window - then presets restore the base one. */
+    var basePoints = points, baseByX = pointByX;
+    var baseClicks = fullClicksSeriesArr, baseImpr = fullImprSeriesArr;
+    var usingCustomDataset = false;
+
+    function restoreBaseDataset() {
+        if (!usingCustomDataset) return;
+        points = basePoints;
+        pointByX = baseByX;
+        fullClicksSeriesArr = baseClicks;
+        fullImprSeriesArr = baseImpr;
+        usingCustomDataset = false;
+    }
+
+    function swapToCustomDataset(rows) {
+        var pts = [];
+        rows.forEach(function (r) {
+            var x = toEpochMs(Array.isArray(r.keys) ? r.keys[0] : r.keys);
+            if (x == null) return;
+            pts.push({
+                x: x,
+                clicks: Number(r.clicks) || 0,
+                impressions: Number(r.impressions) || 0,
+                position: (r.position != null && Number(r.position) > 0) ? Number(r.position) : null
+            });
+        });
+        pts.sort(function (a, b) { return a.x - b.x; });
+        if (!pts.length) return false;
+        points = pts;
+        pointByX = {};
+        points.forEach(function (p) { pointByX[p.x] = p; });
+        fullClicksSeriesArr = points.map(function (p) { return [p.x, p.clicks]; });
+        fullImprSeriesArr   = points.map(function (p) { return [p.x, p.impressions]; });
+        usingCustomDataset = true;
+        return true;
+    }
+
     var currentChart = null;
 
     function renderChart(clickSeriesArr, imprSeriesArr) {
@@ -244,7 +284,18 @@
             startMs = customStartMs != null ? utcMidnight(customStartMs) : 0;
         } else {
             endMs = utcMidnight(lastPointMs) + DAY - 1;
-            startMs = utcMidnight(lastPointMs) - (((days || 30) - 1) * DAY);
+            /* Month presets use GSC UI's calendar math:
+               start = (end + 1 day) - N months, so with an Oct 21 anchor
+               "3 months" = Jul 22 - Oct 21 - exactly matching
+               get_gsc_report.php. */
+            var monthsBack = { 90: 3, 180: 6, 365: 12, 486: 16 }[days];
+            if (monthsBack) {
+                var sd = new Date(utcMidnight(lastPointMs) + DAY);
+                sd.setUTCMonth(sd.getUTCMonth() - monthsBack);
+                startMs = sd.getTime();
+            } else {
+                startMs = utcMidnight(lastPointMs) - (((days || 28) - 1) * DAY);
+            }
         }
         
         var filteredClicks = fullClicksSeriesArr.filter(pt => pt[0] >= startMs && pt[0] <= endMs);
@@ -289,28 +340,56 @@
         rangeItems.forEach(function(btn) {
             btn.addEventListener('click', function(e) {
                 e.stopPropagation();
-                var days = Number(btn.dataset.range) || 30;
+                var days = Number(btn.dataset.range) || 28;
+                restoreBaseDataset();
                 filterDataAndRender(days, null, null);
                 closeMenu();
             });
         });
     }
 
-    // Handle Custom Range Apply
+    // Handle Custom Range Apply — fetch the exact picked window from the
+    // same API gsc-report uses, so both pages return identical numbers
+    // (the prefetched dataset stops at the GSC latency boundary and
+    // would truncate any range extending past it).
     if (customApply) {
-        customApply.addEventListener('click', function(e){
+        customApply.addEventListener('click', async function(e){
             e.stopPropagation();
             if(!startInput.value || !endInput.value) return;
-            
+
             var s = new Date(startInput.value).getTime();
             var eDate = new Date(endInput.value).getTime();
+            if (!isFinite(s) || !isFinite(eDate)) return;
+
+            if (customApply.disabled) return;
+            customApply.disabled = true;
+            try {
+                var resp = await fetch((window.APP_BASE || '') + '/api/google/get_gsc_report.php', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        instanceId: window.GSC_INSTANCE_ID || null,
+                        range: 'custom',
+                        type: 'dates',
+                        start: startInput.value,
+                        end: endInput.value
+                    })
+                });
+                var json = await resp.json();
+                if (json && json.success && Array.isArray(json.rows) && json.rows.length) {
+                    swapToCustomDataset(json.rows);
+                }
+            } catch (err) {
+                console.error('[homeOneChart] custom range fetch failed', err);
+            }
+            customApply.disabled = false;
             filterDataAndRender(null, s, eDate);
             closeMenu();
         });
     }
 
-    // INITIAL RENDER (Last 30 Days)
-    filterDataAndRender(30, null, null);
+    // INITIAL RENDER (Last 28 days — the GSC default window)
+    filterDataAndRender(28, null, null);
 
   } // end initGscChart
 

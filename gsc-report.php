@@ -70,8 +70,7 @@ include './partials/layouts/layoutTop.php';
                     <select id="date-range-filter" class="form-select rounded-lg border border-neutral-300 bg-white dark:bg-dark-2 dark:border-neutral-600 px-3 py-2 text-sm font-medium leading-normal shadow-sm">
                         <option value="24hours">Last 24 hours</option>
                         <option value="7days">Last 7 days</option>
-                        <option value="28days">Last 28 days</option>
-                        <option value="30days" selected>Last 30 days</option>
+                        <option value="28days" selected>Last 28 days</option>
                         <option value="3months">Last 3 months</option>
                         <option value="6months">Last 6 months</option>
                         <option value="12months">Last 12 months</option>
