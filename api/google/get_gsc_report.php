@@ -195,51 +195,57 @@ try {
     // ==========================================
     $gscTz      = new DateTimeZone('America/Los_Angeles');
     $gscNow     = new DateTimeImmutable('now', $gscTz);
-    $gscYesterday = $gscNow->modify('-1 day');
-    $end    = $gscYesterday->format('Y-m-d');
+    /* GSC UI presets end 3 days back (the data latency window) —
+       verified by manual custom-date tests: custom 10/14–10/20 matched
+       GSC's "Last 7 days" 100%. */
+    $endObj = $gscNow->modify('-3 days');
+    $end    = $endObj->format('Y-m-d');
     switch ($range) {
-        case '24hours':   // GSC's 24-hour view = today (fresh partial)
+        case '24hours':   // GSC UI "Last 24 hours" = the single most
+        case '1':         // recent available aggregated date (today-3)
         case 'today':
-            $start = $gscNow->format('Y-m-d');
-            $end   = $start;
+            $start = $end;
             break;
         case 'yesterday':
             $start = $end;
             break;
         case '7days':
-            $start = $gscYesterday->modify('-6 days')->format('Y-m-d');
+        case '7':
+            $start = $endObj->modify('-6 days')->format('Y-m-d');
             break;
         case '28days':
-            $start = $gscYesterday->modify('-27 days')->format('Y-m-d');
+        case '28':
+            $start = $endObj->modify('-27 days')->format('Y-m-d');
             break;
-        case '30days':   // legacy alias - true last 30 completed days
-            $start = $gscYesterday->modify('-29 days')->format('Y-m-d');
+        case '30days':   // legacy alias
+        case '30':
+            $start = $endObj->modify('-29 days')->format('Y-m-d');
             break;
         case '3months':
-            $start = $gscYesterday->modify('-3 months')->format('Y-m-d');
+        case '90days':
+        case '90':
+            $start = $endObj->modify('-3 months')->format('Y-m-d');
             break;
         case 'lastmonth':
-            $start = $gscYesterday->modify('first day of last month')->format('Y-m-d');
-            $end   = $gscYesterday->modify('last day of last month')->format('Y-m-d');
+            $start = $endObj->modify('first day of last month')->format('Y-m-d');
+            $end   = $endObj->modify('last day of last month')->format('Y-m-d');
             break;
         case '6months':
-            $start = $gscYesterday->modify('-6 months')->format('Y-m-d');
-            break;
-        case '90days':   // legacy alias - true last 90 completed days
-            $start = $gscYesterday->modify('-89 days')->format('Y-m-d');
+        case '180':
+            $start = $endObj->modify('-6 months')->format('Y-m-d');
             break;
         case '12months':
-            $start = $gscYesterday->modify('-12 months')->format('Y-m-d');
+        case '365':
+        case '365days':
+            $start = $endObj->modify('-12 months')->format('Y-m-d');
             break;
         case '16months':
-            $start = $gscYesterday->modify('-16 months')->format('Y-m-d');
-            break;
-        case '365days':  // legacy alias - true last 365 completed days
-            $start = $gscYesterday->modify('-364 days')->format('Y-m-d');
+        case '486':
+            $start = $endObj->modify('-16 months')->format('Y-m-d');
             break;
         case 'lastyear':
-            $start = $gscYesterday->modify('first day of january last year')->format('Y-m-d');
-            $end   = $gscYesterday->modify('last day of december last year')->format('Y-m-d');
+            $start = $endObj->modify('first day of january last year')->format('Y-m-d');
+            $end   = $endObj->modify('last day of december last year')->format('Y-m-d');
             break;
         case 'custom':
             if (!$startDate || !$endDate) {
@@ -249,7 +255,7 @@ try {
             $end   = $endDate;   // GSC custom uses the picked dates as-is
             break;
         default:
-            $start = $gscYesterday->modify('-29 days')->format('Y-m-d');
+            $start = $endObj->modify('-29 days')->format('Y-m-d');
             break;
     }
 
