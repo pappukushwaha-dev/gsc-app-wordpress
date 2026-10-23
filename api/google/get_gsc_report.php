@@ -354,6 +354,7 @@ try {
             "startDate"  => $start,
             "endDate"    => $end,
             "dimensions" => $dimensions,
+            "dataState"  => "all",
             "rowLimit"   => 5000
         ]);
         // // --- ATTEMPT 1 ---    
