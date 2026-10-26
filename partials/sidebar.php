@@ -956,7 +956,7 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    fetch(`api/index-apps.php?instance_id=${instanceId}`)
+    fetch(`api/dbSchema/sidebar-apps.php?instance_id=${instanceId}`)
       .then(res => res.json())
       .then(res => {
 

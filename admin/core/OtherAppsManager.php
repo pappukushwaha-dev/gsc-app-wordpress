@@ -98,8 +98,8 @@ class OtherAppsManager
         if (!self::$pdo) {
             throw new RuntimeException("OtherAppsManager not initialized with PDO");
         }
-        $sql = "INSERT INTO other_apps (title, subtitle, tag_line, description, image_url, button_text, app_price, button_link, status, sort_order, is_index)
-                VALUES (:title, :subtitle, :tag_line, :description, :image_url, :button_text, :app_price, :button_link, :status, :sort_order, :is_index)";
+        $sql = "INSERT INTO other_apps (title, subtitle, tag_line, description, image_url, button_text, app_price, button_link, status, sort_order, is_index, is_sidebar)
+                VALUES (:title, :subtitle, :tag_line, :description, :image_url, :button_text, :app_price, :button_link, :status, :sort_order, :is_index, :is_sidebar)";
                 
 
         $stmt = self::$pdo->prepare($sql);
@@ -115,6 +115,7 @@ class OtherAppsManager
             ':status'      => $data['status'] ?? 'active',
             ':sort_order'  => (int)($data['sort_order'] ?? 0),
             ':is_index'  => $data['is_index'] ?? 'disable',
+            ':is_sidebar'  => $data['is_sidebar'] ?? 'disable',
         ]);
     }
 
@@ -139,6 +140,7 @@ class OtherAppsManager
                     status = :status,
                     sort_order = :sort_order,
                     is_index = :is_index,
+                    is_sidebar = :is_sidebar,
                     updated_at = CURRENT_TIMESTAMP
                 WHERE id = :id";
 
@@ -155,6 +157,7 @@ class OtherAppsManager
             ':status'      => $data['status'] ?? 'active',
             ':sort_order'  => (int)($data['sort_order'] ?? 0),
             ':is_index'  => $data['is_index'] ?? 'disable',
+            ':is_sidebar'  => $data['is_sidebar'] ?? 'disable',
             ':id'          => $id,
         ]);
     }

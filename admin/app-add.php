@@ -66,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         'button_link' => trim($_POST['button_link'] ?? ''),
         'status'      => $_POST['status'] ?? 'active',
         'sort_order'  => (int)($_POST['sort_order'] ?? 0),
+        'is_sidebar' => trim($_POST['is_sidebar'] ?? 'disable'),
         'is_index'  => trim($_POST['is_index'] ?? 'disable'),
     ];
 
@@ -181,6 +182,33 @@ include './partials/layouts/layoutTop.php';
                 </div>
             </div>
 
+                            <div>
+                    <label class="block mb-2 text-sm font-medium">
+                        App on Sidebar
+                    </label>
+                    <div class="flex items-center gap-4">
+                       <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" name="is_sidebar" value="enable" class="sr-only peer" id="sidebarToggle">
+
+                            <div id="sidebarToggleBg"
+                                class="w-11 h-6 bg-danger-500 rounded-full
+                                        dark:bg-danger-700
+                                        peer-checked:after:translate-x-full
+                                        peer-checked:after:border-white
+                                        after:content-['']
+                                        after:absolute after:top-[2px] after:left-[2px]
+                                        after:bg-white after:border-gray-300 after:border
+                                        after:rounded-full after:h-5 after:w-5 after:transition-all
+                                        dark:border-gray-600">
+                            </div>
+                        </label>
+
+                        <span id="sidebarLabel" class="text-sm font-medium text-red-500">
+                            Disabled
+                        </span>
+                    </div>
+                </div>
+
             <div class="mt-6 flex items-center justify-start gap-6">
                 <button type="submit" class="btn btn-cstm-primary">Add App</button>
                 <a href="our-apps.php" class="btn bg-neutral-300 dark:bg-neutral-600">Cancel</a>
@@ -226,6 +254,22 @@ include './partials/layouts/layoutTop.php';
 
         toggle.addEventListener('change', syncToggle);
         syncToggle(); // initial state
+const sidebarToggle = document.getElementById('sidebarToggle');
+        const sidebarLabel = document.getElementById('sidebarLabel');
+        const sidebarBg = document.getElementById('sidebarToggleBg');
+        function syncSidebarToggle() {
+            if (sidebarToggle.checked) {
+                sidebarLabel.textContent = 'Enabled';
+                sidebarBg.classList.remove('bg-danger-500', 'dark:bg-danger-700');
+                sidebarBg.classList.add('bg-success-500', 'dark:bg-success-700');
+            } else {
+                sidebarLabel.textContent = 'Disabled';
+                sidebarBg.classList.remove('bg-success-500', 'dark:bg-success-700');
+                sidebarBg.classList.add('bg-danger-500', 'dark:bg-danger-700');
+            }
+        }
+        sidebarToggle.addEventListener('change', syncSidebarToggle);
+        syncSidebarToggle();
     });
 </script>
 
