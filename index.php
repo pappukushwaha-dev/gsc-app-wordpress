@@ -1906,9 +1906,21 @@ if (is_file($frPartial)) {
                             <div class="font-semibold text-sm <?= $tone[1] ?>">
                                 <?= htmlspecialchars($sitemapHead['label']) ?>
                             </div>
-                            <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
-                                <?= htmlspecialchars($sitemapHead['detail']) ?>
-                            </p>
+                            <?php if ($sitemapHead['key'] === 'error'): ?>
+                                <!-- Error details are deliberately not shown here: a raw
+                                     error count on the dashboard alarms users without
+                                     helping them. The Manage page holds the real status. -->
+                                <a href="sitemap.php"
+                                   class="inline-flex items-center gap-1.5 mt-2 px-3 py-1.5 text-xs font-semibold rounded-md
+                                          bg-danger-600 hover:bg-danger-700 text-white transition-colors">
+                                    <iconify-icon icon="solar:refresh-circle-outline" class="text-sm"></iconify-icon>
+                                    Check Status
+                                </a>
+                            <?php else: ?>
+                                <p class="text-xs text-neutral-600 dark:text-neutral-400 mt-1 leading-relaxed">
+                                    <?= htmlspecialchars($sitemapHead['detail']) ?>
+                                </p>
+                            <?php endif; ?>
                         </div>
                     </div>
 
@@ -1934,8 +1946,9 @@ if (is_file($frPartial)) {
                                     </a>
 
                                     <?php if (!empty($sm['is_index'])): ?>
-                                        <span class="text-[9px] font-bold uppercase tracking-wide px-1.5 py-0.5 rounded
-                                             bg-purple-100 text-purple-600 dark:bg-purple-600/25 dark:text-purple-300 flex-none">
+                                        <span class="px-1.5 py-0.5 rounded font-bold uppercase tracking-wide flex-none
+                                             bg-purple-100 text-purple-600 dark:bg-purple-600/25 dark:text-purple-300"
+                                             style="font-size:9px;line-height:1.2;">
                                             Index
                                         </span>
                                     <?php endif; ?>
