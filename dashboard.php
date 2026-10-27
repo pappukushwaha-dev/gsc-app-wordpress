@@ -5194,7 +5194,7 @@ document.querySelectorAll('.top-tab').forEach(btn => {
             return;
         }
 
-        fetch(`api/dbSchema/other_apps.php?instance_id=${instanceId}`)
+        fetch(`api/index-apps.php?instance_id=${instanceId}`)
             .then(res => res.json())
             .then(res => {
                 if (!res.success || !res.data || res.data.length === 0) {
